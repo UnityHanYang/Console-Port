@@ -206,7 +206,7 @@ void Village::PrintBuildingName()
 		strcpy(message, "µµ¹ÚÀå");
 		break;
 	default:
-		strcpy(message, "      ");
+		strcpy(message, "         ");
 		break;
 	}
 	PrintTalkMessage(207, 59, message);

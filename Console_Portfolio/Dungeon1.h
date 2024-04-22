@@ -14,17 +14,24 @@ private:
 	int mapY;
 	static int enemyArrXY[6];
 	static int treasureBoxXY[6];
+	bool isRight;
+	bool isDown;
+	bool isUp;
+	bool isLeft;
 public:
 	virtual void SetColor(int fontColor, int backgroundColor);
 	virtual void PrintS(int count, int font, int background, bool isEndl, int x, int y);
 	virtual void gotoxy(int x, int y);
 	void PrintMapAndCharMove(int x, int y);
 	void PrintOperation(int x, int y);
-	bool CheckObjectXY(int x, int y, bool isEntrance);
+	bool CheckEnemyXY(int x, int y);
+	void CheckTreasureXY(int x, int y);
 	bool CheckMapXY(int x1, int y1, int x1Count, int y1Count, int x2Count, int y2Count);
 	void PrintEnemy();
 	void PrintTreasure();
 	int CheckCurrentXY(int x, int y);
+
+	void PrintTalkMessage(int x, int y, char message[50]);
 
 	Dungeon1();
 };

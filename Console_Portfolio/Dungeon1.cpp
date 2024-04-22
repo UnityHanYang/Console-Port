@@ -1,7 +1,7 @@
 #include "Dungeon1.h"
 
 int Dungeon1::enemyArrXY[6] = { 140, 36, 32, 60, 120, 15 };
-int Dungeon1::treasureBoxXY[6] = { 11, 3, 182, 51, 88, 7 };
+int Dungeon1::treasureBoxXY[6] = { 10, 3, 182, 51, 88, 7 };
 
 #define ARROW 224
 #define LEFT_ARROW 75
@@ -60,57 +60,68 @@ void Dungeon1::PrintMapAndCharMove(int x, int y)
 	int input;
 	while (true)
 	{
-		if (_kbhit())
+
+		if (!CheckEnemyXY(mapX, mapY))
 		{
-			input = _getch();
-			if (input == ARROW)
+			if (_kbhit())
 			{
 				input = _getch();
-				switch (input)
+				if (input == ARROW)
 				{
-				case LEFT_ARROW:
-					if (CheckMapXY(mapX, mapY, -1, 0, -1, 1))
+					input = _getch();
+					switch (input)
 					{
-						xCpy = mapX;
-						yCpy = mapY;
-						mapX -= 2;
+					case LEFT_ARROW:
+						if (!isLeft && CheckMapXY(mapX, mapY, -1, 0, -1, 1))
+						{
+							xCpy = mapX;
+							yCpy = mapY;
+							mapX -= 2;
+						}
+						break;
+					case RIGHT_ARROW:
+						if (!isRight && CheckMapXY(mapX, mapY, 2, 0, 2, 1))
+						{
+							xCpy = mapX;
+							yCpy = mapY;
+							mapX += 2;
+						}
+						break;
+					case UP_ARROW:
+						if (!isUp && CheckMapXY(mapX, mapY, 0, -1, 1, -1))
+						{
+							xCpy = mapX;
+							yCpy = mapY;
+							--mapY;
+						}
+						break;
+					case DOWN_ARROW:
+						if (!isDown && CheckMapXY(mapX, mapY, 0, 2, 1, 2))
+						{
+							xCpy = mapX;
+							yCpy = mapY;
+							++mapY;
+						}
 					}
-					break;
-				case RIGHT_ARROW:
-					if (CheckMapXY(mapX, mapY, 2, 0, 2, 1))
-					{
-						xCpy = mapX;
-						yCpy = mapY;
-						mapX += 2;
-					}
-					break;
-				case UP_ARROW:
-					if (CheckMapXY(mapX, mapY, 0, -1, 1, -1))
-					{
-						xCpy = mapX;
-						yCpy = mapY;
-						--mapY;
-					}
-					break;
-				case DOWN_ARROW:
-					if (CheckMapXY(mapX, mapY, 0, 2, 1, 2))
-					{
-						xCpy = mapX;
-						yCpy = mapY;
-						++mapY;
-					}
+					CheckTreasureXY(mapX, mapY);
+					PrintS(1, CheckCurrentXY(xCpy, yCpy), CheckCurrentXY(xCpy, yCpy), 0, xCpy, yCpy);
+					PrintS(1, CheckCurrentXY(xCpy + 2, yCpy), CheckCurrentXY(xCpy + 2, yCpy), 1, xCpy + 2, yCpy);
+					PrintS(1, CheckCurrentXY(xCpy, yCpy + 1), CheckCurrentXY(xCpy, yCpy + 1), 0, xCpy, yCpy + 1);
+					PrintS(1, CheckCurrentXY(xCpy + 2, yCpy + 1), CheckCurrentXY(xCpy + 2, yCpy + 1), 1, xCpy + 2, yCpy + 1);
+					PrintS(2, 1, 1, 1, mapX, mapY);
+					PrintS(2, 1, 1, 1, mapX, mapY + 1);
+					SetColor(15, 0);
 				}
-				PrintS(1, CheckCurrentXY(xCpy, yCpy), CheckCurrentXY(xCpy, yCpy), 0, xCpy, yCpy);
-				PrintS(1, CheckCurrentXY(xCpy + 2, yCpy), CheckCurrentXY(xCpy + 2, yCpy), 1, xCpy + 2, yCpy);
-				PrintS(1, CheckCurrentXY(xCpy, yCpy + 1), CheckCurrentXY(xCpy, yCpy + 1), 0, xCpy, yCpy + 1);
-				PrintS(1, CheckCurrentXY(xCpy + 2, yCpy + 1), CheckCurrentXY(xCpy + 2, yCpy + 1), 1, xCpy + 2, yCpy + 1);
-				PrintS(2, 1, 1, 1, mapX, mapY);
-				PrintS(2, 1, 1, 1, mapX, mapY + 1);
-				SetColor(15, 0);
+				else if (input == Enter)
+				{
+				}
 			}
-			else if (input == Enter)
-			{
-			}
+		}
+		else
+		{
+			SetColor(15, 0);
+			std::cout << "aaaaaaaaa";
+			Sleep(4000);
 		}
 	}
 	delete md;
@@ -165,16 +176,84 @@ void Dungeon1::PrintOperation(int x, int y)
 	std::cout << "감소합니다. 유의하세요!";
 }
 
-bool Dungeon1::CheckObjectXY(int x, int y, bool isEntrance)
+void Dungeon1::PrintTalkMessage(int x, int y, char message[50])
 {
+	gotoxy(x, y);
+	SetColor(15, 0);
+	for (int i = 0; message[i] != '\0'; i++)
+	{
+		std::cout << message[i];
+	}
+}
+
+
+bool Dungeon1::CheckEnemyXY(int x, int y)
+{
+	char message[50];
 	for (int i = 0; i < sizeof(enemyArrXY) / sizeof(enemyArrXY[0]); i += 2)
 	{
-		/*if (enemyArrXY[i] - 1 == x + 2 || enemyArrXY[i + 1] == y + 1 || enemyArrXY[i] == x1 + x2Count || enemyArrXY[i + 1] == y1 + y1Count || enemyArrXY[i + 1] == y1 + y2Count)
-		{
-			return false;
-		}*/
+		RECT playerSquare = { x - 2, y - 1, x + 3, y + 2 };
+		RECT enemySquare = { enemyArrXY[i] - 2, enemyArrXY[i + 1] - 1, enemyArrXY[i] + 3, enemyArrXY[i + 1] + 2 };
+		RECT intersect;
+
+		if (IntersectRect(&intersect, &playerSquare, &enemySquare)) {
+			return true;
+		}
 	}
-	return 0;
+	return false;
+}
+
+void Dungeon1::CheckTreasureXY(int x, int y)
+{
+	char message[50];
+	for (int i = 0; i < sizeof(enemyArrXY) / sizeof(enemyArrXY[0]); i += 2)
+	{
+		RECT playerSquare = { x - 1, y - 1, x + 2, y + 2 };
+		RECT treasureSquare = { treasureBoxXY[i] - 3, treasureBoxXY[i + 1] - 1, treasureBoxXY[i] + 4, treasureBoxXY[i + 1] + 1 };
+		RECT intersect;
+		intersect.left = 0; 
+		intersect.top = 0, 
+		intersect.right = 0; 
+		intersect.bottom = 0;
+
+		if (IntersectRect(&intersect, &playerSquare, &treasureSquare)) {
+			if (intersect.left == playerSquare.right)
+			{
+				isRight = true;
+				isLeft = false;
+				isDown = false;
+				isUp = false;
+			}
+			else if (intersect.right == playerSquare.left)
+			{
+				isRight = false;
+				isLeft = true;
+				isDown = false;
+				isUp = false;
+			}
+			else if (intersect.bottom = playerSquare.top)
+			{
+				isRight = false;
+				isLeft = false;
+				isDown = false;
+				isUp = true;
+			}
+			else if (intersect.top = playerSquare.bottom)
+			{
+				isRight = false;
+				isLeft = false;
+				isDown = true;
+				isUp = false;
+			}
+		}
+		else
+		{
+			isRight = false;
+			isLeft = false;
+			isDown = false;
+			isUp = false;
+		}
+	}
 }
 
 void Dungeon1::PrintEnemy()
@@ -214,26 +293,18 @@ Dungeon1::Dungeon1()
 {
 	mapX = 0;
 	mapY = 0;
+	isRight = false;
+	isLeft = false;
+	isDown = false;
+	isUp = false;
 }
 
 bool Dungeon1::CheckMapXY(int x1, int y1, int x1Count, int y1Count, int x2Count, int y2Count)
 {
 	MapDot* md = new MapDot;
-	SetColor(15, 0);
 	if (md->GetDungeonMap()[y1 + y1Count][((x1 / 2) + x1Count)] == 8 || md->GetDungeonMap()[y1 + y2Count][((x1 / 2) + x2Count)] == 8)
 	{
 		return false;
-	}
-	else
-	{
-
-		for (int i = 0; i < sizeof(treasureBoxXY) / sizeof(treasureBoxXY[0]); i += 2)
-		{
-			if (treasureBoxXY[i] == x1 + x1Count || treasureBoxXY[i] == x1 + x2Count || treasureBoxXY[i + 1] == y1 + y1Count || treasureBoxXY[i + 1] == y1 + y2Count)
-			{
-				return false;
-			}
-		}
 	}
 
 	delete md;
