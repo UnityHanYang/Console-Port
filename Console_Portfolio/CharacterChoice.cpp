@@ -97,9 +97,9 @@ bool CharacterChoice::ChoiceScene()
 					break;
 				default:
 					std::cout << "\n\t\t\t\t\t\t      캐릭터를 선택하세요.\n\n\n\n";
-					std::cout << "\n\n\t\t\t   겐지\t\t\t\t\t\t\t\t    ▶ 한조 ◀\n\n";
+					std::cout << "\n\n\t\t\t   겐지\t\t\t\t\t\t\t\t\t한조\n\n";
 					PrintBackGround(2, 2, 4, 12);
-					PrintBackGround(11, 11, 72, 12);
+					PrintBackGround(2, 2, 72, 12);
 					nd->PrintNinZaPortrait1(20, 13);
 					ad->PrintArcherPortrait1(92, 13);
 					SetColor(15, 0);
@@ -143,10 +143,10 @@ void CharacterChoice::ReadMore(int num)
 {
 	PrintCharacterAbility(num);
 	SetColor(0, 15);
-	gotoxy(30, 17);
+	gotoxy(20, 17);
 	std::cout << "  이 캐릭터로 하시겠습니까?";
-	gotoxy(30, 20);
-	std::cout << "        예 / 아니오";
+	gotoxy(20, 20);
+	std::cout << "         예 / 아니오";
 
 	SetColor(15, 0);
 	int yesOrNo = 0;
@@ -158,46 +158,48 @@ void CharacterChoice::ReadMore(int num)
 			input = _getch();
 			if (input == ARROW)
 			{
-				system("cls");
 				input = _getch();
+				gotoxy(20, 17);
+				SetColor(15, 15);
+				std::cout << "                   ";
+				gotoxy(20, 20);
+				SetColor(15, 15);
+				std::cout << "                         ";
 				switch (input)
 				{
 				case LEFT_ARROW:
-					PrintCharacterAbility(num);
-					gotoxy(30, 17);
+					gotoxy(20, 17);
 					SetColor(0, 15);
 					std::cout << "  이 캐릭터로 하시겠습니까?";
-					gotoxy(30, 20);
+					gotoxy(20, 20);
 					SetColor(15, 15);
 					std::cout << "        ";
-					gotoxy(39, 20);
+					gotoxy(29, 20);
 					SetColor(12, 15);
 					std::cout << "예";
-					gotoxy(41, 20);
+					gotoxy(31, 20);
 					SetColor(0, 15);
 					std::cout << " / 아니오";
 					yesOrNo = 1;
 					break;
 				case RIGHT_ARROW:
-					PrintCharacterAbility(num);
-					gotoxy(30, 17);
+					gotoxy(20, 17);
 					SetColor(0, 15);
 					std::cout << "  이 캐릭터로 하시겠습니까?";
-					gotoxy(30, 20);
+					gotoxy(20, 20);
 					SetColor(0, 15);
-					std::cout << "        예 / ";
-					gotoxy(43, 20);
+					std::cout << "         예 / ";
+					gotoxy(33, 20);
 					SetColor(12, 15);
-					std::cout << "아니오";
+					std::cout << " 아니오";
 					yesOrNo = 2;
 					break;
 				default:
-					PrintCharacterAbility(num);
 					SetColor(0, 15);
-					gotoxy(30, 17);
+					gotoxy(20, 17);
 					std::cout << "  이 캐릭터로 하시겠습니까?";
-					gotoxy(30, 20);
-					std::cout << "        예 / 아니오";
+					gotoxy(20, 20);
+					std::cout << "         예 / 아니오";
 					break;
 				}
 			}
@@ -358,7 +360,7 @@ void CharacterChoice::PrintCharacterAbility(int num)
 		gotoxy(146, 58);
 		std::cout << "치명타 확률: 5%";
 	}
-	md->PrintOperation_Keys(28, 3);
+	md->PrintOperation_Keys(18, 3);
 	SetColor(15, 0);
 
 	delete ad;

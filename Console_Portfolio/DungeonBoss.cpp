@@ -36,6 +36,8 @@ void DungeonBoss::gotoxy(int x, int y)
 
 void DungeonBoss::PrintMapAndCharMove(int x, int y)
 {
+	int xCpy, yCpy;
+	xCpy = yCpy = 0;
 	MapDot* md = new MapDot;
 	md->SettingDungeonBossMap();
 
@@ -44,7 +46,7 @@ void DungeonBoss::PrintMapAndCharMove(int x, int y)
 	md->PrintOperation_Keys(206, 10);
 	PrintOperation(208, 12);
 	PrintS(2, 1, 1, 1, x, y);
-	PrintS(2, 1, 1, 1, x, y + 1);
+	PrintS(2, 1, 1, 0, x, y + 1);
 	SetColor(15, 0);
 	//md->PrintConsole(200, 330);
 	SetColor(15, 0);
@@ -171,4 +173,10 @@ bool DungeonBoss::CheckMapXY(int x1, int y1, int x1Count, int y1Count, int x2Cou
 
 	delete md;
 	return true;
+}
+
+DungeonBoss::DungeonBoss()
+{
+	mapX = 0;
+	mapY = 0;
 }

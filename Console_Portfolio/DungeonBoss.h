@@ -8,8 +8,8 @@
 class DungeonBoss : public PrintSetting
 {
 private:
-	int mapX = 0;
-	int mapY = 0;
+	int mapX;
+	int mapY;
 public:
 	virtual void SetColor(int fontColor, int backgroundColor);
 	virtual void PrintS(int count, int font, int background, bool isEndl, int x, int y);
@@ -18,5 +18,7 @@ public:
 	void PrintOperation(int x, int y);
 	int CheckObjectXY(int x, int y, bool isEntrance);
 	bool CheckMapXY(int x1, int y1, int x1Count, int y1Count, int x2Count, int y2Count);
+
+	DungeonBoss();
 };
 

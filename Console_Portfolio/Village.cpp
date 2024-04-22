@@ -43,13 +43,12 @@ void Village::PrintMapAndCharMove(int x, int y)
 
 	md->PrintVillageMap();
 	SetColor(15, 0);
+	PrintS(2, 1, 1, 1, x, y);
+	PrintS(2, 1, 1, 0, x, y + 1);
+	SetColor(15, 0);
 	md->PrintOperation_Keys(206, 10);
 	PrintOperation(208, 12);
-	PrintS(2, 1, 1, 1, x, y);
-	PrintS(2, 1, 1, 1, x, y + 1);
-	SetColor(15, 0);
-	//md->PrintConsole(200, 330);
-	SetColor(15, 0);
+	md->PrintConsole(204, 57);
 	mapX = x;
 	mapY = y;
 	int input;
@@ -60,35 +59,38 @@ void Village::PrintMapAndCharMove(int x, int y)
 			input = _getch();
 			if (input == ARROW)
 			{
-				system("cls");
-				md->PrintVillageMap();
-				SetColor(15, 0);
-				md->PrintOperation_Keys(206, 10);
-				PrintOperation(208, 12);
 				input = _getch();
 				switch (input)
 				{
 				case LEFT_ARROW:
 					if (CheckMapXY(mapX, mapY, -1, 0, -1, 1))
 					{
+						PrintS(2, 7, 7, 1, mapX, mapY);
+						PrintS(2, 7, 7, 1, mapX, mapY + 1);
 						mapX -= 2;
 					}
 					break;
 				case RIGHT_ARROW:
 					if (CheckMapXY(mapX, mapY, 2, 0, 2, 1))
 					{
+						PrintS(2, 7, 7, 1, mapX, mapY);
+						PrintS(2, 7, 7, 1, mapX, mapY + 1);
 						mapX += 2;
 					}
 					break;
 				case UP_ARROW:
 					if (CheckMapXY(mapX, mapY, 0, -1, 1, -1))
 					{
+						PrintS(2, 7, 7, 1, mapX, mapY);
+						PrintS(2, 7, 7, 1, mapX, mapY + 1);
 						--mapY;
 					}
 					break;
 				case DOWN_ARROW:
 					if (CheckMapXY(mapX, mapY, 0, 2, 1, 2))
 					{
+						PrintS(2, 7, 7, 1, mapX, mapY);
+						PrintS(2, 7, 7, 1, mapX, mapY + 1);
 						++mapY;
 					}
 					break;
@@ -97,11 +99,8 @@ void Village::PrintMapAndCharMove(int x, int y)
 				PrintS(2, 1, 1, 1, mapX, mapY + 1);
 				SetColor(15, 0);
 			}
-			else if (input == Enter)
-			{
-				PrintBuildingName();
-			}
 		}
+		PrintBuildingName();
 	}
 	delete md;
 }
@@ -169,13 +168,17 @@ void Village::PrintOperation(int x, int y)
 	gotoxy(x, y + 24);
 	std::cout << "Enter: 선택";
 	gotoxy(x, y + 26);
-	std::cout << "입구나 건물 이름창 앞에서";
+	std::cout << "입구 앞에서 엔터를";
 	gotoxy(x, y + 27);
-	std::cout << "엔터를 누를 수 있습니다.";
+	std::cout << "누를 수 있습니다.";
 	gotoxy(x, y + 29);
 	std::cout << "플레이어는 도로만 지나다닐";
 	gotoxy(x, y + 30);
 	std::cout << "수 있습니다.";
+	gotoxy(x, y + 32);
+	std::cout << "건물 이름은 대화창에";
+	gotoxy(x, y + 33);
+	std::cout << "출력됩니다.";
 }
 
 void Village::PrintBuildingName()
@@ -190,12 +193,39 @@ void Village::PrintBuildingName()
 		break;
 	case 4:
 		break;
+	case 5:
+		strcpy(message, "여관");
+		break;
+	case 6:
+		strcpy(message, "상점");
+		break;
+	case 7:
+		strcpy(message, "주민 집");
+		break;
+	case 8:
+		strcpy(message, "도박장");
+		break;
+	default:
+		strcpy(message, "      ");
+		break;
+	}
+	PrintTalkMessage(207, 59, message);
+}
+
+void Village::PrintTalkMessage(int x, int y, char message[50])
+{
+	gotoxy(x, y);
+	SetColor(15, 0);
+	for (int i = 0; message[i] != '\0'; i++)
+	{
+		std::cout << message[i];
 	}
 }
 
 int Village::CheckBuildingXY(int x, int y, bool isEntrance)
 {
 	int num = 0;
+	int divide = x / 2;
 	MapDot* md = new MapDot;
 	if (isEntrance)
 	{
@@ -221,23 +251,23 @@ int Village::CheckBuildingXY(int x, int y, bool isEntrance)
 	}
 	else
 	{
-		if (md->GetVillageMap()[y - 1][x] == 13 && md->GetVillageMap()[y - 1][x + 1] == 13)
+		if (md->GetVillageMap()[y - 1][divide] == 13 && md->GetVillageMap()[y - 1][divide + 1] == 13)
 		{
-			if (x == 28 && x + 1 == 29)
+			if (divide == 28 && divide + 1 == 29)
 			{
-				num = 1;
+				num = 5;
 			}
-			else if (x == 59 && x + 1 == 60)
+			else if (divide == 59 && divide + 1 == 60)
 			{
-				num = 2;
+				num = 6;
 			}
-			else if (x == 22 && x + 1 == 23)
+			else if (divide == 22 && divide + 1 == 23)
 			{
-				num = 3;
+				num = 7;
 			}
-			else if (x == 72 && x + 1 == 73)
+			else if (divide == 72 && divide + 1 == 73)
 			{
-				num = 4;
+				num = 8;
 			}
 		}
 	}
@@ -253,4 +283,10 @@ bool Village::CheckMapXY(int x1, int y1, int x1Count, int y1Count, int x2Count, 
 
 	delete md;
 	return true;
+}
+
+Village::Village()
+{
+	mapX = 0;
+	mapY = 0;
 }

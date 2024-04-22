@@ -10,6 +10,7 @@ class MapDot : public PrintSetting
 {
 private:
 	static int villageMap[ROW_SIZE][COL_SIZE];
+	static int villageNextMap[ROW_SIZE][COL_SIZE];
 	static int dungeonMap[ROW_SIZE][COL_SIZE];
 	static int dungeonBossMap[ROW_SIZE][COL_SIZE];
 public:
@@ -25,6 +26,7 @@ public:
 	void PrintDungeonBossMap();
 	void PrintConsole(int x, int y);
 	int(*GetVillageMap())[100] { return villageMap; }
+	int(*GetVillageNextMap())[100]{ return villageNextMap; }
 	int(*GetDungeonMap())[100]{ return dungeonMap; }
 	int(*GetDungeonBossMap())[100]{ return dungeonBossMap; }
 };

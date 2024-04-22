@@ -6,6 +6,7 @@
 #include "DoubleBuffer.h"
 #include "Dungeon1.h"
 #include "DungeonBoss.h"
+#include <thread>
 
 class MapManager
 {
