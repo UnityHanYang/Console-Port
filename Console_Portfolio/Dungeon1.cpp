@@ -41,7 +41,6 @@ void Dungeon1::PrintMapAndCharMove(int x, int y)
 {
 	int xCpy, yCpy;
 	xCpy = yCpy = 0;
-	MapDot* md = new MapDot;
 	md->SettingDungeonMap();
 
 	md->PrintDungeonMap();
@@ -54,7 +53,6 @@ void Dungeon1::PrintMapAndCharMove(int x, int y)
 	PrintS(2, 1, 1, 0, x, y + 1);
 	SetColor(15, 0);
 	md->PrintConsole(204, 57);
-	SetColor(15, 0);
 	mapX = x;
 	mapY = y;
 	int input;
@@ -72,7 +70,7 @@ void Dungeon1::PrintMapAndCharMove(int x, int y)
 					switch (input)
 					{
 					case LEFT_ARROW:
-						if (!isLeft && CheckMapXY(mapX, mapY, -1, 0, -1, 1))
+						if (CheckMapXY(mapX, mapY, -1, 0, -1, 1))
 						{
 							xCpy = mapX;
 							yCpy = mapY;
@@ -80,7 +78,7 @@ void Dungeon1::PrintMapAndCharMove(int x, int y)
 						}
 						break;
 					case RIGHT_ARROW:
-						if (!isRight && CheckMapXY(mapX, mapY, 2, 0, 2, 1))
+						if (CheckMapXY(mapX, mapY, 2, 0, 2, 1))
 						{
 							xCpy = mapX;
 							yCpy = mapY;
@@ -88,7 +86,7 @@ void Dungeon1::PrintMapAndCharMove(int x, int y)
 						}
 						break;
 					case UP_ARROW:
-						if (!isUp && CheckMapXY(mapX, mapY, 0, -1, 1, -1))
+						if (CheckMapXY(mapX, mapY, 0, -1, 1, -1))
 						{
 							xCpy = mapX;
 							yCpy = mapY;
@@ -96,7 +94,7 @@ void Dungeon1::PrintMapAndCharMove(int x, int y)
 						}
 						break;
 					case DOWN_ARROW:
-						if (!isDown && CheckMapXY(mapX, mapY, 0, 2, 1, 2))
+						if (CheckMapXY(mapX, mapY, 0, 2, 1, 2))
 						{
 							xCpy = mapX;
 							yCpy = mapY;
@@ -112,19 +110,19 @@ void Dungeon1::PrintMapAndCharMove(int x, int y)
 					PrintS(2, 1, 1, 1, mapX, mapY + 1);
 					SetColor(15, 0);
 				}
-				else if (input == Enter)
+				if (CheckEntranceXY(mapX, mapY))
 				{
+					if (input == Enter)
+					{
+						break;
+					}
 				}
 			}
 		}
-		else
-		{
-			SetColor(15, 0);
-			std::cout << "aaaaaaaaa";
-			Sleep(4000);
-		}
 	}
-	delete md;
+	system("cls");
+	mm->ms = Map_State::boss_dungeon;
+	mm->Current_Map();
 }
 
 void Dungeon1::PrintOperation(int x, int y)
@@ -186,7 +184,6 @@ void Dungeon1::PrintTalkMessage(int x, int y, char message[50])
 	}
 }
 
-
 bool Dungeon1::CheckEnemyXY(int x, int y)
 {
 	char message[50];
@@ -205,6 +202,7 @@ bool Dungeon1::CheckEnemyXY(int x, int y)
 
 void Dungeon1::CheckTreasureXY(int x, int y)
 {
+	// 面倒贸府 备泅 救 凳
 	char message[50];
 	for (int i = 0; i < sizeof(enemyArrXY) / sizeof(enemyArrXY[0]); i += 2)
 	{
@@ -217,41 +215,7 @@ void Dungeon1::CheckTreasureXY(int x, int y)
 		intersect.bottom = 0;
 
 		if (IntersectRect(&intersect, &playerSquare, &treasureSquare)) {
-			if (intersect.left == playerSquare.right)
-			{
-				isRight = true;
-				isLeft = false;
-				isDown = false;
-				isUp = false;
-			}
-			else if (intersect.right == playerSquare.left)
-			{
-				isRight = false;
-				isLeft = true;
-				isDown = false;
-				isUp = false;
-			}
-			else if (intersect.bottom = playerSquare.top)
-			{
-				isRight = false;
-				isLeft = false;
-				isDown = false;
-				isUp = true;
-			}
-			else if (intersect.top = playerSquare.bottom)
-			{
-				isRight = false;
-				isLeft = false;
-				isDown = true;
-				isUp = false;
-			}
-		}
-		else
-		{
-			isRight = false;
-			isLeft = false;
-			isDown = false;
-			isUp = false;
+
 		}
 	}
 }
@@ -276,7 +240,6 @@ void Dungeon1::PrintTreasure()
 int Dungeon1::CheckCurrentXY(int x, int y)
 {
 	int num = 0;
-	MapDot* md = new MapDot;
 	if (md->GetDungeonMap()[y][x / 2] == 12)
 	{
 		num = 12;
@@ -289,24 +252,36 @@ int Dungeon1::CheckCurrentXY(int x, int y)
 	}
 }
 
-Dungeon1::Dungeon1()
+bool Dungeon1::CheckEntranceXY(int x, int y)
 {
-	mapX = 0;
-	mapY = 0;
-	isRight = false;
-	isLeft = false;
-	isDown = false;
-	isUp = false;
+	if (md->GetDungeonMap()[y - 1][x / 2] == 0 && md->GetDungeonMap()[y - 1][(x / 2)+1] == 0)
+	{
+		return true;
+	}
+	return false;
 }
 
 bool Dungeon1::CheckMapXY(int x1, int y1, int x1Count, int y1Count, int x2Count, int y2Count)
 {
-	MapDot* md = new MapDot;
 	if (md->GetDungeonMap()[y1 + y1Count][((x1 / 2) + x1Count)] == 8 || md->GetDungeonMap()[y1 + y2Count][((x1 / 2) + x2Count)] == 8)
 	{
 		return false;
 	}
 
-	delete md;
 	return true;
 }
+
+Dungeon1::Dungeon1() : mapX{ 0 }, mapY{ 0 }
+{
+	md = new MapDot;
+	db = new DungeonBoss;
+	mm = new MapManager;
+}
+
+Dungeon1::~Dungeon1()
+{
+	delete md;
+	delete db;
+	delete mm;
+}
+

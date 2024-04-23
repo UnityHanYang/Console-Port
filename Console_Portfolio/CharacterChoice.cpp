@@ -44,9 +44,6 @@ void CharacterChoice::gotoxy(int x, int y)
 
 bool CharacterChoice::ChoiceScene()
 {
-	NinjaDot* nd = new NinjaDot;
-	ArcherDot* ad = new ArcherDot;
-	MapDot* md = new MapDot;
 
 
 	std::cout << "\n\t\t\t\t\t\t      캐릭터를 선택하세요.\n\n\n\n";
@@ -112,9 +109,6 @@ bool CharacterChoice::ChoiceScene()
 				system("cls");
 				if (charNum == 1 || charNum == 2)
 				{
-					delete ad;
-					delete nd;
-					delete md;
 					ReadMore(charNum);
 					return true;
 				}
@@ -133,10 +127,6 @@ bool CharacterChoice::ChoiceScene()
 			}
 		}
 	}
-
-	delete ad;
-	delete nd;
-	delete md;
 }
 
 void CharacterChoice::ReadMore(int num)
@@ -318,27 +308,19 @@ void CharacterChoice::PrintNinjarBackGround()
 
 void CharacterChoice::PrintCharacterAbility(int num)
 {
-	NinjaDot* nd = new NinjaDot;
-	ArcherDot* ad = new ArcherDot;
-	MapDot* md = new MapDot;
-	Battle* bt = new Battle;
 	if (num == 1)
 	{
 		nd->PrintNinZa1();
 		PrintNinjarBackGround();
 		SetColor(0, 15);
-		PrintAbilityTool(142, 50);
-		gotoxy(146, 52);
-		std::cout << "이름: 겐지";
-		gotoxy(146, 54);
-		std::cout << "직업: 닌자";
-		gotoxy(146, 56);
-		std::cout << "공격력: 7";
-		gotoxy(146, 58);
-		std::cout << "체력: 80";
-		gotoxy(146, 60);
-		std::cout << "방어력: 5";
-		gotoxy(146, 62);
+		PrintAbilityTool(135, 50);
+		gotoxy(139, 52);
+		std::cout << "이름: 겐지                직업: 닌자";
+		gotoxy(139, 55);
+		std::cout << "공격력: 7                 마나: 30";
+		gotoxy(139, 58);  
+		std::cout << "체력: 80                  방어력: 5";
+		gotoxy(139, 61);
 		std::cout << "치명타 확률: 2%";
 	}
 	else
@@ -346,27 +328,18 @@ void CharacterChoice::PrintCharacterAbility(int num)
 		bt->PrintEnmeyBack();
 		ad->PrintArcher1(156, 1);
 		SetColor(0, 15);
-		PrintAbilityTool(142, 46);
-		gotoxy(146, 48);
-		std::cout << "이름: 한조";
-		gotoxy(146, 50);
-		std::cout << "직업: 궁수";
-		gotoxy(146, 52);
-		std::cout << "공격력: 10";
-		gotoxy(146, 54);
-		std::cout << "체력: 70";
-		gotoxy(146, 56);
-		std::cout << "방어력: 3";
-		gotoxy(146, 58);
+		PrintAbilityTool(135, 46);
+		gotoxy(139, 48);
+		std::cout << "이름: 한조                직업: 궁수";
+		gotoxy(139, 51);
+		std::cout << "공격력: 10                 마나: 25";
+		gotoxy(139, 54);
+		std::cout << "체력: 70                  방어력: 2";
+		gotoxy(139, 57);
 		std::cout << "치명타 확률: 5%";
 	}
 	md->PrintOperation_Keys(18, 3);
 	SetColor(15, 0);
-
-	delete ad;
-	delete nd;
-	delete md;
-	delete bt;
 }
 
 
@@ -374,9 +347,9 @@ void CharacterChoice::PrintAbilityTool(int x, int y)
 {
 
 	gotoxy(x, y);
-	std::cout << "─────────────────────────────────";
+	std::cout << "──────────────────────────────────────────────────";
 	gotoxy(x, y + 14);
-	std::cout << "─────────────────────────────────";
+	std::cout << "──────────────────────────────────────────────────";
 }
 
 
@@ -422,6 +395,22 @@ void CharacterChoice::ScreenPrint(int x, int y, std::string s)	// 두번째 스크린�
 	SetConsoleCursorPosition(g_hScreen[g_nScreenIndex], CursorPosition);
 	//WriteFile(g_hScreen[g_nScreenIndex], s.c_str(), s.size(), &dw, NULL);
 	std::cout << s;
+}
+
+CharacterChoice::CharacterChoice()
+{
+	nd = new NinjaDot;
+	ad = new ArcherDot;
+	md = new MapDot;
+	bt = new Battle;
+}
+
+CharacterChoice::~CharacterChoice()
+{
+	delete nd;
+	delete ad;
+	delete md;
+	delete bt;
 }
 
 

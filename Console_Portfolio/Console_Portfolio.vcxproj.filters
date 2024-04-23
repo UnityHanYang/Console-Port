@@ -25,14 +25,14 @@
     <Filter Include="맵">
       <UniqueIdentifier>{1fecbca4-6506-47f9-a610-94605e0f4241}</UniqueIdentifier>
     </Filter>
+    <Filter Include="캐릭터">
+      <UniqueIdentifier>{17b93370-2c7b-48e2-a4eb-92bdd24c13a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="캐릭터\캐릭터 속성 세팅">
+      <UniqueIdentifier>{075d66f7-4a32-4249-8655-9e6d0820e9b4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Character.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="ArcherDot.h">
       <Filter>dot</Filter>
     </ClInclude>
@@ -69,15 +69,21 @@
     <ClInclude Include="DungeonBoss.h">
       <Filter>맵</Filter>
     </ClInclude>
+    <ClInclude Include="NinJa.h">
+      <Filter>캐릭터</Filter>
+    </ClInclude>
+    <ClInclude Include="ICharacter.h">
+      <Filter>캐릭터\캐릭터 속성 세팅</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.h">
+      <Filter>캐릭터\캐릭터 속성 세팅</Filter>
+    </ClInclude>
+    <ClInclude Include="test.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Character.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="NinjaDot.cpp">
@@ -112,6 +118,18 @@
     </ClCompile>
     <ClCompile Include="DungeonBoss.cpp">
       <Filter>맵</Filter>
+    </ClCompile>
+    <ClCompile Include="NinJa.cpp">
+      <Filter>캐릭터</Filter>
+    </ClCompile>
+    <ClCompile Include="ICharacter.cpp">
+      <Filter>캐릭터\캐릭터 속성 세팅</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>캐릭터\캐릭터 속성 세팅</Filter>
+    </ClCompile>
+    <ClCompile Include="test.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

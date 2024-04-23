@@ -4,13 +4,14 @@
 #include "PrintSetting.h"
 #include "MapDot.h"
 #include <conio.h>
-#include "DoubleBuffer.h"
 class DungeonBoss : public PrintSetting
 {
 private:
 	int mapX;
 	int mapY;
+	static int enemyArrXY[4];
 public:
+	MapDot* md;
 	virtual void SetColor(int fontColor, int backgroundColor);
 	virtual void PrintS(int count, int font, int background, bool isEndl, int x, int y);
 	virtual void gotoxy(int x, int y);
@@ -18,7 +19,11 @@ public:
 	void PrintOperation(int x, int y);
 	int CheckObjectXY(int x, int y, bool isEntrance);
 	bool CheckMapXY(int x1, int y1, int x1Count, int y1Count, int x2Count, int y2Count);
+	void PrintEnemy();
+	int CheckCurrentXY(int x, int y);
+	bool CheckEnemyXY(int x, int y);
 
 	DungeonBoss();
+	~DungeonBoss();
 };
 

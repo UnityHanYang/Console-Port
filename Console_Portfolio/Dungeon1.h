@@ -4,8 +4,12 @@
 #include "PrintSetting.h"
 #include "MapDot.h"
 #include <conio.h>
-#include "DoubleBuffer.h"
+#include "DungeonBoss.h"
+#include "MapManager.h"
 #include <vector>
+
+class MapManager;
+class DungeonBoss;
 
 class Dungeon1 : public PrintSetting
 {
@@ -14,11 +18,10 @@ private:
 	int mapY;
 	static int enemyArrXY[6];
 	static int treasureBoxXY[6];
-	bool isRight;
-	bool isDown;
-	bool isUp;
-	bool isLeft;
 public:
+	MapDot* md;
+	DungeonBoss* db;
+	MapManager* mm;
 	virtual void SetColor(int fontColor, int backgroundColor);
 	virtual void PrintS(int count, int font, int background, bool isEndl, int x, int y);
 	virtual void gotoxy(int x, int y);
@@ -30,9 +33,11 @@ public:
 	void PrintEnemy();
 	void PrintTreasure();
 	int CheckCurrentXY(int x, int y);
+	bool CheckEntranceXY(int x, int y);
 
 	void PrintTalkMessage(int x, int y, char message[50]);
 
 	Dungeon1();
+	~Dungeon1();
 };
 

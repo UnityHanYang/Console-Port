@@ -14,7 +14,10 @@ class CharacterChoice : public PrintSetting
 private:
 	static int characterNum;
 public:
-
+	NinjaDot* nd;
+	ArcherDot* ad;
+	MapDot* md;
+	Battle* bt;
 	virtual void SetColor(int fontColor, int backgroundColor);
 	virtual void PrintS(int count, int font, int background, bool isEndl, int x, int y);
 	virtual void gotoxy(int x, int y);
@@ -32,5 +35,8 @@ public:
 	void ScreenRelease();
 	void ScreenPrint(int x, int y, std::string s);
 	void Render();
+
+	CharacterChoice();
+	~CharacterChoice();
 };
 

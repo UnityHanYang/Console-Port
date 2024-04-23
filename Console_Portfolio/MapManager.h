@@ -2,14 +2,21 @@
 #include <iostream>
 #include <Windows.h>
 #include "Village.h"
-#include "MapDot.h"
-#include "DoubleBuffer.h"
 #include "Dungeon1.h"
 #include "DungeonBoss.h"
-#include <thread>
+
+class Village;
+
+enum Map_State
+{
+	village,
+	dungeon,
+	boss_dungeon
+};
 
 class MapManager
 {
 public:
+	static Map_State ms;
 	void Current_Map();
 };

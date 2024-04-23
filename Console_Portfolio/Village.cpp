@@ -38,7 +38,6 @@ void Village::gotoxy(int x, int y)
 
 void Village::PrintMapAndCharMove(int x, int y)
 {
-	MapDot* md = new MapDot;
 	md->SettingVillageMap();
 
 	md->PrintVillageMap();
@@ -99,10 +98,18 @@ void Village::PrintMapAndCharMove(int x, int y)
 				PrintS(2, 1, 1, 1, mapX, mapY + 1);
 				SetColor(15, 0);
 			}
+			if (PrintBuildingInfo())
+			{
+				if (input == Enter)
+				{
+					break;
+				}
+			}
 		}
-		PrintBuildingName();
 	}
-	delete md;
+	system("cls"); 
+	mm->ms = Map_State::dungeon;
+	mm->Current_Map();
 }
 
 void Village::PrintOperation(int x, int y)
@@ -168,22 +175,25 @@ void Village::PrintOperation(int x, int y)
 	gotoxy(x, y + 24);
 	std::cout << "Enter: 선택";
 	gotoxy(x, y + 26);
-	std::cout << "입구 앞에서 엔터를";
+	std::cout << "건물 입구나 던전 입구";
 	gotoxy(x, y + 27);
-	std::cout << "누를 수 있습니다.";
-	gotoxy(x, y + 29);
-	std::cout << "플레이어는 도로만 지나다닐";
+	std::cout << " 앞에서 엔터를";
+	gotoxy(x, y + 28);
+	std::cout << " 누를 수 있습니다.";
 	gotoxy(x, y + 30);
+	std::cout << "플레이어는 도로만 지나다닐";
+	gotoxy(x, y + 31);
 	std::cout << "수 있습니다.";
-	gotoxy(x, y + 32);
-	std::cout << "건물 이름은 대화창에";
 	gotoxy(x, y + 33);
+	std::cout << "건물 이름은 대화창에";
+	gotoxy(x, y + 34);
 	std::cout << "출력됩니다.";
 }
 
-void Village::PrintBuildingName()
+bool Village::PrintBuildingInfo()
 {
-	switch (CheckBuildingXY(mapX, mapY, false))
+	bool isShowDungeonNotice = false;
+	switch (CheckBuildingXY(mapX, mapY))
 	{
 	case 1:
 		break;
@@ -194,22 +204,28 @@ void Village::PrintBuildingName()
 	case 4:
 		break;
 	case 5:
-		strcpy(message, "여관");
+		strcpy_s(message, "여관");
 		break;
 	case 6:
-		strcpy(message, "상점");
+		strcpy_s(message, "상점");
 		break;
 	case 7:
-		strcpy(message, "주민 집");
+		strcpy_s(message, "주민 집");
 		break;
 	case 8:
-		strcpy(message, "도박장");
+		strcpy_s(message, "도박장");
+		break;
+	case 9:
+		strcpy_s(message, "던전에 입장하시겠습니까?");
+		isShowDungeonNotice = true;
 		break;
 	default:
-		strcpy(message, "         ");
+		strcpy_s(message, "                                         ");
+		isShowDungeonNotice = false;
 		break;
 	}
 	PrintTalkMessage(207, 59, message);
+	return isShowDungeonNotice;
 }
 
 void Village::PrintTalkMessage(int x, int y, char message[50])
@@ -222,71 +238,74 @@ void Village::PrintTalkMessage(int x, int y, char message[50])
 	}
 }
 
-int Village::CheckBuildingXY(int x, int y, bool isEntrance)
+int Village::CheckBuildingXY(int x, int y)
 {
 	int num = 0;
 	int divide = x / 2;
-	MapDot* md = new MapDot;
-	if (isEntrance)
+	if (y == 80)
 	{
-		if (md->GetVillageMap()[y - 1][x] == 0 && md->GetVillageMap()[y - 1][x + 1] == 0)
+		num = 9;
+		return num;
+	}
+	if (md->GetVillageMap()[y - 1][x] == 0 && md->GetVillageMap()[y - 1][x + 1] == 0)
+	{
+		if (x == 26 && x + 1 == 27 || x == 26 && x + 1 == 25)
 		{
-			if (x == 26 && x + 1 == 27 || x == 26 && x + 1 == 25)
-			{
-				num = 1;
-			}
-			else if (x == 61 && x + 1 == 62 || x == 62 && x + 1 == 63)
-			{
-				num = 2;
-			}
-			else if (x == 7 && x + 1 == 8 || x == 8 && x + 1 == 9 || x == 25 && x + 1 == 26 || x == 26 && x + 1 == 27)
-			{
-				num = 3;
-			}
-			else if (x == 83 && x + 1 == 84 || x == 84 && x + 1 == 85)
-			{
-				num = 4;
-			}
+			num = 1;
+		}
+		else if (x == 61 && x + 1 == 62 || x == 62 && x + 1 == 63)
+		{
+			num = 2;
+		}
+		else if (x == 7 && x + 1 == 8 || x == 8 && x + 1 == 9 || x == 25 && x + 1 == 26 || x == 26 && x + 1 == 27)
+		{
+			num = 3;
+		}
+		else if (x == 83 && x + 1 == 84 || x == 84 && x + 1 == 85)
+		{
+			num = 4;
 		}
 	}
-	else
+	if (md->GetVillageMap()[y - 1][divide] == 13 && md->GetVillageMap()[y - 1][divide + 1] == 13)
 	{
-		if (md->GetVillageMap()[y - 1][divide] == 13 && md->GetVillageMap()[y - 1][divide + 1] == 13)
+		if (divide == 28 && divide + 1 == 29)
 		{
-			if (divide == 28 && divide + 1 == 29)
-			{
-				num = 5;
-			}
-			else if (divide == 59 && divide + 1 == 60)
-			{
-				num = 6;
-			}
-			else if (divide == 22 && divide + 1 == 23)
-			{
-				num = 7;
-			}
-			else if (divide == 72 && divide + 1 == 73)
-			{
-				num = 8;
-			}
+			num = 5;
+		}
+		else if (divide == 59 && divide + 1 == 60)
+		{
+			num = 6;
+		}
+		else if (divide == 22 && divide + 1 == 23)
+		{
+			num = 7;
+		}
+		else if (divide == 72 && divide + 1 == 73)
+		{
+			num = 8;
 		}
 	}
-	delete md;
 	return num;
 }
 
 bool Village::CheckMapXY(int x1, int y1, int x1Count, int y1Count, int x2Count, int y2Count)
 {
-	MapDot* md = new MapDot;
 	if (md->GetVillageMap()[y1 + y1Count][((x1 / 2) + x1Count)] != 7 || md->GetVillageMap()[y1 + y2Count][((x1 / 2) + x2Count)] != 7)
 		return false;
 
-	delete md;
 	return true;
 }
 
-Village::Village()
+Village::Village() : mapX{ 0 }, mapY{ 0 }, message{}, infoArr{ 28, 29, 59, 60, 22, 23, 72, 73 }
 {
-	mapX = 0;
-	mapY = 0;
+	md = new MapDot;
+	dg = new Dungeon1;
+	mm = new MapManager;
+}
+
+Village::~Village()
+{
+	delete md;
+	delete dg;
+	delete mm;
 }

@@ -154,11 +154,13 @@
     <ClInclude Include="DoubleBuffer.h" />
     <ClInclude Include="Dungeon1.h" />
     <ClInclude Include="DungeonBoss.h" />
+    <ClInclude Include="ICharacter.h" />
     <ClInclude Include="MapManager.h" />
+    <ClInclude Include="NinJa.h" />
     <ClInclude Include="NinjaDot.h" />
     <ClInclude Include="MapDot.h" />
-    <ClInclude Include="Player.h" />
     <ClInclude Include="PrintSetting.h" />
+    <ClInclude Include="test.h" />
     <ClInclude Include="Village.h" />
   </ItemGroup>
   <ItemGroup>
@@ -169,12 +171,14 @@
     <ClCompile Include="DoubleBuffer.cpp" />
     <ClCompile Include="Dungeon1.cpp" />
     <ClCompile Include="DungeonBoss.cpp" />
+    <ClCompile Include="ICharacter.cpp" />
     <ClCompile Include="MapManager.cpp" />
+    <ClCompile Include="NinJa.cpp" />
     <ClCompile Include="NinjaDot.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MapDot.cpp" />
-    <ClCompile Include="Player.cpp" />
     <ClCompile Include="PrintSetting.cpp" />
+    <ClCompile Include="test.cpp" />
     <ClCompile Include="Village.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

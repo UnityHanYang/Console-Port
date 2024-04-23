@@ -1,5 +1,7 @@
 #include "DungeonBoss.h"
 
+int DungeonBoss::enemyArrXY[4] = { 30, 60, 80, 70 };
+
 #define ARROW 224
 #define LEFT_ARROW 75
 #define RIGHT_ARROW 77
@@ -38,71 +40,80 @@ void DungeonBoss::PrintMapAndCharMove(int x, int y)
 {
 	int xCpy, yCpy;
 	xCpy = yCpy = 0;
-	MapDot* md = new MapDot;
+
 	md->SettingDungeonBossMap();
 
 	md->PrintDungeonBossMap();
 	SetColor(15, 0);
 	md->PrintOperation_Keys(206, 10);
 	PrintOperation(208, 12);
+	PrintEnemy();
 	PrintS(2, 1, 1, 1, x, y);
 	PrintS(2, 1, 1, 0, x, y + 1);
 	SetColor(15, 0);
-	//md->PrintConsole(200, 330);
-	SetColor(15, 0);
+	md->PrintConsole(204, 57);
 	mapX = x;
 	mapY = y;
 	int input;
 	while (true)
 	{
-		if (_kbhit())
+		if (!CheckEnemyXY(mapX, mapY))
 		{
-			input = _getch();
-			if (input == ARROW)
+			if (_kbhit())
 			{
-				system("cls");
-				md->PrintDungeonBossMap();
-				SetColor(15, 0);
-				md->PrintOperation_Keys(206, 10);
-				PrintOperation(208, 12);
 				input = _getch();
-				switch (input)
+				if (input == ARROW)
 				{
-				case LEFT_ARROW:
-					if (CheckMapXY(mapX, mapY, -1, 0, -1, 1))
+					input = _getch();
+					switch (input)
 					{
-						mapX -= 2;
+					case LEFT_ARROW:
+						if (CheckMapXY(mapX, mapY, -1, 0, -1, 1))
+						{
+							xCpy = mapX;
+							yCpy = mapY;
+							mapX -= 2;
+						}
+						break;
+					case RIGHT_ARROW:
+						if (CheckMapXY(mapX, mapY, 2, 0, 2, 1))
+						{
+							xCpy = mapX;
+							yCpy = mapY;
+							mapX += 2;
+						}
+						break;
+					case UP_ARROW:
+						if (CheckMapXY(mapX, mapY, 0, -1, 1, -1))
+						{
+							xCpy = mapX;
+							yCpy = mapY;
+							--mapY;
+						}
+						break;
+					case DOWN_ARROW:
+						if (CheckMapXY(mapX, mapY, 0, 2, 1, 2))
+						{
+							xCpy = mapX;
+							yCpy = mapY;
+							++mapY;
+						}
+						break;
 					}
-					break;
-				case RIGHT_ARROW:
-					if (CheckMapXY(mapX, mapY, 2, 0, 2, 1))
-					{
-						mapX += 2;
-					}
-					break;
-				case UP_ARROW:
-					if (CheckMapXY(mapX, mapY, 0, -1, 1, -1))
-					{
-						--mapY;
-					}
-					break;
-				case DOWN_ARROW:
-					if (CheckMapXY(mapX, mapY, 0, 2, 1, 2))
-					{
-						++mapY;
-					}
-					break;
+					PrintS(1, CheckCurrentXY(xCpy, yCpy), CheckCurrentXY(xCpy, yCpy), 0, xCpy, yCpy);
+					PrintS(1, CheckCurrentXY(xCpy + 2, yCpy), CheckCurrentXY(xCpy + 2, yCpy), 1, xCpy + 2, yCpy);
+					PrintS(1, CheckCurrentXY(xCpy, yCpy + 1), CheckCurrentXY(xCpy, yCpy + 1), 0, xCpy, yCpy + 1);
+					PrintS(1, CheckCurrentXY(xCpy + 2, yCpy + 1), CheckCurrentXY(xCpy + 2, yCpy + 1), 1, xCpy + 2, yCpy + 1);
+					PrintS(2, 1, 1, 1, mapX, mapY);
+					PrintS(2, 1, 1, 1, mapX, mapY + 1);
+					SetColor(15, 0);
 				}
-				PrintS(2, 1, 1, 1, mapX, mapY);
-				PrintS(2, 1, 1, 1, mapX, mapY + 1);
-				SetColor(15, 0);
-			}
-			else if (input == Enter)
-			{
+				else if (input == Enter)
+				{
+				}
 			}
 		}
 	}
-	delete md;
 }
 
 void DungeonBoss::PrintOperation(int x, int y)
@@ -166,17 +177,62 @@ int DungeonBoss::CheckObjectXY(int x, int y, bool isEntrance)
 
 bool DungeonBoss::CheckMapXY(int x1, int y1, int x1Count, int y1Count, int x2Count, int y2Count)
 {
-	MapDot* md = new MapDot;
 	SetColor(15, 0);
-	if (md->GetDungeonBossMap()[y1 + y1Count][((x1 / 2) + x1Count)] == 8 || md->GetDungeonBossMap()[y1 + y2Count][((x1 / 2) + x2Count)] == 8)
+	if (md->GetDungeonBossMap()[y1 + y1Count][((x1 / 2) + x1Count)] == 8 || md->GetDungeonBossMap()[y1 + y2Count][((x1 / 2) + x2Count)] == 8 ||
+		md->GetDungeonBossMap()[y1 + y1Count][((x1 / 2) + x1Count)] == 2 || md->GetDungeonBossMap()[y1 + y2Count][((x1 / 2) + x2Count)] == 2 ||
+		md->GetDungeonBossMap()[y1 + y1Count][((x1 / 2) + x1Count)] == 6 || md->GetDungeonBossMap()[y1 + y2Count][((x1 / 2) + x2Count)] == 6)
 		return false;
 
-	delete md;
 	return true;
 }
 
-DungeonBoss::DungeonBoss()
+void DungeonBoss::PrintEnemy()
 {
-	mapX = 0;
-	mapY = 0;
+	for (int i = 0; i < sizeof(enemyArrXY) / sizeof(enemyArrXY[0]); i += 2)
+	{
+		PrintS(2, 5, 5, 1, enemyArrXY[i], enemyArrXY[i + 1]);
+		PrintS(2, 5, 5, 0, enemyArrXY[i], enemyArrXY[i + 1] + 1);
+	}
+}
+
+int DungeonBoss::CheckCurrentXY(int x, int y)
+{
+	int num = 0;
+	if (md->GetDungeonBossMap()[y][x / 2] == 12)
+	{
+		num = 12;
+		return num;
+	}
+	else if (md->GetDungeonBossMap()[y][x / 2] == 4)
+	{
+		num = 4;
+		return num;
+	}
+	return 0;
+}
+
+bool DungeonBoss::CheckEnemyXY(int x, int y)
+{
+	char message[50];
+	for (int i = 0; i < sizeof(enemyArrXY) / sizeof(enemyArrXY[0]); i += 2)
+	{
+		RECT playerSquare = { x - 2, y - 1, x + 3, y + 2 };
+		RECT enemySquare = { enemyArrXY[i] - 2, enemyArrXY[i + 1] - 1, enemyArrXY[i] + 3, enemyArrXY[i + 1] + 2 };
+		RECT intersect;
+
+		if (IntersectRect(&intersect, &playerSquare, &enemySquare)) {
+			return true;
+		}
+	}
+	return false;
+}
+
+DungeonBoss::DungeonBoss() : mapX{ 0 }, mapY{ 0 }
+{
+	md = new MapDot;
+}
+
+DungeonBoss::~DungeonBoss()
+{
+	delete md;
 }
