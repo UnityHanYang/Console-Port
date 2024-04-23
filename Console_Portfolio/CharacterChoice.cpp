@@ -4,15 +4,12 @@
 
 int CharacterChoice::characterNum = 0;
 int charNum = 0;
-int g_nScreenIndex;
-HANDLE g_hScreen[2];
 
 
 #define ARROW 224
 #define LEFT_ARROW 75
 #define RIGHT_ARROW 77
 #define Enter_Key 13
-#define _CRT_SECURE_NO_WARNINGS
 
 void CharacterChoice::SetColor(int fontColor, int backgroundColor)
 {
@@ -44,8 +41,6 @@ void CharacterChoice::gotoxy(int x, int y)
 
 bool CharacterChoice::ChoiceScene()
 {
-
-
 	std::cout << "\n\t\t\t\t\t\t      캐릭터를 선택하세요.\n\n\n\n";
 	std::cout << "\n\n\t\t\t   겐지\t\t\t\t\t\t\t\t\t한조\n\n";
 	PrintBackGround(2, 2, 4, 12);
@@ -73,11 +68,6 @@ bool CharacterChoice::ChoiceScene()
 					std::cout << "\n\n\t\t\t ▶ 겐지 ◀\t\t\t\t\t\t\t\t한조\n\n";
 					PrintBackGround(11, 11, 4, 12);
 					PrintBackGround(2, 2, 72, 12);
-					nd->PrintNinZaPortrait1(20, 13);
-					ad->PrintArcherPortrait1(92, 13);
-					SetColor(15, 0);
-					md->PrintOperation_Keys(130, 3);
-					PrintOperate(132, 5);
 					charNum = 1;
 					break;
 				case RIGHT_ARROW:
@@ -85,11 +75,6 @@ bool CharacterChoice::ChoiceScene()
 					std::cout << "\n\n\t\t\t   겐지\t\t\t\t\t\t\t\t    ▶ 한조 ◀\n\n";
 					PrintBackGround(2, 2, 4, 12);
 					PrintBackGround(11, 11, 72, 12);
-					nd->PrintNinZaPortrait1(20, 13);
-					ad->PrintArcherPortrait1(92, 13);
-					SetColor(15, 0);
-					md->PrintOperation_Keys(130, 3);
-					PrintOperate(132, 5);
 					charNum = 2;
 					break;
 				default:
@@ -97,11 +82,6 @@ bool CharacterChoice::ChoiceScene()
 					std::cout << "\n\n\t\t\t   겐지\t\t\t\t\t\t\t\t\t한조\n\n";
 					PrintBackGround(2, 2, 4, 12);
 					PrintBackGround(2, 2, 72, 12);
-					nd->PrintNinZaPortrait1(20, 13);
-					ad->PrintArcherPortrait1(92, 13);
-					SetColor(15, 0);
-					md->PrintOperation_Keys(130, 3);
-					PrintOperate(132, 5);
 				}
 			}
 			else if (input == 13)
@@ -118,13 +98,13 @@ bool CharacterChoice::ChoiceScene()
 					std::cout << "\n\n\t\t\t   겐지\t\t\t\t\t\t\t\t    ▶ 한조 ◀\n\n";
 					PrintBackGround(2, 2, 4, 12);
 					PrintBackGround(11, 11, 72, 12);
-					nd->PrintNinZaPortrait1(20, 13);
-					ad->PrintArcherPortrait1(92, 13);
-					SetColor(15, 0);
-					md->PrintOperation_Keys(130, 3);
-					PrintOperate(132, 5);
 				}
 			}
+			nd->PrintNinZaPortrait1(20, 13);
+			ad->PrintArcherPortrait1(92, 13);
+			SetColor(15, 0);
+			md->PrintOperation_Keys(130, 3);
+			PrintOperate(132, 5);
 		}
 	}
 }
@@ -315,13 +295,16 @@ void CharacterChoice::PrintCharacterAbility(int num)
 		SetColor(0, 15);
 		PrintAbilityTool(135, 50);
 		gotoxy(139, 52);
-		std::cout << "이름: 겐지                직업: 닌자";
+		std::cout << " 이름: " <<  gm->nj->GetName();
+		std::cout << "                직업: " << gm->nj->GetOccupation();
 		gotoxy(139, 55);
-		std::cout << "공격력: 7                 마나: 30";
+		std::cout << " 공격력: " << gm->nj->GetAtk();
+		std::cout << "                마나: " << gm->nj->GetMp();
 		gotoxy(139, 58);  
-		std::cout << "체력: 80                  방어력: 5";
+		std::cout << " 체력: " << gm->nj->GetHp();
+		std::cout << "                   방어력: " << gm->nj->GetDef();
 		gotoxy(139, 61);
-		std::cout << "치명타 확률: 2%";
+		std::cout << " 치명타 확률: " << gm->nj->GetCritical() << "%";
 	}
 	else
 	{
@@ -330,13 +313,16 @@ void CharacterChoice::PrintCharacterAbility(int num)
 		SetColor(0, 15);
 		PrintAbilityTool(135, 46);
 		gotoxy(139, 48);
-		std::cout << "이름: 한조                직업: 궁수";
+		std::cout << " 이름: " << gm->ah->GetName();
+		std::cout << "                직업: " << gm->ah->GetOccupation();
 		gotoxy(139, 51);
-		std::cout << "공격력: 10                 마나: 25";
+		std::cout << " 공격력: " << gm->ah->GetAtk();
+		std::cout << "                마나: " << gm->ah->GetMp();
 		gotoxy(139, 54);
-		std::cout << "체력: 70                  방어력: 2";
+		std::cout << " 체력: " << gm->ah->GetHp();
+		std::cout << "                   방어력: " << gm->ah->GetDef();
 		gotoxy(139, 57);
-		std::cout << "치명타 확률: 5%";
+		std::cout << " 치명타 확률: " << gm->ah->GetCritical() << "%";
 	}
 	md->PrintOperation_Keys(18, 3);
 	SetColor(15, 0);
@@ -352,57 +338,13 @@ void CharacterChoice::PrintAbilityTool(int x, int y)
 	std::cout << "──────────────────────────────────────────────────";
 }
 
-
-void CharacterChoice::ScreenInit()
-{
-	CONSOLE_CURSOR_INFO cci;
-
-	//화면 버퍼 2개를 만든다.
-	g_hScreen[0] = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
-	g_hScreen[1] = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
-
-	//커서를 숨긴다.
-	cci.dwSize = 1;
-	cci.bVisible = FALSE;
-	SetConsoleCursorInfo(g_hScreen[0], &cci);
-	SetConsoleCursorInfo(g_hScreen[1], &cci);
-}
-
-void CharacterChoice::ScreenFlipping()	// 두번째 스크린과 첫번째 스크린 교환
-{
-	SetConsoleActiveScreenBuffer(g_hScreen[g_nScreenIndex]);
-	g_nScreenIndex = !g_nScreenIndex;
-}
-
-void CharacterChoice::ScreenClear()	// 사용한 스크린 비우는 함수
-{
-	COORD Coor = { 0, 0 };
-	DWORD dw;
-	FillConsoleOutputCharacter(g_hScreen[g_nScreenIndex], ' ', 1200 * 300, Coor, &dw);
-}
-
-void CharacterChoice::ScreenRelease()		// 마지막 삭제.
-{
-	CloseHandle(g_hScreen[0]);
-	CloseHandle(g_hScreen[1]);
-}
-
-
-void CharacterChoice::ScreenPrint(int x, int y, std::string s)	// 두번째 스크린에 그림 그리는 함수
-{
-	DWORD dw;
-	COORD CursorPosition = { x, y };
-	SetConsoleCursorPosition(g_hScreen[g_nScreenIndex], CursorPosition);
-	//WriteFile(g_hScreen[g_nScreenIndex], s.c_str(), s.size(), &dw, NULL);
-	std::cout << s;
-}
-
 CharacterChoice::CharacterChoice()
 {
 	nd = new NinjaDot;
 	ad = new ArcherDot;
 	md = new MapDot;
 	bt = new Battle;
+	gm = new GameManager;
 }
 
 CharacterChoice::~CharacterChoice()
@@ -411,6 +353,7 @@ CharacterChoice::~CharacterChoice()
 	delete ad;
 	delete md;
 	delete bt;
+	delete gm;
 }
 
 

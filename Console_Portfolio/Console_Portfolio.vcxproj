@@ -147,38 +147,44 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Archer.h" />
     <ClInclude Include="ArcherDot.h" />
     <ClInclude Include="Battle.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="CharacterChoice.h" />
+    <ClInclude Include="CharacterInfo.h" />
     <ClInclude Include="DoubleBuffer.h" />
     <ClInclude Include="Dungeon1.h" />
     <ClInclude Include="DungeonBoss.h" />
+    <ClInclude Include="GameManager.h" />
     <ClInclude Include="ICharacter.h" />
+    <ClInclude Include="InformationTool.h" />
     <ClInclude Include="MapManager.h" />
     <ClInclude Include="NinJa.h" />
     <ClInclude Include="NinjaDot.h" />
     <ClInclude Include="MapDot.h" />
     <ClInclude Include="PrintSetting.h" />
-    <ClInclude Include="test.h" />
     <ClInclude Include="Village.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Archer.cpp" />
     <ClCompile Include="ArcherDot.cpp" />
     <ClCompile Include="Battle.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="CharacterChoice.cpp" />
+    <ClCompile Include="CharacterInfo.cpp" />
     <ClCompile Include="DoubleBuffer.cpp" />
     <ClCompile Include="Dungeon1.cpp" />
     <ClCompile Include="DungeonBoss.cpp" />
+    <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="ICharacter.cpp" />
+    <ClCompile Include="InformationTool.cpp" />
     <ClCompile Include="MapManager.cpp" />
     <ClCompile Include="NinJa.cpp" />
     <ClCompile Include="NinjaDot.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MapDot.cpp" />
     <ClCompile Include="PrintSetting.cpp" />
-    <ClCompile Include="test.cpp" />
     <ClCompile Include="Village.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -8,6 +8,5 @@ public:
         : Character(r_name, r_job, r_hp, r_mp, r_def, r_atk, r_critical)
     {
     }
-    int GetHp() { return hp; }
 };
 

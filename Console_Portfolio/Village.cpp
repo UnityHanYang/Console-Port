@@ -1,12 +1,16 @@
 #include "Village.h"
 
-bool isEqual = false;
+int Village::currentX = 0;
+int Village::currentY = 0;
+
 #define ARROW 224
 #define LEFT_ARROW 75
 #define RIGHT_ARROW 77
 #define UP_ARROW 72
 #define DOWN_ARROW 80
 #define Enter 13
+#define X_Key 120
+bool isXTrue = false;
 
 
 void Village::SetColor(int fontColor, int backgroundColor)
@@ -38,8 +42,8 @@ void Village::gotoxy(int x, int y)
 
 void Village::PrintMapAndCharMove(int x, int y)
 {
+	int count = 0;
 	md->SettingVillageMap();
-
 	md->PrintVillageMap();
 	SetColor(15, 0);
 	PrintS(2, 1, 1, 1, x, y);
@@ -62,41 +66,87 @@ void Village::PrintMapAndCharMove(int x, int y)
 				switch (input)
 				{
 				case LEFT_ARROW:
-					if (CheckMapXY(mapX, mapY, -1, 0, -1, 1))
+					if (!isXTrue)
 					{
-						PrintS(2, 7, 7, 1, mapX, mapY);
-						PrintS(2, 7, 7, 1, mapX, mapY + 1);
-						mapX -= 2;
+						if (CheckMapXY(mapX, mapY, -1, 0, -1, 1))
+						{
+							PrintS(2, 7, 7, 1, mapX, mapY);
+							PrintS(2, 7, 7, 1, mapX, mapY + 1);
+							mapX -= 2;
+						}
 					}
 					break;
 				case RIGHT_ARROW:
-					if (CheckMapXY(mapX, mapY, 2, 0, 2, 1))
+					if (!isXTrue)
 					{
-						PrintS(2, 7, 7, 1, mapX, mapY);
-						PrintS(2, 7, 7, 1, mapX, mapY + 1);
-						mapX += 2;
+						if (CheckMapXY(mapX, mapY, 2, 0, 2, 1))
+						{
+							PrintS(2, 7, 7, 1, mapX, mapY);
+							PrintS(2, 7, 7, 1, mapX, mapY + 1);
+							mapX += 2;
+						}
 					}
 					break;
 				case UP_ARROW:
-					if (CheckMapXY(mapX, mapY, 0, -1, 1, -1))
+					if (!isXTrue)
 					{
-						PrintS(2, 7, 7, 1, mapX, mapY);
-						PrintS(2, 7, 7, 1, mapX, mapY + 1);
-						--mapY;
+						if (CheckMapXY(mapX, mapY, 0, -1, 1, -1))
+						{
+							PrintS(2, 7, 7, 1, mapX, mapY);
+							PrintS(2, 7, 7, 1, mapX, mapY + 1);
+							--mapY;
+						}
+					}
+					else
+					{
+						it->ClearOperation(208, 12);
+						it->PrintInfo(208, 12, count = (count < 2) ? count : count -= 1);
 					}
 					break;
 				case DOWN_ARROW:
-					if (CheckMapXY(mapX, mapY, 0, 2, 1, 2))
+					if (!isXTrue)
 					{
-						PrintS(2, 7, 7, 1, mapX, mapY);
-						PrintS(2, 7, 7, 1, mapX, mapY + 1);
-						++mapY;
+						if (CheckMapXY(mapX, mapY, 0, 2, 1, 2))
+						{
+							PrintS(2, 7, 7, 1, mapX, mapY);
+							PrintS(2, 7, 7, 1, mapX, mapY + 1);
+							++mapY;
+						}
+					}
+					else
+					{
+						it->ClearOperation(208, 12);
+						it->PrintInfo(208, 12, count = (count > 3) ? count : count += 1);
 					}
 					break;
 				}
 				PrintS(2, 1, 1, 1, mapX, mapY);
 				PrintS(2, 1, 1, 1, mapX, mapY + 1);
 				SetColor(15, 0);
+			}
+			else if(input == X_Key)
+			{
+				count = 0;
+				CheckXState(0);
+			}
+			else if (input == Enter)
+			{
+				currentX = mapX;
+				currentY = mapY;
+				mm->GetStack().push(1);
+				system("cls");
+				switch (count)
+				{
+				case 1:
+					ci->ChoiceCharacter();
+					break;
+				case 2:
+					break;
+				case 3:
+					break;
+				case 4:
+					break;
+				}
 			}
 			if (PrintBuildingInfo())
 			{
@@ -110,6 +160,22 @@ void Village::PrintMapAndCharMove(int x, int y)
 	system("cls"); 
 	mm->ms = Map_State::dungeon;
 	mm->Current_Map();
+}
+
+void Village::CheckXState(int num)
+{
+	if (!isXTrue)
+	{
+		it->ClearOperation(208, 12);
+		it->PrintInfo(208, 12, num);
+		isXTrue = true;
+	}
+	else
+	{
+		it->ClearOperation(208, 12);
+		PrintOperation(208, 12);
+		isXTrue = false;
+	}
 }
 
 void Village::PrintOperation(int x, int y)
@@ -185,9 +251,9 @@ void Village::PrintOperation(int x, int y)
 	gotoxy(x, y + 31);
 	std::cout << "수 있습니다.";
 	gotoxy(x, y + 33);
-	std::cout << "건물 이름은 대화창에";
+	std::cout << "X키를 눌러 정보창으로";
 	gotoxy(x, y + 34);
-	std::cout << "출력됩니다.";
+	std::cout << "전환할 수 있습니다.";
 }
 
 bool Village::PrintBuildingInfo()
@@ -204,23 +270,23 @@ bool Village::PrintBuildingInfo()
 	case 4:
 		break;
 	case 5:
-		strcpy_s(message, "여관");
+		strcpy_s(message, " 여관                          ");
 		break;
 	case 6:
-		strcpy_s(message, "상점");
+		strcpy_s(message, " 상점                           ");
 		break;
 	case 7:
-		strcpy_s(message, "주민 집");
+		strcpy_s(message, " 주민 집                       ");
 		break;
 	case 8:
-		strcpy_s(message, "도박장");
+		strcpy_s(message, " 도박장                        ");
 		break;
 	case 9:
-		strcpy_s(message, "던전에 입장하시겠습니까?");
+		strcpy_s(message, " 던전에 입장하시겠습니까?       ");
 		isShowDungeonNotice = true;
 		break;
 	default:
-		strcpy_s(message, "                                         ");
+		strcpy_s(message, " 건물 이름은 이곳에 출력됩니다.");
 		isShowDungeonNotice = false;
 		break;
 	}
@@ -301,6 +367,8 @@ Village::Village() : mapX{ 0 }, mapY{ 0 }, message{}, infoArr{ 28, 29, 59, 60, 2
 	md = new MapDot;
 	dg = new Dungeon1;
 	mm = new MapManager;
+	ci = new CharacterInfo;
+	it = new InformationTool;
 }
 
 Village::~Village()
@@ -308,4 +376,6 @@ Village::~Village()
 	delete md;
 	delete dg;
 	delete mm;
+	delete ci;
+	delete it;
 }

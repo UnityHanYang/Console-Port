@@ -31,6 +31,12 @@
     <Filter Include="캐릭터\캐릭터 속성 세팅">
       <UniqueIdentifier>{075d66f7-4a32-4249-8655-9e6d0820e9b4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="정보창">
+      <UniqueIdentifier>{0b3fcfad-97c9-42b7-bfb7-49137bf78cae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="게임 매니저">
+      <UniqueIdentifier>{1f22995a-502d-435a-8fe6-73a197231b21}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ArcherDot.h">
@@ -78,8 +84,17 @@
     <ClInclude Include="Character.h">
       <Filter>캐릭터\캐릭터 속성 세팅</Filter>
     </ClInclude>
-    <ClInclude Include="test.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="Archer.h">
+      <Filter>캐릭터</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterInfo.h">
+      <Filter>정보창</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager.h">
+      <Filter>게임 매니저</Filter>
+    </ClInclude>
+    <ClInclude Include="InformationTool.h">
+      <Filter>정보창</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -128,8 +143,17 @@
     <ClCompile Include="Character.cpp">
       <Filter>캐릭터\캐릭터 속성 세팅</Filter>
     </ClCompile>
-    <ClCompile Include="test.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="Archer.cpp">
+      <Filter>캐릭터</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterInfo.cpp">
+      <Filter>정보창</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager.cpp">
+      <Filter>게임 매니저</Filter>
+    </ClCompile>
+    <ClCompile Include="InformationTool.cpp">
+      <Filter>정보창</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

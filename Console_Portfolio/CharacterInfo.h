@@ -1,41 +1,46 @@
 #pragma once
 #include <iostream>
 #include "PrintSetting.h"
-#include <conio.h>
 #include "NinjaDot.h"
 #include "ArcherDot.h"
-#include "MapDot.h"
 #include "Battle.h"
+#include <Windows.h>
+#include "MapDot.h"
+#include <conio.h>
+#include "CharacterChoice.h"
 #include "MapManager.h"
-#include "NinJa.h"
-#include "Archer.h"
 #include "GameManager.h"
 
+class CharacterChoice;
 class GameManager;
 
-class CharacterChoice : public PrintSetting
+
+class CharacterInfo : public PrintSetting
 {
 private:
-	static int characterNum;
+	static bool isJoin;
 public:
 	NinjaDot* nd;
 	ArcherDot* ad;
+	CharacterChoice* cc;
+	Battle* bt;
 	MapDot* md;
 	GameManager* gm;
-	Battle* bt;
+	MapManager* mm;
 	virtual void SetColor(int fontColor, int backgroundColor);
 	virtual void PrintS(int count, int font, int background, bool isEndl, int x, int y);
 	virtual void gotoxy(int x, int y);
-	bool ChoiceScene();
+	void CharacterOne();
+	void CharacterTwo();
 	void ReadMore(int num);
-	void PrintBackGround(int font, int background, int x, int y);
-	void PrintOperate(int x, int y);
-	void PrintNinjarBackGround();
+	void ChoiceCharacter();
+	void PrintBackOperate(int x, int y);
+	bool GetJoinWhether() { return isJoin; }
+	void SetJoinWhether(bool b_Value) { isJoin = b_Value; }
 	void PrintCharacterAbility(int num);
-	void PrintAbilityTool(int x, int y);
-	int GetCharacter() { return characterNum; }
+	void PrintOperate(int x, int y);
 
-	CharacterChoice();
-	~CharacterChoice();
+	CharacterInfo();
+	~CharacterInfo();
 };
 

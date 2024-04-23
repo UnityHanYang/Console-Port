@@ -1,5 +1,6 @@
 #include "MapManager.h"
 
+std::stack<int> MapManager::s_map = { };
 Map_State MapManager::ms = Map_State::village;
 
 void MapManager::Current_Map()
@@ -19,4 +20,46 @@ void MapManager::Current_Map()
 	{
 		db.PrintMapAndCharMove(162, 79);
 	}
+}
+
+void MapManager::Current_StackMap()
+{
+	if (!s_map.empty())
+	{
+		int a = s_map.top();
+		switch (a)
+		{
+		case 1:
+			vg->PrintMapAndCharMove(1, 1);
+			break;
+		case 2:
+			break;
+		case 3:
+			break;
+		case 4:
+			break;
+		case 5:
+			break;
+		case 6:
+			ci->ChoiceCharacter();
+			break;
+		case 7:
+			break;
+		default:
+			break;
+		}
+		s_map.pop();
+	}
+}
+
+MapManager::MapManager()
+{
+	vg = new Village;
+	ci = new CharacterInfo;
+}
+
+MapManager::~MapManager()
+{
+	delete vg;
+	delete ci;
 }
