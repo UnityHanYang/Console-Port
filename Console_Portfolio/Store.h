@@ -16,11 +16,14 @@ private:
 	std::vector<Item*> itemVec;
 public:
 	std::vector<Item*> GetItemVec() { return itemVec; }
-	void ItemInit();
 	void VectorPush();
 	void PrintName(int x, int y, int count);
 	void PrintPrice(int x, int y, int count);
 	void PrintFeature(int x, int y, Item* item);
 	void gotoxy(int x, int y);
+	void DeleteItem();
+
+	Store();
+	~Store();
 };
 

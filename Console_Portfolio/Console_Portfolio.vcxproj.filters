@@ -46,6 +46,12 @@
     <Filter Include="정보창\인벤토리">
       <UniqueIdentifier>{9ad1a8df-1827-493d-a91d-bf4b770271a0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="플레이어">
+      <UniqueIdentifier>{d61a4f27-401d-436e-a2b6-0314bfc5405c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="정보창\인벤토리\아이템">
+      <UniqueIdentifier>{f61a830b-726a-40c0-82c8-bebb6b5ac46b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ArcherDot.h">
@@ -62,9 +68,6 @@
     </ClInclude>
     <ClInclude Include="PrintSetting.h">
       <Filter>dot\기본 세팅</Filter>
-    </ClInclude>
-    <ClInclude Include="Battle.h">
-      <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="CharacterChoice.h">
       <Filter>캐릭터 선택</Filter>
@@ -114,6 +117,18 @@
     <ClInclude Include="StoreMap.h">
       <Filter>정보창\상점</Filter>
     </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>플레이어</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemInventory.h">
+      <Filter>정보창\인벤토리\아이템</Filter>
+    </ClInclude>
+    <ClInclude Include="Battle.h">
+      <Filter>dot</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemInventoryWindow.h">
+      <Filter>정보창\인벤토리\아이템</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -130,9 +145,6 @@
     </ClCompile>
     <ClCompile Include="PrintSetting.cpp">
       <Filter>dot\기본 세팅</Filter>
-    </ClCompile>
-    <ClCompile Include="Battle.cpp">
-      <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="CharacterChoice.cpp">
       <Filter>캐릭터 선택</Filter>
@@ -181,6 +193,18 @@
     </ClCompile>
     <ClCompile Include="StoreMap.cpp">
       <Filter>정보창\상점</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>플레이어</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemInventory.cpp">
+      <Filter>정보창\인벤토리\아이템</Filter>
+    </ClCompile>
+    <ClCompile Include="Battle.cpp">
+      <Filter>dot</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemInventoryWindow.cpp">
+      <Filter>정보창\인벤토리\아이템</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

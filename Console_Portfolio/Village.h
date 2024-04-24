@@ -8,6 +8,7 @@
 #include "CharacterInfo.h"
 #include "InformationTool.h"
 #include "StoreMap.h"
+#include "ItemInventoryWindow.h"
 
 
 class Village : public PrintSetting

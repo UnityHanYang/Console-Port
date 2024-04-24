@@ -2,36 +2,34 @@
 #include <iostream>
 #include "PrintSetting.h"
 #include <Windows.h>
-#include "Store.h"
-#include <conio.h>
-#include "Item.h"
-#include "Player.h"
-#include "Village.h"
+#include "MapManager.h"
+#include "ItemInventory.h"
 
-class StoreMap : public PrintSetting
+class ItemInventoryWindow : public PrintSetting
 {
 private:
-	Store* store;
 	int count;
-	int buyCellNum;
+	int option;
+
 public:
-	Player* player;
+	ItemInventory* iit;
 	virtual void SetColor(int fontColor, int backgroundColor);
 	virtual void PrintS(int count, int font, int background, bool isEndl, int x, int y);
 	virtual void gotoxy(int x, int y);
-	void PrintBuyAndSellTool(int x, int y);
+	void PrintItemAndCancelTool(int x, int y);
 	void PrintMoneyTool(int x, int y);
 	void PrintItemTool(int x, int y);
 	void PrintItemDetailTool(int x, int y);
-	void PrintBuyAndSellText(int x, int y, int num);
 	void PrintMoneyText(int x, int y);
 	void ShowItem(int x, int y, int num);
-	void ChoiceBuy();
-	void PrintStoreMap();
+	void ChoiceUse();
 	void ClearText(int x, int y);
 	void LeftRightInput();
+	void PrintOptionText(int x, int y, int num);
 
-	StoreMap();
-	~StoreMap();
+	void InventoryTool();
+
+	ItemInventoryWindow();
+	~ItemInventoryWindow();
 };
 

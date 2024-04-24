@@ -46,6 +46,7 @@ void Village::PrintMapAndCharMove(int x, int y)
 	MapManager mm;
 	StoreMap sm;
 	CharacterInfo ci;
+	ItemInventoryWindow iw;
 	md.SettingVillageMap();
 	md.PrintVillageMap();
 	SetColor(15, 0);
@@ -153,6 +154,8 @@ void Village::PrintMapAndCharMove(int x, int y)
 				case 2:
 					break;
 				case 3:
+					system("cls");
+					iw.InventoryTool();
 					break;
 				case 4:
 					break;

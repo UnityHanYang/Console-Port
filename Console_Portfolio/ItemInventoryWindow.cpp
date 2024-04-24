@@ -1,4 +1,4 @@
-#include "StoreMap.h"
+#include "ItemInventoryWindow.h"
 
 
 #define ARROW 224
@@ -9,13 +9,13 @@
 #define Enter 13
 #define ESC 27
 
-void StoreMap::SetColor(int fontColor, int backgroundColor)
+void ItemInventoryWindow::SetColor(int fontColor, int backgroundColor)
 {
 	int Color = fontColor + backgroundColor * 16;
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color);
 }
 
-void StoreMap::PrintS(int count, int font, int background, bool isEndl, int x, int y)
+void ItemInventoryWindow::PrintS(int count, int font, int background, bool isEndl, int x, int y)
 {
 	SetColor(font, background);
 	gotoxy(x, y);
@@ -31,13 +31,13 @@ void StoreMap::PrintS(int count, int font, int background, bool isEndl, int x, i
 	}
 }
 
-void StoreMap::gotoxy(int x, int y)
+void ItemInventoryWindow::gotoxy(int x, int y)
 {
 	COORD pos = { x,y };
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 }
 
-void StoreMap::PrintBuyAndSellTool(int x, int y)
+void ItemInventoryWindow::PrintItemAndCancelTool(int x, int y)
 {
 	SetColor(15, 0);
 	gotoxy(x, y);
@@ -52,7 +52,7 @@ void StoreMap::PrintBuyAndSellTool(int x, int y)
 	std::cout << "└─────────────────────────────────────────────────────────────────────────┘";
 }
 
-void StoreMap::PrintMoneyTool(int x, int y)
+void ItemInventoryWindow::PrintMoneyTool(int x, int y)
 {
 	SetColor(15, 0);
 	gotoxy(x, y);
@@ -67,90 +67,7 @@ void StoreMap::PrintMoneyTool(int x, int y)
 	std::cout << "└───────────────────────────────┘";
 }
 
-void StoreMap::PrintItemTool(int x, int y)
-{
-	SetColor(15, 0);
-	gotoxy(x, y);
-	std::cout << "┌────────────────────────────────────────────────────┐";
-	gotoxy(x, y + 1);
-	std::cout << "│                                                    │";
-	gotoxy(x, y + 2);
-	std::cout << "│                                                    │";
-	gotoxy(x, y + 3);
-	std::cout << "│                                                    │";
-	gotoxy(x, y + 4);
-	std::cout << "│                                                    │";
-	gotoxy(x, y + 5);
-	std::cout << "│                                                    │";
-	gotoxy(x, y + 6);
-	std::cout << "│                                                    │";
-	gotoxy(x, y + 7);
-	std::cout << "│                                                    │";
-	gotoxy(x, y + 8);
-	std::cout << "│                                                    │";
-	gotoxy(x, y + 9);
-	std::cout << "│                                                    │";
-	gotoxy(x, y + 10);
-	std::cout << "│                                                    │";
-	gotoxy(x, y + 11);
-	std::cout << "│                                                    │";
-	gotoxy(x, y +12);
-	std::cout << "│                                                    │";
-	gotoxy(x, y + 13);
-	std::cout << "│                                                    │";
-	gotoxy(x, y + 14);
-	std::cout << "│                                                    │";
-	gotoxy(x, y + 15);
-	std::cout << "│                                                    │";
-	gotoxy(x, y + 16);
-	std::cout << "│                                                    │";
-	gotoxy(x, y + 17);
-	std::cout << "│                                                    │";
-	gotoxy(x, y + 18);
-	std::cout << "│                                                    │";
-	gotoxy(x, y + 19);
-	std::cout << "│                                                    │";
-	gotoxy(x, y + 20);
-	std::cout << "│                                                    │";
-	gotoxy(x, y + 21);
-	std::cout << "│                                                    │";
-	gotoxy(x, y + 22);
-	std::cout << "│                                                    │";
-	gotoxy(x, y + 23);
-	std::cout << "│                                                    │";
-	gotoxy(x, y + 24);
-	std::cout << "│                                                    │";
-	gotoxy(x, y + 25);
-	std::cout << "│                                                    │";
-	gotoxy(x, y + 26);
-	std::cout << "│                                                    │";
-	gotoxy(x, y + 27);
-	std::cout << "│                                                    │";
-	gotoxy(x, y + 28);
-	std::cout << "│                                                    │";
-	gotoxy(x, y + 29);
-	std::cout << "│                                                    │";
-	gotoxy(x, y + 30);
-	std::cout << "│                                                    │";
-	gotoxy(x, y + 31);
-	std::cout << "│                                                    │";
-	gotoxy(x, y + 32);
-	std::cout << "│                                                    │";
-	gotoxy(x, y + 33);
-	std::cout << "│                                                    │";
-	gotoxy(x, y + 34);
-	std::cout << "│                                                    │";
-	gotoxy(x, y + 35);
-	std::cout << "│                                                    │";
-	gotoxy(x, y + 36);
-	std::cout << "│                                                    │";
-	gotoxy(x, y + 37);
-	std::cout << "│                                                    │";
-	gotoxy(x, y + 38);
-	std::cout << "└────────────────────────────────────────────────────┘";
-}
-
-void StoreMap::PrintItemDetailTool(int x, int y)
+void ItemInventoryWindow::PrintItemTool(int x, int y)
 {
 	SetColor(15, 0);
 	gotoxy(x, y);
@@ -233,56 +150,111 @@ void StoreMap::PrintItemDetailTool(int x, int y)
 	std::cout << "└────────────────────────────────────────────────────┘";
 }
 
-void StoreMap::PrintBuyAndSellText(int x, int y, int num)
+void ItemInventoryWindow::PrintItemDetailTool(int x, int y)
 {
 	SetColor(15, 0);
 	gotoxy(x, y);
-	switch (num)
-	{
-	case 1:
-		std::cout << "                                                              ";
-		gotoxy(x, y);
-		std::cout << "     ▶ 구입 ◀                  판매                    취소";
-		break;
-	case 2:
-		std::cout << "                                                              ";
-		gotoxy(x, y);
-		std::cout << "       구입                  ▶ 판매 ◀                  취소";
-		break;
-	case 3:
-		std::cout << "                                                              ";
-		gotoxy(x, y); 
-		std::cout << "       구입                    판매                  ▶ 취소 ◀";
-		break;
-	default:
-		std::cout << "                                                              ";
-		gotoxy(x, y);
-		std::cout << "       구입                    판매                    취소";
-		break;
-	}
+	std::cout << "┌────────────────────────────────────────────────────┐";
+	gotoxy(x, y + 1);
+	std::cout << "│                                                    │";
+	gotoxy(x, y + 2);
+	std::cout << "│                                                    │";
+	gotoxy(x, y + 3);
+	std::cout << "│                                                    │";
+	gotoxy(x, y + 4);
+	std::cout << "│                                                    │";
+	gotoxy(x, y + 5);
+	std::cout << "│                                                    │";
+	gotoxy(x, y + 6);
+	std::cout << "│                                                    │";
+	gotoxy(x, y + 7);
+	std::cout << "│                                                    │";
+	gotoxy(x, y + 8);
+	std::cout << "│                                                    │";
+	gotoxy(x, y + 9);
+	std::cout << "│                                                    │";
+	gotoxy(x, y + 10);
+	std::cout << "│                                                    │";
+	gotoxy(x, y + 11);
+	std::cout << "│                                                    │";
+	gotoxy(x, y + 12);
+	std::cout << "│                                                    │";
+	gotoxy(x, y + 13);
+	std::cout << "│                                                    │";
+	gotoxy(x, y + 14);
+	std::cout << "│                                                    │";
+	gotoxy(x, y + 15);
+	std::cout << "│                                                    │";
+	gotoxy(x, y + 16);
+	std::cout << "│                                                    │";
+	gotoxy(x, y + 17);
+	std::cout << "│                                                    │";
+	gotoxy(x, y + 18);
+	std::cout << "│                                                    │";
+	gotoxy(x, y + 19);
+	std::cout << "│                                                    │";
+	gotoxy(x, y + 20);
+	std::cout << "│                                                    │";
+	gotoxy(x, y + 21);
+	std::cout << "│                                                    │";
+	gotoxy(x, y + 22);
+	std::cout << "│                                                    │";
+	gotoxy(x, y + 23);
+	std::cout << "│                                                    │";
+	gotoxy(x, y + 24);
+	std::cout << "│                                                    │";
+	gotoxy(x, y + 25);
+	std::cout << "│                                                    │";
+	gotoxy(x, y + 26);
+	std::cout << "│                                                    │";
+	gotoxy(x, y + 27);
+	std::cout << "│                                                    │";
+	gotoxy(x, y + 28);
+	std::cout << "│                                                    │";
+	gotoxy(x, y + 29);
+	std::cout << "│                                                    │";
+	gotoxy(x, y + 30);
+	std::cout << "│                                                    │";
+	gotoxy(x, y + 31);
+	std::cout << "│                                                    │";
+	gotoxy(x, y + 32);
+	std::cout << "│                                                    │";
+	gotoxy(x, y + 33);
+	std::cout << "│                                                    │";
+	gotoxy(x, y + 34);
+	std::cout << "│                                                    │";
+	gotoxy(x, y + 35);
+	std::cout << "│                                                    │";
+	gotoxy(x, y + 36);
+	std::cout << "│                                                    │";
+	gotoxy(x, y + 37);
+	std::cout << "│                                                    │";
+	gotoxy(x, y + 38);
+	std::cout << "└────────────────────────────────────────────────────┘";
 }
 
-void StoreMap::PrintMoneyText(int x, int y)
+
+void ItemInventoryWindow::PrintMoneyText(int x, int y)
 {
 	gotoxy(x, y);
-	std::cout << "소지금: " << player->GetMoney();
+	//std::cout << "소지금: " << player->GetMoney();
 }
 
-void StoreMap::ShowItem(int x, int y , int num)
+void ItemInventoryWindow::ShowItem(int x, int y, int num)
 {
 	SetColor(15, 0);
-	gotoxy(x, y-4);
+	gotoxy(x, y - 4);
 	std::cout << "-포션-";
-	gotoxy(x, y-2);
+	gotoxy(x, y - 2);
 	std::cout << "     이름                           가격";
 
-	store->PrintName(x, y, num);
+	//store->PrintName(x, y, num);
 
-	store->PrintPrice(x+37, y, num);
+	//store->PrintPrice(x + 37, y, num);
 
 }
 
-void StoreMap::ChoiceBuy()
+void ItemInventoryWindow::ChoiceUse()
 {
 	ShowItem(16, 14, 0);
 
@@ -318,21 +290,44 @@ void StoreMap::ChoiceBuy()
 	}
 }
 
-void StoreMap::ClearText(int x, int y)
+void ItemInventoryWindow::ClearText(int x, int y)
 {
 	SetColor(0, 0);
 	for (int i = 0; i < 16; i++)
 	{
-		gotoxy(x, y-4 + i);
+		gotoxy(x, y - 4 + i);
 		std::cout << "                                          ";
 	}
 
 	gotoxy(x + 53, y - 3);
 	std::cout << "                                       ";
-	
 }
 
-void StoreMap::LeftRightInput()
+void ItemInventoryWindow::PrintOptionText(int x, int y, int num)
+{
+	SetColor(15, 0);
+	gotoxy(x, y);
+	switch (num)
+	{
+	case 1:
+		std::cout << "                                            ";
+		gotoxy(x, y);
+		std::cout << " ▶ 아이템 ◀                        취소";
+		break;
+	case 2:
+		std::cout << "                                            ";
+		gotoxy(x, y);
+		std::cout << "   아이템                        ▶ 취소 ◀";
+		break;
+	default:
+		std::cout << "                                            ";
+		gotoxy(x, y);
+		std::cout << "아이템                          취소 ";
+		break;
+	}
+}
+
+void ItemInventoryWindow::LeftRightInput()
 {
 	int input;
 	while (true)
@@ -346,29 +341,24 @@ void StoreMap::LeftRightInput()
 				switch (input)
 				{
 				case RIGHT_ARROW:
-					buyCellNum = (buyCellNum > 2) ? buyCellNum : buyCellNum += 1;
-					PrintBuyAndSellText(15, 5, buyCellNum);
+					option = 2;
+					PrintOptionText(27, 5, option);
 					break;
 				case LEFT_ARROW:
-					buyCellNum = (buyCellNum < 2) ? buyCellNum : buyCellNum -= 1;
-					PrintBuyAndSellText(15, 5, buyCellNum);
+					option = 1;
+					PrintOptionText(27, 5, option);
 					break;
 				}
 			}
 			else if (input == Enter)
 			{
-				switch (buyCellNum)
+				switch (option)
 				{
 				case 1:
-					ChoiceBuy();
+					ChoiceUse();
 					break;
 				case 2:
-					break;
-				case 3:
 					system("cls");
-					store->DeleteItem();
-					Village vg;
-					vg.PrintMapAndCharMove(vg.GetCurrentX(), vg.GetCurrentY());
 					break;
 				}
 			}
@@ -376,31 +366,25 @@ void StoreMap::LeftRightInput()
 	}
 }
 
-void StoreMap::PrintStoreMap()
+void ItemInventoryWindow::InventoryTool()
 {
-	store->ItemInit();
-	store->VectorPush();
-	PrintBuyAndSellTool(10, 3);
+	PrintItemAndCancelTool(10, 3);
 	PrintMoneyTool(86, 3);
 	PrintItemTool(10, 8);
 	PrintItemDetailTool(65, 8);
-	PrintMoneyText(89, 5);
-	PrintBuyAndSellText(15, 5, buyCellNum);
+	PrintOptionText(30, 5, option);
 
 	LeftRightInput();
 }
 
-StoreMap::StoreMap()
+ItemInventoryWindow::ItemInventoryWindow()
 {
-	store = new Store;
-	player = new Player(2000);
+	iit = new ItemInventory;
 	count = 0;
-	buyCellNum = 0;
+	option = 0;
 }
 
-StoreMap::~StoreMap()
+ItemInventoryWindow::~ItemInventoryWindow()
 {
-	delete store;
-	delete player;
+	delete iit;
 }
-

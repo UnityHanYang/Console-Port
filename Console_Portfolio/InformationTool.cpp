@@ -84,13 +84,13 @@ void InformationTool::PrintInfo(int x, int y, int num)
 {
 	SetColor(15, 0);
 	gotoxy(x, y);
-	(num == 1) ? (printf("%s", "      ▶ 캐릭터 정보 ◀")) : (printf("%s", "         캐릭터 정보"));
+	(num == 1) ? (printf("%s", "       ▶ 캐릭터 정보 ◀")) : (printf("%s", "         캐릭터 정보"));
 	gotoxy(x, y + 3);
-	(num == 2) ? (printf("%s", "         ▶ 장비 ◀")) : (printf("%s", "            장비"));
+	(num == 2) ? (printf("%s", "          ▶ 장비 ◀")) : (printf("%s", "            장비"));
 	gotoxy(x, y + 6);
-	(num == 3) ? (printf("%s", "       ▶ 인벤토리 ◀")) : (printf("%s", "          인벤토리"));
+	(num == 3) ? (printf("%s", "         ▶ 아이템 ◀")) : (printf("%s", "           아이템"));
 	gotoxy(x, y + 9);
-	(num == 4) ? (printf("%s", "         ▶ 스킬 ◀")) : (printf("%s", "            스킬"));
+	(num == 4) ? (printf("%s", "          ▶ 스킬 ◀")) : (printf("%s", "            스킬"));
 	gotoxy(x, y + 13);
 	std::cout << "  X키를 눌러 게임안내 창으로";
 	gotoxy(x, y + 14);
