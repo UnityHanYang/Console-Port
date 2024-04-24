@@ -11,18 +11,17 @@
 #include "Archer.h"
 #include "GameManager.h"
 
-class GameManager;
 
 class CharacterChoice : public PrintSetting
 {
 private:
 	static int characterNum;
+	NinjaDot nd;
+	ArcherDot ad;
+	MapDot md;
+	GameManager gm;
+	Battle bt;
 public:
-	NinjaDot* nd;
-	ArcherDot* ad;
-	MapDot* md;
-	GameManager* gm;
-	Battle* bt;
 	virtual void SetColor(int fontColor, int backgroundColor);
 	virtual void PrintS(int count, int font, int background, bool isEndl, int x, int y);
 	virtual void gotoxy(int x, int y);
@@ -36,6 +35,5 @@ public:
 	int GetCharacter() { return characterNum; }
 
 	CharacterChoice();
-	~CharacterChoice();
 };
 

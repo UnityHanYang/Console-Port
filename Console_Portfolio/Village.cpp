@@ -2,6 +2,8 @@
 
 int Village::currentX = 0;
 int Village::currentY = 0;
+bool Village::isXTrue = false;
+int Village::currentNum = 0;
 
 #define ARROW 224
 #define LEFT_ARROW 75
@@ -10,7 +12,6 @@ int Village::currentY = 0;
 #define DOWN_ARROW 80
 #define Enter 13
 #define X_Key 120
-bool isXTrue = false;
 
 
 void Village::SetColor(int fontColor, int backgroundColor)
@@ -42,16 +43,24 @@ void Village::gotoxy(int x, int y)
 
 void Village::PrintMapAndCharMove(int x, int y)
 {
-	int count = 0;
-	md->SettingVillageMap();
-	md->PrintVillageMap();
+	MapManager mm;
+	CharacterInfo ci;
+	md.SettingVillageMap();
+	md.PrintVillageMap();
 	SetColor(15, 0);
 	PrintS(2, 1, 1, 1, x, y);
 	PrintS(2, 1, 1, 0, x, y + 1);
 	SetColor(15, 0);
-	md->PrintOperation_Keys(206, 10);
-	PrintOperation(208, 12);
-	md->PrintConsole(204, 57);
+	md.PrintOperation_Keys(206, 10);
+	if (isXTrue)
+	{
+		it.PrintInfo(208, 12, currentNum);
+	}
+	else
+	{
+		PrintOperation(208, 12);
+	}
+	md.PrintConsole(204, 57);
 	mapX = x;
 	mapY = y;
 	int input;
@@ -99,8 +108,8 @@ void Village::PrintMapAndCharMove(int x, int y)
 					}
 					else
 					{
-						it->ClearOperation(208, 12);
-						it->PrintInfo(208, 12, count = (count < 2) ? count : count -= 1);
+						it.ClearOperation(208, 12);
+						it.PrintInfo(208, 12, currentNum = (currentNum < 2) ? currentNum : currentNum -= 1);
 					}
 					break;
 				case DOWN_ARROW:
@@ -115,8 +124,8 @@ void Village::PrintMapAndCharMove(int x, int y)
 					}
 					else
 					{
-						it->ClearOperation(208, 12);
-						it->PrintInfo(208, 12, count = (count > 3) ? count : count += 1);
+						it.ClearOperation(208, 12);
+						it.PrintInfo(208, 12, currentNum = (currentNum > 3) ? currentNum : currentNum += 1);
 					}
 					break;
 				}
@@ -126,19 +135,19 @@ void Village::PrintMapAndCharMove(int x, int y)
 			}
 			else if(input == X_Key)
 			{
-				count = 0;
-				CheckXState(0);
+				currentNum = 0;
+				CheckXState(currentNum);
 			}
 			else if (input == Enter)
 			{
 				currentX = mapX;
 				currentY = mapY;
-				mm->GetStack().push(1);
+				mm.SetStack(1);
 				system("cls");
-				switch (count)
+				switch (currentNum)
 				{
 				case 1:
-					ci->ChoiceCharacter();
+					ci.ChoiceCharacter();
 					break;
 				case 2:
 					break;
@@ -158,21 +167,21 @@ void Village::PrintMapAndCharMove(int x, int y)
 		}
 	}
 	system("cls"); 
-	mm->ms = Map_State::dungeon;
-	mm->Current_Map();
+	mm.ms = Map_State::dungeon;
+	mm.Current_Map();
 }
 
 void Village::CheckXState(int num)
 {
 	if (!isXTrue)
 	{
-		it->ClearOperation(208, 12);
-		it->PrintInfo(208, 12, num);
+		it.ClearOperation(208, 12);
+		it.PrintInfo(208, 12, num);
 		isXTrue = true;
 	}
 	else
 	{
-		it->ClearOperation(208, 12);
+		it.ClearOperation(208, 12);
 		PrintOperation(208, 12);
 		isXTrue = false;
 	}
@@ -313,7 +322,7 @@ int Village::CheckBuildingXY(int x, int y)
 		num = 9;
 		return num;
 	}
-	if (md->GetVillageMap()[y - 1][x] == 0 && md->GetVillageMap()[y - 1][x + 1] == 0)
+	if (md.GetVillageMap()[y - 1][x] == 0 && md.GetVillageMap()[y - 1][x + 1] == 0)
 	{
 		if (x == 26 && x + 1 == 27 || x == 26 && x + 1 == 25)
 		{
@@ -332,7 +341,7 @@ int Village::CheckBuildingXY(int x, int y)
 			num = 4;
 		}
 	}
-	if (md->GetVillageMap()[y - 1][divide] == 13 && md->GetVillageMap()[y - 1][divide + 1] == 13)
+	if (md.GetVillageMap()[y - 1][divide] == 13 && md.GetVillageMap()[y - 1][divide + 1] == 13)
 	{
 		if (divide == 28 && divide + 1 == 29)
 		{
@@ -356,26 +365,8 @@ int Village::CheckBuildingXY(int x, int y)
 
 bool Village::CheckMapXY(int x1, int y1, int x1Count, int y1Count, int x2Count, int y2Count)
 {
-	if (md->GetVillageMap()[y1 + y1Count][((x1 / 2) + x1Count)] != 7 || md->GetVillageMap()[y1 + y2Count][((x1 / 2) + x2Count)] != 7)
+	if (md.GetVillageMap()[y1 + y1Count][((x1 / 2) + x1Count)] != 7 || md.GetVillageMap()[y1 + y2Count][((x1 / 2) + x2Count)] != 7)
 		return false;
 
 	return true;
-}
-
-Village::Village() : mapX{ 0 }, mapY{ 0 }, message{}, infoArr{ 28, 29, 59, 60, 22, 23, 72, 73 }
-{
-	md = new MapDot;
-	dg = new Dungeon1;
-	mm = new MapManager;
-	ci = new CharacterInfo;
-	it = new InformationTool;
-}
-
-Village::~Village()
-{
-	delete md;
-	delete dg;
-	delete mm;
-	delete ci;
-	delete it;
 }

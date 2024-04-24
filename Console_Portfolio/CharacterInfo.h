@@ -8,25 +8,19 @@
 #include "MapDot.h"
 #include <conio.h>
 #include "CharacterChoice.h"
-#include "MapManager.h"
 #include "GameManager.h"
-
-class CharacterChoice;
-class GameManager;
 
 
 class CharacterInfo : public PrintSetting
 {
 private:
 	static bool isJoin;
+	NinjaDot nd;
+	ArcherDot ad;
+	Battle bt;
+	MapDot md;
+	GameManager gm;
 public:
-	NinjaDot* nd;
-	ArcherDot* ad;
-	CharacterChoice* cc;
-	Battle* bt;
-	MapDot* md;
-	GameManager* gm;
-	MapManager* mm;
 	virtual void SetColor(int fontColor, int backgroundColor);
 	virtual void PrintS(int count, int font, int background, bool isEndl, int x, int y);
 	virtual void gotoxy(int x, int y);
@@ -41,6 +35,5 @@ public:
 	void PrintOperate(int x, int y);
 
 	CharacterInfo();
-	~CharacterInfo();
 };
 

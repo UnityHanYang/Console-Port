@@ -41,17 +41,17 @@ void DungeonBoss::PrintMapAndCharMove(int x, int y)
 	int xCpy, yCpy;
 	xCpy = yCpy = 0;
 
-	md->SettingDungeonBossMap();
+	md.SettingDungeonBossMap();
 
-	md->PrintDungeonBossMap();
+	md.PrintDungeonBossMap();
 	SetColor(15, 0);
-	md->PrintOperation_Keys(206, 10);
+	md.PrintOperation_Keys(206, 10);
 	PrintOperation(208, 12);
 	PrintEnemy();
 	PrintS(2, 1, 1, 1, x, y);
 	PrintS(2, 1, 1, 0, x, y + 1);
 	SetColor(15, 0);
-	md->PrintConsole(204, 57);
+	md.PrintConsole(204, 57);
 	mapX = x;
 	mapY = y;
 	int input;
@@ -178,9 +178,9 @@ int DungeonBoss::CheckObjectXY(int x, int y, bool isEntrance)
 bool DungeonBoss::CheckMapXY(int x1, int y1, int x1Count, int y1Count, int x2Count, int y2Count)
 {
 	SetColor(15, 0);
-	if (md->GetDungeonBossMap()[y1 + y1Count][((x1 / 2) + x1Count)] == 8 || md->GetDungeonBossMap()[y1 + y2Count][((x1 / 2) + x2Count)] == 8 ||
-		md->GetDungeonBossMap()[y1 + y1Count][((x1 / 2) + x1Count)] == 2 || md->GetDungeonBossMap()[y1 + y2Count][((x1 / 2) + x2Count)] == 2 ||
-		md->GetDungeonBossMap()[y1 + y1Count][((x1 / 2) + x1Count)] == 6 || md->GetDungeonBossMap()[y1 + y2Count][((x1 / 2) + x2Count)] == 6)
+	if (md.GetDungeonBossMap()[y1 + y1Count][((x1 / 2) + x1Count)] == 8 || md.GetDungeonBossMap()[y1 + y2Count][((x1 / 2) + x2Count)] == 8 ||
+		md.GetDungeonBossMap()[y1 + y1Count][((x1 / 2) + x1Count)] == 2 || md.GetDungeonBossMap()[y1 + y2Count][((x1 / 2) + x2Count)] == 2 ||
+		md.GetDungeonBossMap()[y1 + y1Count][((x1 / 2) + x1Count)] == 6 || md.GetDungeonBossMap()[y1 + y2Count][((x1 / 2) + x2Count)] == 6)
 		return false;
 
 	return true;
@@ -198,12 +198,12 @@ void DungeonBoss::PrintEnemy()
 int DungeonBoss::CheckCurrentXY(int x, int y)
 {
 	int num = 0;
-	if (md->GetDungeonBossMap()[y][x / 2] == 12)
+	if (md.GetDungeonBossMap()[y][x / 2] == 12)
 	{
 		num = 12;
 		return num;
 	}
-	else if (md->GetDungeonBossMap()[y][x / 2] == 4)
+	else if (md.GetDungeonBossMap()[y][x / 2] == 4)
 	{
 		num = 4;
 		return num;
@@ -225,14 +225,4 @@ bool DungeonBoss::CheckEnemyXY(int x, int y)
 		}
 	}
 	return false;
-}
-
-DungeonBoss::DungeonBoss() : mapX{ 0 }, mapY{ 0 }
-{
-	md = new MapDot;
-}
-
-DungeonBoss::~DungeonBoss()
-{
-	delete md;
 }

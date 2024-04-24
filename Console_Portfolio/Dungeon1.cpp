@@ -41,18 +41,19 @@ void Dungeon1::PrintMapAndCharMove(int x, int y)
 {
 	int xCpy, yCpy;
 	xCpy = yCpy = 0;
-	md->SettingDungeonMap();
+	md.SettingDungeonMap();
 
-	md->PrintDungeonMap();
+	MapManager mm;
+	md.PrintDungeonMap();
 	SetColor(15, 0);
-	md->PrintOperation_Keys(206, 10);
+	md.PrintOperation_Keys(206, 10);
 	PrintOperation(208, 12);
 	PrintEnemy();
 	PrintTreasure();
 	PrintS(2, 1, 1, 1, x, y);
 	PrintS(2, 1, 1, 0, x, y + 1);
 	SetColor(15, 0);
-	md->PrintConsole(204, 57);
+	md.PrintConsole(204, 57);
 	mapX = x;
 	mapY = y;
 	int input;
@@ -121,8 +122,8 @@ void Dungeon1::PrintMapAndCharMove(int x, int y)
 		}
 	}
 	system("cls");
-	mm->ms = Map_State::boss_dungeon;
-	mm->Current_Map();
+	mm.ms = Map_State::boss_dungeon;
+	mm.Current_Map();
 }
 
 void Dungeon1::PrintOperation(int x, int y)
@@ -184,9 +185,13 @@ void Dungeon1::PrintTalkMessage(int x, int y, char message[50])
 	}
 }
 
+Dungeon1::~Dungeon1()
+{
+}
+
 bool Dungeon1::CheckEnemyXY(int x, int y)
 {
-	char message[50];
+	char message[50] = {};
 	for (int i = 0; i < sizeof(enemyArrXY) / sizeof(enemyArrXY[0]); i += 2)
 	{
 		RECT playerSquare = { x - 2, y - 1, x + 3, y + 2 };
@@ -203,7 +208,7 @@ bool Dungeon1::CheckEnemyXY(int x, int y)
 void Dungeon1::CheckTreasureXY(int x, int y)
 {
 	// 面倒贸府 备泅 救 凳
-	char message[50];
+	char message[50] = {};
 	for (int i = 0; i < sizeof(enemyArrXY) / sizeof(enemyArrXY[0]); i += 2)
 	{
 		RECT playerSquare = { x - 1, y - 1, x + 2, y + 2 };
@@ -240,21 +245,22 @@ void Dungeon1::PrintTreasure()
 int Dungeon1::CheckCurrentXY(int x, int y)
 {
 	int num = 0;
-	if (md->GetDungeonMap()[y][x / 2] == 12)
+	if (md.GetDungeonMap()[y][x / 2] == 12)
 	{
 		num = 12;
 		return num;
 	}
-	else if (md->GetDungeonMap()[y][x / 2] == 4)
+	else if (md.GetDungeonMap()[y][x / 2] == 4)
 	{
 		num = 4;
 		return num;
 	}
+	return 0;
 }
 
 bool Dungeon1::CheckEntranceXY(int x, int y)
 {
-	if (md->GetDungeonMap()[y - 1][x / 2] == 0 && md->GetDungeonMap()[y - 1][(x / 2)+1] == 0)
+	if (md.GetDungeonMap()[y - 1][x / 2] == 0 && md.GetDungeonMap()[y - 1][(x / 2)+1] == 0)
 	{
 		return true;
 	}
@@ -263,25 +269,10 @@ bool Dungeon1::CheckEntranceXY(int x, int y)
 
 bool Dungeon1::CheckMapXY(int x1, int y1, int x1Count, int y1Count, int x2Count, int y2Count)
 {
-	if (md->GetDungeonMap()[y1 + y1Count][((x1 / 2) + x1Count)] == 8 || md->GetDungeonMap()[y1 + y2Count][((x1 / 2) + x2Count)] == 8)
+	if (md.GetDungeonMap()[y1 + y1Count][((x1 / 2) + x1Count)] == 8 || md.GetDungeonMap()[y1 + y2Count][((x1 / 2) + x2Count)] == 8)
 	{
 		return false;
 	}
 
 	return true;
 }
-
-Dungeon1::Dungeon1() : mapX{ 0 }, mapY{ 0 }
-{
-	md = new MapDot;
-	db = new DungeonBoss;
-	mm = new MapManager;
-}
-
-Dungeon1::~Dungeon1()
-{
-	delete md;
-	delete db;
-	delete mm;
-}
-

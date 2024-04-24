@@ -8,7 +8,6 @@ void CursorView();
 void main()
 {
 	CharacterChoice cc;
-	std::cout << "asdf";
 	CursorView();
 	if (cc.ChoiceScene())
 	{

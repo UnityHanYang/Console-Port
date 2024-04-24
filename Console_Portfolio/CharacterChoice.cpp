@@ -45,10 +45,10 @@ bool CharacterChoice::ChoiceScene()
 	std::cout << "\n\n\t\t\t   겐지\t\t\t\t\t\t\t\t\t한조\n\n";
 	PrintBackGround(2, 2, 4, 12);
 	PrintBackGround(2, 2, 72, 12);
-	nd->PrintNinZaPortrait1(20, 13);
-	ad->PrintArcherPortrait1(92, 13);
+	nd.PrintNinZaPortrait1(20, 13);
+	ad.PrintArcherPortrait1(92, 13);
 	SetColor(15, 0);
-	md->PrintOperation_Keys(130, 3);
+	md.PrintOperation_Keys(130, 3);
 	PrintOperate(132, 5);
 	std::cout << "\n\n\n";
 	int input;
@@ -82,6 +82,7 @@ bool CharacterChoice::ChoiceScene()
 					std::cout << "\n\n\t\t\t   겐지\t\t\t\t\t\t\t\t\t한조\n\n";
 					PrintBackGround(2, 2, 4, 12);
 					PrintBackGround(2, 2, 72, 12);
+					charNum = 0;
 				}
 			}
 			else if (input == 13)
@@ -95,15 +96,16 @@ bool CharacterChoice::ChoiceScene()
 				else
 				{
 					std::cout << "\n\t\t\t\t\t\t      캐릭터를 선택하세요.\n\n\n\n";
-					std::cout << "\n\n\t\t\t   겐지\t\t\t\t\t\t\t\t    ▶ 한조 ◀\n\n";
+					std::cout << "\n\n\t\t\t   겐지\t\t\t\t\t\t\t\t      한조\n\n";
 					PrintBackGround(2, 2, 4, 12);
-					PrintBackGround(11, 11, 72, 12);
+					PrintBackGround(2, 2, 72, 12);
+					charNum = 0;
 				}
 			}
-			nd->PrintNinZaPortrait1(20, 13);
-			ad->PrintArcherPortrait1(92, 13);
+			nd.PrintNinZaPortrait1(20, 13);
+			ad.PrintArcherPortrait1(92, 13);
 			SetColor(15, 0);
-			md->PrintOperation_Keys(130, 3);
+			md.PrintOperation_Keys(130, 3);
 			PrintOperate(132, 5);
 		}
 	}
@@ -175,10 +177,10 @@ void CharacterChoice::ReadMore(int num)
 			}
 			else if (input == 13)
 			{
-				system("cls");
 				if (yesOrNo == 1)
 				{
-					if (charNum == 1)
+					system("cls");
+					if (num == 1)
 					{
 						characterNum = 1;
 					}
@@ -190,7 +192,10 @@ void CharacterChoice::ReadMore(int num)
 				}
 				else if (yesOrNo == 2)
 				{
+					system("cls");
+					charNum = 0;
 					ChoiceScene();
+					break;
 				}
 			}
 			SetColor(15, 0);
@@ -290,41 +295,41 @@ void CharacterChoice::PrintCharacterAbility(int num)
 {
 	if (num == 1)
 	{
-		nd->PrintNinZa1();
+		nd.PrintNinZa1();
 		PrintNinjarBackGround();
 		SetColor(0, 15);
 		PrintAbilityTool(135, 50);
 		gotoxy(139, 52);
-		std::cout << " 이름: " <<  gm->nj->GetName();
-		std::cout << "                직업: " << gm->nj->GetOccupation();
+		std::cout << " 이름: " <<  gm.nj->GetName();
+		std::cout << "                직업: " << gm.nj->GetOccupation();
 		gotoxy(139, 55);
-		std::cout << " 공격력: " << gm->nj->GetAtk();
-		std::cout << "                마나: " << gm->nj->GetMp();
+		std::cout << " 공격력: " << gm.nj->GetAtk();
+		std::cout << "                마나: " << gm.nj->GetMp();
 		gotoxy(139, 58);  
-		std::cout << " 체력: " << gm->nj->GetHp();
-		std::cout << "                   방어력: " << gm->nj->GetDef();
+		std::cout << " 체력: " << gm.nj->GetHp();
+		std::cout << "                   방어력: " << gm.nj->GetDef();
 		gotoxy(139, 61);
-		std::cout << " 치명타 확률: " << gm->nj->GetCritical() << "%";
+		std::cout << " 치명타 확률: " << gm.nj->GetCritical() << "%";
 	}
 	else
 	{
-		bt->PrintEnmeyBack();
-		ad->PrintArcher1(156, 1);
+		bt.PrintEnmeyBack();
+		ad.PrintArcher1(156, 1);
 		SetColor(0, 15);
 		PrintAbilityTool(135, 46);
 		gotoxy(139, 48);
-		std::cout << " 이름: " << gm->ah->GetName();
-		std::cout << "                직업: " << gm->ah->GetOccupation();
+		std::cout << " 이름: " << gm.nj->GetName();
+		std::cout << "                직업: " << gm.nj->GetOccupation();
 		gotoxy(139, 51);
-		std::cout << " 공격력: " << gm->ah->GetAtk();
-		std::cout << "                마나: " << gm->ah->GetMp();
+		std::cout << " 공격력: " << gm.nj->GetAtk();
+		std::cout << "                마나: " << gm.nj->GetMp();
 		gotoxy(139, 54);
-		std::cout << " 체력: " << gm->ah->GetHp();
-		std::cout << "                   방어력: " << gm->ah->GetDef();
+		std::cout << " 체력: " << gm.nj->GetHp();
+		std::cout << "                   방어력: " << gm.nj->GetDef();
 		gotoxy(139, 57);
-		std::cout << " 치명타 확률: " << gm->ah->GetCritical() << "%";
+		std::cout << " 치명타 확률: " << gm.nj->GetCritical() << "%";
 	}
-	md->PrintOperation_Keys(18, 3);
+	md.PrintOperation_Keys(18, 3);
 	SetColor(15, 0);
 }
 
@@ -340,20 +345,6 @@ void CharacterChoice::PrintAbilityTool(int x, int y)
 
 CharacterChoice::CharacterChoice()
 {
-	nd = new NinjaDot;
-	ad = new ArcherDot;
-	md = new MapDot;
-	bt = new Battle;
-	gm = new GameManager;
-}
-
-CharacterChoice::~CharacterChoice()
-{
-	delete nd;
-	delete ad;
-	delete md;
-	delete bt;
-	delete gm;
 }
 
 

@@ -4,14 +4,10 @@
 #include "PrintSetting.h"
 #include "MapDot.h"
 #include <conio.h>
-#include "Dungeon1.h"
 #include "MapManager.h"
 #include "CharacterInfo.h"
 #include "InformationTool.h"
 
-class Dungeon1;
-class MapManager;
-class CharacterInfo;
 
 class Village : public PrintSetting
 {
@@ -20,14 +16,13 @@ private:
 	int mapY;
 	static int currentX;
 	static int currentY;
+	static bool isXTrue;
+	static int currentNum;
 	char message[48] = {};
 	int infoArr[8] = {};
+	MapDot md;
+	InformationTool it;
 public:
-	MapDot* md;
-	Dungeon1* dg;
-	MapManager* mm;
-	CharacterInfo* ci;
-	InformationTool* it;
 	void PrintOperation(int x, int y);
 	virtual void SetColor(int fontColor, int backgroundColor);
 	virtual void PrintS(int count, int font, int background, bool isEndl, int x, int y);
@@ -40,8 +35,8 @@ public:
 	void CheckXState(int num);
 	int GetCurrentX() { return currentX; }
 	int GetCurrentY() { return currentY; }
+	bool GetIsXTrue() { return isXTrue; }
 
-	Village();
-	~Village();
+	Village() : mapX{ 0 }, mapY{ 0 }, message{}, infoArr{ 28, 29, 59, 60, 22, 23, 72, 73 } {};
 };
 

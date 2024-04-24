@@ -8,9 +8,6 @@
 #include "MapManager.h"
 #include <vector>
 
-class MapManager;
-class DungeonBoss;
-
 class Dungeon1 : public PrintSetting
 {
 private:
@@ -18,10 +15,9 @@ private:
 	int mapY;
 	static int enemyArrXY[6];
 	static int treasureBoxXY[6];
+	MapDot md;
+	DungeonBoss db;
 public:
-	MapDot* md;
-	DungeonBoss* db;
-	MapManager* mm;
 	virtual void SetColor(int fontColor, int backgroundColor);
 	virtual void PrintS(int count, int font, int background, bool isEndl, int x, int y);
 	virtual void gotoxy(int x, int y);
@@ -37,7 +33,7 @@ public:
 
 	void PrintTalkMessage(int x, int y, char message[50]);
 
-	Dungeon1();
+	Dungeon1() : mapX{ 0 }, mapY{ 0 } {}
 	~Dungeon1();
 };
 

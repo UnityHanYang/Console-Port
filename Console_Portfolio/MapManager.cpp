@@ -24,13 +24,16 @@ void MapManager::Current_Map()
 
 void MapManager::Current_StackMap()
 {
+	Village vg;
+	CharacterInfo ci;
 	if (!s_map.empty())
 	{
 		int a = s_map.top();
+		s_map.pop();
 		switch (a)
 		{
 		case 1:
-			vg->PrintMapAndCharMove(1, 1);
+			vg.PrintMapAndCharMove(vg.GetCurrentX(), vg.GetCurrentY());
 			break;
 		case 2:
 			break;
@@ -41,25 +44,16 @@ void MapManager::Current_StackMap()
 		case 5:
 			break;
 		case 6:
-			ci->ChoiceCharacter();
+			ci.ChoiceCharacter();
 			break;
 		case 7:
 			break;
 		default:
 			break;
 		}
-		s_map.pop();
 	}
 }
 
 MapManager::MapManager()
 {
-	vg = new Village;
-	ci = new CharacterInfo;
-}
-
-MapManager::~MapManager()
-{
-	delete vg;
-	delete ci;
 }

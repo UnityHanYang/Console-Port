@@ -40,23 +40,26 @@ void CharacterInfo::gotoxy(int x, int y)
 
 void CharacterInfo::CharacterOne()
 {
-	if (cc->GetCharacter() == 1)
+	SetColor(15, 0);
+	CharacterChoice cc;
+	if (cc.GetCharacter() == 1)
 	{
 		std::cout << "\n\t\t\t\t\t\t      캐릭터를 선택하세요.\n\n\n\n";
 		std::cout << "\n\n\t\t\t ▶ 겐지(주인공) ◀\n\n";
-		cc->PrintBackGround(11, 11, 4, 12);
-		nd->PrintNinZaPortrait1(20, 13);
+		cc.PrintBackGround(11, 11, 4, 12);
+		nd.PrintNinZaPortrait1(20, 13);
+		SetColor(15, 0);
 		charChoiceNum = 1;
 	}
-	else if (cc->GetCharacter() == 2)
+	else if (cc.GetCharacter() == 2)
 	{
 		std::cout << "\n\t\t\t\t\t\t      캐릭터를 선택하세요.\n\n\n\n";
 		std::cout << "\n\n\t\t\t ▶ 한조(주인공) ◀\n\n";
-		cc->PrintBackGround(11, 11, 4, 12);
-		ad->PrintArcherPortrait1(24, 13);
+		cc.PrintBackGround(11, 11, 4, 12);
+		ad.PrintArcherPortrait1(24, 13);
+		SetColor(15, 0);
 		charChoiceNum = 2;
 	}
-	SetColor(15, 0);
 }
 
 void CharacterInfo::CharacterTwo()
@@ -65,6 +68,8 @@ void CharacterInfo::CharacterTwo()
 
 void CharacterInfo::ChoiceCharacter()
 {
+	MapManager mm;
+	CharacterChoice cc;
 	if (GetJoinWhether())
 	{
 		CharacterTwo();
@@ -74,7 +79,7 @@ void CharacterInfo::ChoiceCharacter()
 		CharacterOne();
 	}
 	SetColor(15, 0);
-	md->PrintOperation_Keys(130, 3);
+	md.PrintOperation_Keys(130, 3);
 	PrintOperate(132, 5);
 	std::cout << "\n\n\n";
 	int input;
@@ -94,33 +99,33 @@ void CharacterInfo::ChoiceCharacter()
 				case LEFT_ARROW:
 					std::cout << "\n\t\t\t\t\t\t      캐릭터를 선택하세요.\n\n\n\n";
 					std::cout << "\n\n\t\t\t ▶ 겐지 ◀\t\t\t\t\t\t\t\t한조\n\n";
-					cc->PrintBackGround(11, 11, 4, 12);
-					cc->PrintBackGround(2, 2, 72, 12);
-					nd->PrintNinZaPortrait1(20, 13);
-					ad->PrintArcherPortrait1(92, 13);
+					cc.PrintBackGround(11, 11, 4, 12);
+					cc.PrintBackGround(2, 2, 72, 12);
+					nd.PrintNinZaPortrait1(20, 13);
+					ad.PrintArcherPortrait1(92, 13);
 					charChoiceNum = 1;
 					break;
 				case RIGHT_ARROW:
 					std::cout << "\n\t\t\t\t\t\t      캐릭터를 선택하세요.\n\n\n\n";
 					std::cout << "\n\n\t\t\t   겐지\t\t\t\t\t\t\t\t    ▶ 한조 ◀\n\n";
-					cc->PrintBackGround(2, 2, 4, 12);
-					cc->PrintBackGround(11, 11, 72, 12);
-					nd->PrintNinZaPortrait1(20, 13);
-					ad->PrintArcherPortrait1(92, 13);
+					cc.PrintBackGround(2, 2, 4, 12);
+					cc.PrintBackGround(11, 11, 72, 12);
+					nd.PrintNinZaPortrait1(20, 13);
+					ad.PrintArcherPortrait1(92, 13);
 					SetColor(15, 0);
 					charChoiceNum = 2;
 					break;
 				default:
 					std::cout << "\n\t\t\t\t\t\t      캐릭터를 선택하세요.\n\n\n\n";
 					std::cout << "\n\n\t\t\t   겐지\t\t\t\t\t\t\t\t\t한조\n\n";
-					cc->PrintBackGround(2, 2, 4, 12);
-					cc->PrintBackGround(2, 2, 72, 12);
-					nd->PrintNinZaPortrait1(20, 13);
-					ad->PrintArcherPortrait1(92, 13);
+					cc.PrintBackGround(2, 2, 4, 12);
+					cc.PrintBackGround(2, 2, 72, 12);
+					nd.PrintNinZaPortrait1(20, 13);
+					ad.PrintArcherPortrait1(92, 13);
 					SetColor(15, 0);
 				}
 				SetColor(15, 0);
-				md->PrintOperation_Keys(130, 3);
+				md.PrintOperation_Keys(130, 3);
 				PrintOperate(132, 5);
 			}
 			else if (input == Enter_Key)
@@ -128,7 +133,7 @@ void CharacterInfo::ChoiceCharacter()
 				system("cls");
 				if (charChoiceNum == 1 || charChoiceNum == 2)
 				{
-					mm->GetStack().push(6);
+					mm.SetStack(6);
 					ReadMore(charChoiceNum);
 				}
 				else
@@ -138,7 +143,9 @@ void CharacterInfo::ChoiceCharacter()
 			}
 			else if (input == ESC)
 			{
-				
+				system("cls");
+				mm.Current_StackMap();
+				break;
 			}
 		}
 	}
@@ -147,45 +154,48 @@ void CharacterInfo::ChoiceCharacter()
 
 void CharacterInfo::PrintCharacterAbility(int num)
 {
+	CharacterChoice cc;
+	MapManager mm;
 	if (num == 1)
 	{
-		nd->PrintNinZa1();
-		cc->PrintNinjarBackGround();
+		nd.PrintNinZa1();
+		cc.PrintNinjarBackGround();
 		SetColor(0, 15);
-		cc->PrintAbilityTool(135, 50);
+		cc.PrintAbilityTool(135, 50);
 		gotoxy(139, 52);
-		std::cout << " 이름: " << gm->nj->GetName();
-		std::cout << "                직업: " << gm->nj->GetOccupation();
+		std::cout << " 이름: " << gm.nj->GetName();
+		std::cout << "                직업: " << gm.nj->GetOccupation();
 		gotoxy(139, 55);
-		std::cout << " 공격력: " << gm->nj->GetAtk();
-		std::cout << "                마나: " << gm->nj->GetMp();
+		std::cout << " 공격력: " << gm.nj->GetAtk();
+		std::cout << "                마나: " << gm.nj->GetMp();
 		gotoxy(139, 58);
-		std::cout << " 체력: " << gm->nj->GetHp();
-		std::cout << "                   방어력: " << gm->nj->GetDef();
+		std::cout << " 체력: " << gm.nj->GetHp();
+		std::cout << "                   방어력: " << gm.nj->GetDef();
 		gotoxy(139, 61);
-		std::cout << " 치명타 확률: " << gm->nj->GetCritical() << "%";
+		std::cout << " 치명타 확률: " << gm.nj->GetCritical() << "%";
 	}
 	else
 	{
-		bt->PrintEnmeyBack();
-		ad->PrintArcher1(156, 1);
+		bt.PrintEnmeyBack();
+		ad.PrintArcher1(156, 1);
 		SetColor(0, 15);
-		cc->PrintAbilityTool(135, 46);
+		cc.PrintAbilityTool(135, 46);
 		gotoxy(139, 48);
-		std::cout << " 이름: " << gm->ah->GetName();
-		std::cout << "                직업: " << gm->ah->GetOccupation();
+		std::cout << " 이름: " << gm.ah->GetName();
+		std::cout << "                직업: " << gm.ah->GetOccupation();
 		gotoxy(139, 51);
-		std::cout << " 공격력: " << gm->ah->GetAtk();
-		std::cout << "                마나: " << gm->ah->GetMp();
+		std::cout << " 공격력: " << gm.ah->GetAtk();
+		std::cout << "                마나: " << gm.ah->GetMp();
 		gotoxy(139, 54);
-		std::cout << " 체력: " << gm->ah->GetHp();
-		std::cout << "                   방어력: " << gm->ah->GetDef();
+		std::cout << " 체력: " << gm.ah->GetHp();
+		std::cout << "                   방어력: " << gm.ah->GetDef();
 		gotoxy(139, 57);
-		std::cout << " 치명타 확률: " << gm->ah->GetCritical() << "%";
+		std::cout << " 치명타 확률: " << gm.ah->GetCritical() << "%";
 	}
 	SetColor(0, 15);
-	md->PrintOperation_Keys(230, 3);
+	md.PrintOperation_Keys(230, 3);
 	PrintBackOperate(232, 5);
+	SetColor(15, 0);
 	int input;
 	while (true)
 	{
@@ -195,7 +205,8 @@ void CharacterInfo::PrintCharacterAbility(int num)
 			if (input == ESC)
 			{
 				system("cls");
-				ChoiceCharacter();
+				SetColor(0, 15);
+				mm.Current_StackMap();
 				break;
 			}
 		}
@@ -218,6 +229,7 @@ void CharacterInfo::PrintOperate(int x, int y)
 	std::cout << "Enter: 선택";
 	gotoxy(x, y + 6);
 	std::cout << "ESC: 뒤로가기";
+	SetColor(15, 0);
 }
 
 void CharacterInfo::ReadMore(int num)
@@ -227,23 +239,4 @@ void CharacterInfo::ReadMore(int num)
 
 CharacterInfo::CharacterInfo()
 {
-	nd = new NinjaDot;
-	ad = new  ArcherDot;
-	cc = new CharacterChoice;
-	bt = new Battle;
-	md = new MapDot;
-	gm = new GameManager;
-	mm = new MapManager;
 }
-
-CharacterInfo::~CharacterInfo()
-{
-	delete nd;
-	delete ad;
-	delete cc;
-	delete bt;
-	delete md;
-	delete gm;
-	delete mm;
-}
-
