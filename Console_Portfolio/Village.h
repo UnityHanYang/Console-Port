@@ -7,6 +7,7 @@
 #include "MapManager.h"
 #include "CharacterInfo.h"
 #include "InformationTool.h"
+#include "StoreMap.h"
 
 
 class Village : public PrintSetting
@@ -28,7 +29,7 @@ public:
 	virtual void PrintS(int count, int font, int background, bool isEndl, int x, int y);
 	virtual void gotoxy(int x, int y);
 	void PrintMapAndCharMove(int x, int y);
-	bool PrintBuildingInfo();
+	int PrintBuildingInfo();
 	int CheckBuildingXY(int x, int y);
 	void PrintTalkMessage(int x, int y, char message[50]);
 	bool CheckMapXY(int x1, int y1, int x1Count, int y1Count, int x2Count, int y2Count);

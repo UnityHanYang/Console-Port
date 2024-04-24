@@ -44,6 +44,7 @@ void Village::gotoxy(int x, int y)
 void Village::PrintMapAndCharMove(int x, int y)
 {
 	MapManager mm;
+	StoreMap sm;
 	CharacterInfo ci;
 	md.SettingVillageMap();
 	md.PrintVillageMap();
@@ -143,10 +144,10 @@ void Village::PrintMapAndCharMove(int x, int y)
 				currentX = mapX;
 				currentY = mapY;
 				mm.SetStack(1);
-				system("cls");
 				switch (currentNum)
 				{
 				case 1:
+					system("cls");
 					ci.ChoiceCharacter();
 					break;
 				case 2:
@@ -156,19 +157,29 @@ void Village::PrintMapAndCharMove(int x, int y)
 				case 4:
 					break;
 				}
+
 			}
-			if (PrintBuildingInfo())
+
+			switch (PrintBuildingInfo())
 			{
+			case 2:
 				if (input == Enter)
 				{
-					break;
+					system("cls");
+					sm.PrintStoreMap();
 				}
+				break;
+			case 9:
+				if (input == Enter)
+				{
+					system("cls");
+					mm.ms = Map_State::dungeon;
+					mm.Current_Map();
+				}
+				break;
 			}
 		}
 	}
-	system("cls"); 
-	mm.ms = Map_State::dungeon;
-	mm.Current_Map();
 }
 
 void Village::CheckXState(int num)
@@ -265,42 +276,41 @@ void Village::PrintOperation(int x, int y)
 	std::cout << "전환할 수 있습니다.";
 }
 
-bool Village::PrintBuildingInfo()
+int Village::PrintBuildingInfo()
 {
-	bool isShowDungeonNotice = false;
 	switch (CheckBuildingXY(mapX, mapY))
 	{
 	case 1:
 		break;
 	case 2:
+		strcpy_s(message, " 상점을 여시겠습니까?                    ");
 		break;
 	case 3:
+		strcpy_s(message, " 남의 집에 함부로 들어가지 맙시다.      ");
 		break;
 	case 4:
 		break;
 	case 5:
-		strcpy_s(message, " 여관                          ");
+		strcpy_s(message, " 여관                                   ");
 		break;
 	case 6:
-		strcpy_s(message, " 상점                           ");
+		strcpy_s(message, " 상점                                   ");
 		break;
 	case 7:
-		strcpy_s(message, " 주민 집                       ");
+		strcpy_s(message, " 주민 집                                ");
 		break;
 	case 8:
-		strcpy_s(message, " 도박장                        ");
+		strcpy_s(message, " 도박장                                ");
 		break;
 	case 9:
-		strcpy_s(message, " 던전에 입장하시겠습니까?       ");
-		isShowDungeonNotice = true;
+		strcpy_s(message, " 던전에 입장하시겠습니까?                ");
 		break;
 	default:
-		strcpy_s(message, " 건물 이름은 이곳에 출력됩니다.");
-		isShowDungeonNotice = false;
+		strcpy_s(message, " 건물 이름은 이곳에 출력됩니다.          ");
 		break;
 	}
 	PrintTalkMessage(207, 59, message);
-	return isShowDungeonNotice;
+	return CheckBuildingXY(mapX, mapY);
 }
 
 void Village::PrintTalkMessage(int x, int y, char message[50])
@@ -322,21 +332,21 @@ int Village::CheckBuildingXY(int x, int y)
 		num = 9;
 		return num;
 	}
-	if (md.GetVillageMap()[y - 1][x] == 0 && md.GetVillageMap()[y - 1][x + 1] == 0)
+	if (md.GetVillageMap()[y - 1][divide] == 0 && md.GetVillageMap()[y - 1][divide + 1] == 0)
 	{
-		if (x == 26 && x + 1 == 27 || x == 26 && x + 1 == 25)
+		if (divide == 26 && divide + 1 == 27 || divide == 26 && divide + 1 == 25)
 		{
 			num = 1;
 		}
-		else if (x == 61 && x + 1 == 62 || x == 62 && x + 1 == 63)
+		else if (divide == 61 && divide + 1 == 62 || divide == 62 && divide + 1 == 63)
 		{
 			num = 2;
 		}
-		else if (x == 7 && x + 1 == 8 || x == 8 && x + 1 == 9 || x == 25 && x + 1 == 26 || x == 26 && x + 1 == 27)
+		else if (divide == 7 && divide + 1 == 8 || divide == 8 && divide + 1 == 9 || divide == 25 && divide + 1 == 26 || divide == 26 && divide + 1 == 27)
 		{
 			num = 3;
 		}
-		else if (x == 83 && x + 1 == 84 || x == 84 && x + 1 == 85)
+		else if (divide == 83 && divide + 1 == 84 || divide == 84 && divide + 1 == 85)
 		{
 			num = 4;
 		}

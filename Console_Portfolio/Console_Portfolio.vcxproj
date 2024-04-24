@@ -159,11 +159,14 @@
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="ICharacter.h" />
     <ClInclude Include="InformationTool.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="MapManager.h" />
     <ClInclude Include="NinJa.h" />
     <ClInclude Include="NinjaDot.h" />
     <ClInclude Include="MapDot.h" />
     <ClInclude Include="PrintSetting.h" />
+    <ClInclude Include="Store.h" />
+    <ClInclude Include="StoreMap.h" />
     <ClInclude Include="Village.h" />
   </ItemGroup>
   <ItemGroup>
@@ -179,12 +182,15 @@
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="ICharacter.cpp" />
     <ClCompile Include="InformationTool.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="MapManager.cpp" />
     <ClCompile Include="NinJa.cpp" />
     <ClCompile Include="NinjaDot.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MapDot.cpp" />
     <ClCompile Include="PrintSetting.cpp" />
+    <ClCompile Include="Store.cpp" />
+    <ClCompile Include="StoreMap.cpp" />
     <ClCompile Include="Village.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

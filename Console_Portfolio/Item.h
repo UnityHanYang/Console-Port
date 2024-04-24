@@ -1,24 +1,18 @@
 #pragma once
 #include <iostream>
 #include <Windows.h>
-#include <vector>
-
-struct ItemElement
-{
-	const char* name;
-	int price;
-	const char* feature;
-	int count;
-};
 
 class Item
 {
 private:
-	std::vector<ItemElement> itemVec;
+	const char* name;
+	int price;
+	const char* feature;
+	int count;
 public:
-	std::vector<ItemElement> GetItemVec() { return itemVec; }
-	void PushItemVec(ItemElement ie) { itemVec.push_back(ie); }
+	Item(const char* c_Name, int c_Price, const char* c_Feature, int c_Count = 0) : name(c_Name), price(c_Price), feature(c_Feature), count(c_Count) {}
 
-	Item() : itemVec{ 0 } {};
+	const char* GetName() { return name; }
+	int GetPrice() { return price; }
+	const char* GetFeature() { return feature; }
 };
-

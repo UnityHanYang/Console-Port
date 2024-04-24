@@ -37,6 +37,15 @@
     <Filter Include="게임 매니저">
       <UniqueIdentifier>{1f22995a-502d-435a-8fe6-73a197231b21}</UniqueIdentifier>
     </Filter>
+    <Filter Include="정보창\상점">
+      <UniqueIdentifier>{8f67e84a-8cfd-4792-8bed-2cb8f3c79fdd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="정보창\아이템">
+      <UniqueIdentifier>{31008bf9-0a53-4345-90b2-802987e4417a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="정보창\인벤토리">
+      <UniqueIdentifier>{9ad1a8df-1827-493d-a91d-bf4b770271a0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ArcherDot.h">
@@ -96,6 +105,15 @@
     <ClInclude Include="InformationTool.h">
       <Filter>정보창</Filter>
     </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>정보창\아이템</Filter>
+    </ClInclude>
+    <ClInclude Include="Store.h">
+      <Filter>정보창\상점</Filter>
+    </ClInclude>
+    <ClInclude Include="StoreMap.h">
+      <Filter>정보창\상점</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -154,6 +172,15 @@
     </ClCompile>
     <ClCompile Include="InformationTool.cpp">
       <Filter>정보창</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>정보창\아이템</Filter>
+    </ClCompile>
+    <ClCompile Include="Store.cpp">
+      <Filter>정보창\상점</Filter>
+    </ClCompile>
+    <ClCompile Include="StoreMap.cpp">
+      <Filter>정보창\상점</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
