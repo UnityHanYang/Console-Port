@@ -260,7 +260,7 @@ void ItemInventoryWindow::UseItemYesOrNo(int x, int y, Item* item)
 	std::cout << "                                   ";
 	gotoxy(x + 58, y + 27);
 	std::cout << item->GetName() << "을 사용하시겠습니까? ";
-	gotoxy(x +70, y + 29);
+	gotoxy(x + 70, y + 29);
 	std::cout << "               ";
 	gotoxy(x + 70, y + 29);
 	std::cout << "예 / 아니오";
@@ -307,7 +307,7 @@ void ItemInventoryWindow::UseItemYesOrNo(int x, int y, Item* item)
 				if (choiceNum == 1)
 				{
 					ClearText(x, y);
-					ShowItem(x, y, 0);
+					ChoiceUse();
 					break;
 				}
 				else if (choiceNum == 2)
@@ -339,10 +339,10 @@ void ItemInventoryWindow::ChoiceHealChar(int x, int y, Item* item)
 	gotoxy(x + 65, y + 27);
 	std::cout << "                     ";
 	gotoxy(x + 65, y + 27);
-	
+
 	if (ci.GetJoinWhether())
 	{
-		
+
 	}
 	else
 	{
@@ -351,7 +351,7 @@ void ItemInventoryWindow::ChoiceHealChar(int x, int y, Item* item)
 			std::cout << "▶ " << gm.nj->GetName() << ":  ";
 			if (item->GetItemType() == ItemType::hpPotion)
 			{
-				std::cout  << gm.nj->GetCurrentHp() << " / " << gm.nj->GetMaxHp();
+				std::cout << gm.nj->GetCurrentHp() << " / " << gm.nj->GetMaxHp();
 			}
 			else if (item->GetItemType() == ItemType::mpPotion)
 			{
@@ -394,37 +394,8 @@ void ItemInventoryWindow::ChoiceHealChar(int x, int y, Item* item)
 			{
 				if (characterNum == 1)
 				{
-					if (item->GetItemType() == ItemType::hpPotion)
-					{
-						if(gm.nj->GetCurrentHp() != gm.nj->GetMaxHp())
-						{
-							(gm.nj->GetCurrentHp() + item->GetHeal() <= gm.nj->GetMaxHp()) ? gm.nj->SetCurrentHp(item->GetHeal()) : gm.nj->SetCurrentHp((gm.nj->GetCurrentHp() + item->GetHeal()) - gm.nj->GetMaxHp());
-							item->MinusCount();
-						}
-						gotoxy(x + 65, y + 27);
-						std::cout << "                         ";
-						gotoxy(x + 65, y + 27);
-						std::cout << gm.nj->GetName() << ":  " << gm.nj->GetCurrentHp() << " / " << gm.nj->GetMaxHp();;
-						Sleep(1500);
-						ClearSection(x, y);
-						if (item->GetCount() > 0)
-						{
-							SettingInfo(x, y, count);
-						}
-						else
-						{
-							ItemInventory iit;
-							iit.FindInventory(item);
-							ClearSection2(16, 14);
-							ChoiceUse();
-						}
-						break;
-					}
-					else if (item->GetItemType() == ItemType::mpPotion)
-					{
-						ClearText(x, y);
-
-					}
+					HpMpHeal(*gm.nj, item, x, y);
+					break;
 				}
 				else if (characterNum == 2)
 				{
@@ -434,11 +405,76 @@ void ItemInventoryWindow::ChoiceHealChar(int x, int y, Item* item)
 		}
 	}
 }
-
-void ItemInventoryWindow::CheckItemCount(Item* item)
+void ItemInventoryWindow::HpMpHeal(Character& character, Item* item, int x, int y)
 {
-
+	if (item->GetItemType() == ItemType::hpPotion)
+	{
+		if (character.GetCurrentHp() < character.GetMaxHp())
+		{
+			(character.GetCurrentHp() + item->GetHeal() <= character.GetMaxHp()) ? character.SetCurrentHp(item->GetHeal()) : character.SetCurrentHp((character.GetCurrentHp() + item->GetHeal()) - character.GetMaxHp());
+			item->MinusCount();
+			gotoxy(x + 65, y + 27);
+			std::cout << "                         ";
+			gotoxy(x + 65, y + 27);
+			std::cout << character.GetName() << ":  " << character.GetCurrentHp() << " / " << character.GetMaxHp();;
+			Sleep(1500);
+			ClearSection(x, y);
+			if (item->GetCount() > 0)
+			{
+				SettingInfo(x, y, count);
+			}
+			else
+			{
+				ItemInventory iit;
+				iit.FindInventory(item);
+				ClearSection2(16, 14);
+				ChoiceUse();
+			}
+		}
+		else
+		{
+			ClearSection2(16, 14);
+			ClearSection(x, y);
+			ChoiceUse();
+		}
+	}
+	else if (item->GetItemType() == ItemType::mpPotion)
+	{
+		if (character.GetCurrentMp() < character.GetMaxMp())
+		{
+			(character.GetCurrentMp() + item->GetHeal() <= character.GetMaxMp()) ? character.SetCurrentMp(item->GetHeal()) : character.SetCurrentMp((character.GetCurrentMp() + item->GetHeal()) - character.GetMaxMp());
+			item->MinusCount();
+			gotoxy(x + 65, y + 27);
+			std::cout << "                         ";
+			gotoxy(x + 65, y + 27);
+			std::cout << character.GetName() << ":  " << character.GetCurrentMp() << " / " << character.GetMaxMp();
+			Sleep(1500);
+			ClearSection(x, y);
+			if (item->GetCount() > 0)
+			{
+				SettingInfo(x, y, count);
+			}
+			else
+			{
+				ItemInventory iit;
+				iit.FindInventory(item);
+				ClearSection2(16, 14);
+				ChoiceUse();
+			}
+		}
+		else
+		{
+			ClearSection2(16, 14);
+			ClearSection(x, y);
+			ChoiceUse();
+		}
+	}
+	if (iit->GetInventory().empty())
+	{
+		LeftRightInput();
+	}
 }
+
 
 void ItemInventoryWindow::ClearSection2(int x, int y)
 {
@@ -449,6 +485,7 @@ void ItemInventoryWindow::ClearSection2(int x, int y)
 		std::cout << "                                          ";
 	}
 }
+
 
 void ItemInventoryWindow::ClearSection(int x, int y)
 {
@@ -514,7 +551,7 @@ void ItemInventoryWindow::ChoiceUse()
 	int input;
 	if (!iit->GetInventory().empty())
 	{
-		
+
 		while (true)
 		{
 			if (_kbhit())

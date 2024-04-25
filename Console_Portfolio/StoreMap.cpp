@@ -313,14 +313,14 @@ void StoreMap::ChoiceBuy()
 			{
 				if (CheckBuy())
 				{
-
 					if (std::find(iit->GetInventory().begin(), iit->GetInventory().end(), store->GetCurrentItem()) == iit->GetInventory().end())
 					{
 						iit->AddInventory(store->GetCurrentItem());
 					}
 					else
 					{
-						iit->AddItemCountInventory(store->GetCurrentItem(), count - 1);
+						int index = std::find(iit->GetInventory().begin(), iit->GetInventory().end(), store->GetCurrentItem()) - iit->GetInventory().begin();
+						iit->AddItemCountInventory(store->GetCurrentItem(), index);
 					}
 					player.SetMoney(-store->GetCurrentItemPrice());
 
@@ -363,6 +363,7 @@ bool StoreMap::CheckBuy()
 void StoreMap::LeftRightInput()
 {
 	int input;
+	ItemSell itemS;
 	while (true)
 	{
 		if (_kbhit())
@@ -391,6 +392,7 @@ void StoreMap::LeftRightInput()
 					ChoiceBuy();
 					break;
 				case 2:
+					itemS.ChocieSell();
 					break;
 				case 3:
 					system("cls");

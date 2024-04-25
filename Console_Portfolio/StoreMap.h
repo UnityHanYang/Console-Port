@@ -8,6 +8,7 @@
 #include "Player.h"
 #include "ItemInventory.h"
 #include "Village.h"
+#include "ItemSell.h"
 #include <algorithm>
 
 class StoreMap : public PrintSetting

@@ -129,6 +129,9 @@
     <ClInclude Include="ItemInventoryWindow.h">
       <Filter>정보창\인벤토리\아이템</Filter>
     </ClInclude>
+    <ClInclude Include="ItemSell.h">
+      <Filter>정보창\상점</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -173,12 +176,6 @@
     <ClCompile Include="Character.cpp">
       <Filter>캐릭터\캐릭터 속성 세팅</Filter>
     </ClCompile>
-    <ClCompile Include="Archer.cpp">
-      <Filter>캐릭터</Filter>
-    </ClCompile>
-    <ClCompile Include="CharacterInfo.cpp">
-      <Filter>정보창</Filter>
-    </ClCompile>
     <ClCompile Include="GameManager.cpp">
       <Filter>게임 매니저</Filter>
     </ClCompile>
@@ -205,6 +202,15 @@
     </ClCompile>
     <ClCompile Include="ItemInventoryWindow.cpp">
       <Filter>정보창\인벤토리\아이템</Filter>
+    </ClCompile>
+    <ClCompile Include="Archer.cpp">
+      <Filter>캐릭터</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterInfo.cpp">
+      <Filter>정보창</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemSell.cpp">
+      <Filter>정보창\상점</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

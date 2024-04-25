@@ -1,6 +1,6 @@
 #include "Player.h"
 
-int Player::money = 2000;
+int Player::money = 200;
 
 Player::Player()
 {

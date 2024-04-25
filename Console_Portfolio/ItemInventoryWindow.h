@@ -37,12 +37,11 @@ public:
 	void UseItemYesOrNo(int x, int y, Item* item);
 	void ClearSection(int x, int y);
 	void SettingInfo(int x, int y, int num);
-	void CheckItemCount(Item* item);
 	void ClearSection2(int x, int y);
+	void HpMpHeal(Character& charcater, Item* item, int x, int y);
 
 	void InventoryTool();
 
 	ItemInventoryWindow();
 	~ItemInventoryWindow();
 };
-

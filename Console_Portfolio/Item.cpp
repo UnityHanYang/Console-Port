@@ -6,4 +6,5 @@ Item::Item()
 	price = 0;
 	feature = "";
 	count = 0;
+	heal = 0;
 }
