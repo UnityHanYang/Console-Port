@@ -1,6 +1,5 @@
 #include "ItemInventoryWindow.h"
 
-
 #define ARROW 224
 #define UP_ARROW 72
 #define DOWN_ARROW 80
@@ -246,12 +245,227 @@ void ItemInventoryWindow::ShowItem(int x, int y, int num)
 	gotoxy(x, y - 4);
 	std::cout << "-포션-";
 	gotoxy(x, y - 2);
-	std::cout << "     이름                           가격";
+	std::cout << "     이름                          ";
 
 
+	SettingInfo(x, y, num);
+
+}
+
+
+void ItemInventoryWindow::UseItemYesOrNo(int x, int y, Item* item)
+{
+	SetColor(15, 0);
+	gotoxy(x + 58, y + 27);
+	std::cout << "                                   ";
+	gotoxy(x + 58, y + 27);
+	std::cout << item->GetName() << "을 사용하시겠습니까? ";
+	gotoxy(x +70, y + 29);
+	std::cout << "               ";
+	gotoxy(x + 70, y + 29);
+	std::cout << "예 / 아니오";
+	int choiceNum = 0;
+	int input;
+	while (true)
+	{
+		if (_kbhit())
+		{
+			input = _getch();
+			if (input == ARROW)
+			{
+				input = _getch();
+				switch (input)
+				{
+				case RIGHT_ARROW:
+					SetColor(15, 0);
+					gotoxy(x + 70, y + 29);
+					std::cout << "               ";
+					gotoxy(x + 70, y + 29);
+					SetColor(15, 0);
+					std::cout << "예 / ";
+					gotoxy(x + 75, y + 29);
+					SetColor(12, 0);
+					std::cout << "아니오";
+					choiceNum = 1;
+					break;
+				case LEFT_ARROW:
+					SetColor(15, 0);
+					gotoxy(x + 70, y + 29);
+					std::cout << "               ";
+					gotoxy(x + 70, y + 29);
+					SetColor(12, 0);
+					std::cout << "예";
+					gotoxy(x + 72, y + 29);
+					SetColor(15, 0);
+					std::cout << " / 아니오";
+					choiceNum = 2;
+					break;
+				}
+			}
+			else if (input == Enter)
+			{
+				if (choiceNum == 1)
+				{
+					ClearText(x, y);
+					ShowItem(x, y, 0);
+					break;
+				}
+				else if (choiceNum == 2)
+				{
+					ClearSection(x, y);
+					ChoiceHealChar(x, y, item);
+					break;
+				}
+			}
+			else
+			{
+				SetColor(15, 0);
+				gotoxy(x + 70, y + 29);
+				std::cout << "               ";
+				gotoxy(x + 70, y + 29);
+				std::cout << "예 / 아니오";
+			}
+		}
+	}
+}
+
+void ItemInventoryWindow::ChoiceHealChar(int x, int y, Item* item)
+{
+	GameManager gm;
+	CharacterChoice cc;
+	CharacterInfo ci;
+	int characterNum = 0;
+	SetColor(15, 0);
+	gotoxy(x + 65, y + 27);
+	std::cout << "                     ";
+	gotoxy(x + 65, y + 27);
+	
+	if (ci.GetJoinWhether())
+	{
+		
+	}
+	else
+	{
+		if (cc.GetCharacter() == 1)
+		{
+			std::cout << "▶ " << gm.nj->GetName() << ":  ";
+			if (item->GetItemType() == ItemType::hpPotion)
+			{
+				std::cout  << gm.nj->GetCurrentHp() << " / " << gm.nj->GetMaxHp();
+			}
+			else if (item->GetItemType() == ItemType::mpPotion)
+			{
+				std::cout << gm.nj->GetCurrentMp() << " / " << gm.nj->GetMaxMp();
+			}
+			characterNum = 1;
+		}
+		else if (cc.GetCharacter() == 2)
+		{
+			std::cout << "▶ " << gm.ah->GetName() << ":  ";
+			if (item->GetItemType() == ItemType::hpPotion)
+			{
+				std::cout << gm.ah->GetCurrentHp() << " / " << gm.ah->GetMaxHp();
+			}
+			else if (item->GetItemType() == ItemType::mpPotion)
+			{
+				std::cout << gm.ah->GetCurrentMp() << " / " << gm.ah->GetMaxMp();
+			}
+			characterNum = 2;
+		}
+	}
+	int input;
+	while (true)
+	{
+		if (_kbhit())
+		{
+			input = _getch();
+			if (input == ARROW)
+			{
+				input = _getch();
+				switch (input)
+				{
+				case DOWN_ARROW:
+					break;
+				case UP_ARROW:
+					break;
+				}
+			}
+			else if (input == Enter)
+			{
+				if (characterNum == 1)
+				{
+					if (item->GetItemType() == ItemType::hpPotion)
+					{
+						if(gm.nj->GetCurrentHp() != gm.nj->GetMaxHp())
+						{
+							(gm.nj->GetCurrentHp() + item->GetHeal() <= gm.nj->GetMaxHp()) ? gm.nj->SetCurrentHp(item->GetHeal()) : gm.nj->SetCurrentHp((gm.nj->GetCurrentHp() + item->GetHeal()) - gm.nj->GetMaxHp());
+							item->MinusCount();
+						}
+						gotoxy(x + 65, y + 27);
+						std::cout << "                         ";
+						gotoxy(x + 65, y + 27);
+						std::cout << gm.nj->GetName() << ":  " << gm.nj->GetCurrentHp() << " / " << gm.nj->GetMaxHp();;
+						Sleep(1500);
+						ClearSection(x, y);
+						if (item->GetCount() > 0)
+						{
+							SettingInfo(x, y, count);
+						}
+						else
+						{
+							ItemInventory iit;
+							iit.FindInventory(item);
+							ClearSection2(16, 14);
+							ChoiceUse();
+						}
+						break;
+					}
+					else if (item->GetItemType() == ItemType::mpPotion)
+					{
+						ClearText(x, y);
+
+					}
+				}
+				else if (characterNum == 2)
+				{
+
+				}
+			}
+		}
+	}
+}
+
+void ItemInventoryWindow::CheckItemCount(Item* item)
+{
+
+}
+
+void ItemInventoryWindow::ClearSection2(int x, int y)
+{
+	SetColor(0, 0);
+	for (int i = 0; i < 16; i++)
+	{
+		gotoxy(x, y + i);
+		std::cout << "                                          ";
+	}
+}
+
+void ItemInventoryWindow::ClearSection(int x, int y)
+{
+	gotoxy(x + 53, y - 3);
+	std::cout << "                                       ";
+	gotoxy(x + 53, y - 1);
+	std::cout << "                                       ";
+	gotoxy(x + 58, y + 27);
+	std::cout << "                                       ";
+	gotoxy(x + 70, y + 29);
+	std::cout << "               ";
+}
+
+void ItemInventoryWindow::SettingInfo(int x, int y, int num)
+{
 	int this_count = 0;
 	int index = 1;
-
 	if (!iit->GetInventory().empty())
 	{
 		SetColor(15, 0);
@@ -260,18 +474,28 @@ void ItemInventoryWindow::ShowItem(int x, int y, int num)
 			gotoxy(x, y + this_count);
 			if (index == num)
 			{
-				std::cout << "                " << std::endl;
+				std::cout << "                        " << std::endl;
 				gotoxy(x, y + this_count);
 				std::cout << "▶ " << (*iter)->GetName() << std::endl;
 
 				gotoxy(x + 54, y - 3);
 				std::cout << "                             ";
 				gotoxy(x + 54, y - 3);
+				std::cout << "수량: " << (*iter)->GetCount() << std::endl;
+				gotoxy(x + 54, y - 1);
+				std::cout << "                             ";
+				gotoxy(x + 54, y - 1);
 				std::cout << (*iter)->GetFeature() << std::endl;
+
+				if (isEnter)
+				{
+					UseItemYesOrNo(x, y, *iter);
+					isEnter = false;
+				}
 			}
 			else
 			{
-				std::cout << "                " << std::endl;
+				std::cout << "                        " << std::endl;
 				gotoxy(x, y + this_count);
 				std::cout << (*iter)->GetName() << std::endl;
 			}
@@ -279,12 +503,13 @@ void ItemInventoryWindow::ShowItem(int x, int y, int num)
 			this_count += 2;
 		}
 	}
-
 }
+
 
 void ItemInventoryWindow::ChoiceUse()
 {
 	ShowItem(16, 14, 0);
+	isEnter = false;
 
 	int input;
 	if (!iit->GetInventory().empty())
@@ -310,6 +535,12 @@ void ItemInventoryWindow::ChoiceUse()
 						break;
 					}
 				}
+				else if (input == Enter)
+				{
+					isEnter = true;
+					ShowItem(16, 14, count);
+					break;
+				}
 				else if (input == ESC)
 				{
 					count = 0;
@@ -333,6 +564,12 @@ void ItemInventoryWindow::ClearText(int x, int y)
 
 	gotoxy(x + 53, y - 3);
 	std::cout << "                                       ";
+	gotoxy(x + 53, y - 1);
+	std::cout << "                                       ";
+	gotoxy(x + 58, y + 27);
+	std::cout << "                                       ";
+	gotoxy(x + 70, y + 29);
+	std::cout << "               ";
 }
 
 void ItemInventoryWindow::PrintOptionText(int x, int y, int num)
@@ -358,6 +595,7 @@ void ItemInventoryWindow::PrintOptionText(int x, int y, int num)
 		break;
 	}
 }
+
 
 void ItemInventoryWindow::LeftRightInput()
 {
@@ -416,6 +654,7 @@ ItemInventoryWindow::ItemInventoryWindow()
 {
 	iit = new ItemInventory;
 	count = 0;
+	isEnter = false;
 	option = 0;
 }
 

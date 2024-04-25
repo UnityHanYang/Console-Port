@@ -15,6 +15,8 @@ private:
 	std::vector<Item*> itemVec;
 	int currentItemPrice;
 	Item* currentItem;
+	ItemType hpType;
+	ItemType mpType;
 public:
 	std::vector<Item*>& GetItemVec() { return itemVec; }
 	void VectorPush();

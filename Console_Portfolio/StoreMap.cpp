@@ -240,22 +240,22 @@ void StoreMap::PrintBuyAndSellText(int x, int y, int num)
 	switch (num)
 	{
 	case 1:
-		std::cout << "                                                              ";
+		std::cout << "                                                                ";
 		gotoxy(x, y);
 		std::cout << "     ▶ 구입 ◀                  판매                    취소";
 		break;
 	case 2:
-		std::cout << "                                                              ";
+		std::cout << "                                                                ";
 		gotoxy(x, y);
 		std::cout << "       구입                  ▶ 판매 ◀                  취소";
 		break;
 	case 3:
-		std::cout << "                                                              ";
+		std::cout << "                                                                ";
 		gotoxy(x, y); 
 		std::cout << "       구입                    판매                  ▶ 취소 ◀";
 		break;
 	default:
-		std::cout << "                                                              ";
+		std::cout << "                                                                ";
 		gotoxy(x, y);
 		std::cout << "       구입                    판매                    취소";
 		break;
@@ -313,7 +313,15 @@ void StoreMap::ChoiceBuy()
 			{
 				if (CheckBuy())
 				{
-					iit->AddInventory(store->GetCurrentItem());
+
+					if (std::find(iit->GetInventory().begin(), iit->GetInventory().end(), store->GetCurrentItem()) == iit->GetInventory().end())
+					{
+						iit->AddInventory(store->GetCurrentItem());
+					}
+					else
+					{
+						iit->AddItemCountInventory(store->GetCurrentItem(), count - 1);
+					}
 					player.SetMoney(-store->GetCurrentItemPrice());
 
 					PrintMoneyText(89, 5);
@@ -336,7 +344,7 @@ void StoreMap::ClearText(int x, int y)
 	for (int i = 0; i < 16; i++)
 	{
 		gotoxy(x, y-4 + i);
-		std::cout << "                                          ";
+		std::cout << "                                             ";
 	}
 
 	gotoxy(x + 53, y - 3);

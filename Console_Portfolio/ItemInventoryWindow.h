@@ -4,6 +4,10 @@
 #include <Windows.h>
 #include "MapManager.h"
 #include "ItemInventory.h"
+#include "CharacterInfo.h"
+#include "GameManager.h"
+#include "CharacterChoice.h"
+#include "Item.h"
 #include "Player.h"
 
 class ItemInventoryWindow : public PrintSetting
@@ -13,6 +17,7 @@ private:
 	int option;
 	ItemInventory* iit;
 	Player player;
+	bool isEnter;
 
 public:
 	virtual void SetColor(int fontColor, int backgroundColor);
@@ -26,8 +31,14 @@ public:
 	void ShowItem(int x, int y, int num);
 	void ChoiceUse();
 	void ClearText(int x, int y);
+	void ChoiceHealChar(int x, int y, Item* item);
 	void LeftRightInput();
 	void PrintOptionText(int x, int y, int num);
+	void UseItemYesOrNo(int x, int y, Item* item);
+	void ClearSection(int x, int y);
+	void SettingInfo(int x, int y, int num);
+	void CheckItemCount(Item* item);
+	void ClearSection2(int x, int y);
 
 	void InventoryTool();
 
