@@ -237,7 +237,7 @@ void ItemInventoryWindow::PrintItemDetailTool(int x, int y)
 void ItemInventoryWindow::PrintMoneyText(int x, int y)
 {
 	gotoxy(x, y);
-	//std::cout << "소지금: " << player->GetMoney();
+	std::cout << "소지금: " << player.GetMoney();
 }
 
 void ItemInventoryWindow::ShowItem(int x, int y, int num)
@@ -248,9 +248,37 @@ void ItemInventoryWindow::ShowItem(int x, int y, int num)
 	gotoxy(x, y - 2);
 	std::cout << "     이름                           가격";
 
-	//store->PrintName(x, y, num);
 
-	//store->PrintPrice(x + 37, y, num);
+	int this_count = 0;
+	int index = 1;
+
+	if (!iit->GetInventory().empty())
+	{
+		SetColor(15, 0);
+		for (std::vector<Item*>::iterator iter = iit->GetInventory().begin(); iter != iit->GetInventory().end(); ++iter)
+		{
+			gotoxy(x, y + this_count);
+			if (index == num)
+			{
+				std::cout << "                " << std::endl;
+				gotoxy(x, y + this_count);
+				std::cout << "▶ " << (*iter)->GetName() << std::endl;
+
+				gotoxy(x + 54, y - 3);
+				std::cout << "                             ";
+				gotoxy(x + 54, y - 3);
+				std::cout << (*iter)->GetFeature() << std::endl;
+			}
+			else
+			{
+				std::cout << "                " << std::endl;
+				gotoxy(x, y + this_count);
+				std::cout << (*iter)->GetName() << std::endl;
+			}
+			index++;
+			this_count += 2;
+		}
+	}
 
 }
 
@@ -259,32 +287,36 @@ void ItemInventoryWindow::ChoiceUse()
 	ShowItem(16, 14, 0);
 
 	int input;
-	while (true)
+	if (!iit->GetInventory().empty())
 	{
-		if (_kbhit())
+		
+		while (true)
 		{
-			input = _getch();
-			if (input == ARROW)
+			if (_kbhit())
 			{
 				input = _getch();
-				switch (input)
+				if (input == ARROW)
 				{
-				case DOWN_ARROW:
-					count = (count > 5) ? count : count += 1;
-					ShowItem(16, 14, count);
-					break;
-				case UP_ARROW:
-					count = (count < 2) ? count : count -= 1;
-					ShowItem(16, 14, count);
+					input = _getch();
+					switch (input)
+					{
+					case DOWN_ARROW:
+						count = (count > iit->GetInventory().size() - 1) ? count : count += 1;
+						ShowItem(16, 14, count);
+						break;
+					case UP_ARROW:
+						count = (count < 2) ? count : count -= 1;
+						ShowItem(16, 14, count);
+						break;
+					}
+				}
+				else if (input == ESC)
+				{
+					count = 0;
+					ClearText(16, 14);
+					LeftRightInput();
 					break;
 				}
-			}
-			else if (input == ESC)
-			{
-				count = 0;
-				ClearText(16, 14);
-				LeftRightInput();
-				break;
 			}
 		}
 	}
@@ -359,6 +391,8 @@ void ItemInventoryWindow::LeftRightInput()
 					break;
 				case 2:
 					system("cls");
+					MapManager mm;
+					mm.Current_StackMap();
 					break;
 				}
 			}
@@ -372,6 +406,7 @@ void ItemInventoryWindow::InventoryTool()
 	PrintMoneyTool(86, 3);
 	PrintItemTool(10, 8);
 	PrintItemDetailTool(65, 8);
+	PrintMoneyText(89, 5);
 	PrintOptionText(30, 5, option);
 
 	LeftRightInput();

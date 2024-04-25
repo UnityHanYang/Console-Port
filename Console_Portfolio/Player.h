@@ -3,12 +3,12 @@
 class Player
 {
 private:
-	int money;
+	static int money;
 	
 public:
 	int GetMoney() { return money; }
 	void SetMoney(int num) { money += num; }
 
-	Player(int i_money) : money(i_money) {};
+	Player();
 };
 

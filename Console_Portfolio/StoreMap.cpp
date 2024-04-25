@@ -265,7 +265,9 @@ void StoreMap::PrintBuyAndSellText(int x, int y, int num)
 void StoreMap::PrintMoneyText(int x, int y)
 {
 	gotoxy(x, y);
-	std::cout << "소지금: " << player->GetMoney();
+	std::cout << "                      ";
+	gotoxy(x, y);
+	std::cout << "소지금: " << player.GetMoney();
 }
 
 void StoreMap::ShowItem(int x, int y , int num)
@@ -307,6 +309,16 @@ void StoreMap::ChoiceBuy()
 					break;
 				}
 			}
+			else if (input == Enter)
+			{
+				if (CheckBuy())
+				{
+					iit->AddInventory(store->GetCurrentItem());
+					player.SetMoney(-store->GetCurrentItemPrice());
+
+					PrintMoneyText(89, 5);
+				}
+			}
 			else if (input == ESC)
 			{
 				count = 0;
@@ -330,6 +342,14 @@ void StoreMap::ClearText(int x, int y)
 	gotoxy(x + 53, y - 3);
 	std::cout << "                                       ";
 	
+}
+
+bool StoreMap::CheckBuy()
+{
+	if(player.GetMoney() >= store->GetCurrentItemPrice())
+		return true;
+
+	return false;
 }
 
 void StoreMap::LeftRightInput()
@@ -366,7 +386,6 @@ void StoreMap::LeftRightInput()
 					break;
 				case 3:
 					system("cls");
-					store->DeleteItem();
 					Village vg;
 					vg.PrintMapAndCharMove(vg.GetCurrentX(), vg.GetCurrentY());
 					break;
@@ -378,7 +397,6 @@ void StoreMap::LeftRightInput()
 
 void StoreMap::PrintStoreMap()
 {
-	store->ItemInit();
 	store->VectorPush();
 	PrintBuyAndSellTool(10, 3);
 	PrintMoneyTool(86, 3);
@@ -393,7 +411,7 @@ void StoreMap::PrintStoreMap()
 StoreMap::StoreMap()
 {
 	store = new Store;
-	player = new Player(2000);
+	iit = new ItemInventory;
 	count = 0;
 	buyCellNum = 0;
 }
@@ -401,6 +419,6 @@ StoreMap::StoreMap()
 StoreMap::~StoreMap()
 {
 	delete store;
-	delete player;
+	delete iit;
 }
 

@@ -1,9 +1,11 @@
 #include "PrintSetting.h"
 #include "CharacterChoice.h"
 #include "MapManager.h"
+#include "Store.h"
 #include <iostream>
 
 void CursorView();
+void DeleteItem();
 
 void main()
 {
@@ -14,6 +16,16 @@ void main()
 		MapManager* mm = new MapManager;
 		mm->Current_Map();
 		delete mm;
+	}
+	DeleteItem();
+}
+
+void DeleteItem()
+{
+	Store* store = new Store;
+	for (Item* item : store->GetItemVec())
+	{
+		delete item;
 	}
 }
 

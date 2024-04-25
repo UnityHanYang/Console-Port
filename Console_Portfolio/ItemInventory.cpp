@@ -1,25 +1,42 @@
 #include "ItemInventory.h"
 
-void ItemInventory::PrintName(int x, int y, int num)
+std::vector<Item*> ItemInventory::inventory = {};
+
+bool ItemInventory::FindInventory(int index, Item* item)
 {
-	int this_count = 0;
-	int index = 1;
-	for (std::vector<Item*>::iterator it = itemVec.begin(); it != itemVec.end(); ++it) {
-		gotoxy(x, y + this_count);
-		if (index == count)
+	Item* itemToFind = new Item;
+	if (!inventory.empty())
+	{
+		/*if (std::find(inventory.begin(), inventory.end(), index) != item)
 		{
-			std::cout << "                " << std::endl;
-			gotoxy(x, y + this_count);
-			std::cout << "¢º " << (*it)->GetName() << std::endl;
-			PrintFeature(x + 54, y - 3, *it);
-		}
-		else
-		{
-			std::cout << "                " << std::endl;
-			gotoxy(x, y + this_count);
-			std::cout << (*it)->GetName() << std::endl;
-		}
-		index++;
-		this_count += 2;
+			return true;
+		}*/
+		auto it = std::find_if(inventory.begin(), inventory.end(), [itemToFind](const Item* item) {
+			return item == itemToFind;
+			});
+		return it != inventory.end();
 	}
+
+
+	return false;
+}
+
+void ItemInventory::AddInventory(Item* item)
+{
+	inventory.push_back(item);
+}
+
+void ItemInventory::RemoveInventory(int index, Item* item)
+{
+	//inventory.erase(std::remove(inventory.begin(), inventory.end(), index), inventory.end());	
+	if (FindInventory(index, item))
+	{
+		inventory.erase(inventory.begin() + index);
+	}
+}
+
+void ItemInventory::gotoxy(int x, int y)
+{
+	COORD pos = { x,y };
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 }

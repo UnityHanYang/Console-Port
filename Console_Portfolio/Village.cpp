@@ -144,16 +144,17 @@ void Village::PrintMapAndCharMove(int x, int y)
 			{
 				currentX = mapX;
 				currentY = mapY;
-				mm.SetStack(1);
 				switch (currentNum)
 				{
 				case 1:
+					mm.SetStack(1);
 					system("cls");
 					ci.ChoiceCharacter();
 					break;
 				case 2:
 					break;
 				case 3:
+					mm.SetStack(1);
 					system("cls");
 					iw.InventoryTool();
 					break;

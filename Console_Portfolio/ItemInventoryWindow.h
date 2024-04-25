@@ -4,15 +4,17 @@
 #include <Windows.h>
 #include "MapManager.h"
 #include "ItemInventory.h"
+#include "Player.h"
 
 class ItemInventoryWindow : public PrintSetting
 {
 private:
 	int count;
 	int option;
+	ItemInventory* iit;
+	Player player;
 
 public:
-	ItemInventory* iit;
 	virtual void SetColor(int fontColor, int backgroundColor);
 	virtual void PrintS(int count, int font, int background, bool isEndl, int x, int y);
 	virtual void gotoxy(int x, int y);

@@ -6,16 +6,18 @@
 #include <conio.h>
 #include "Item.h"
 #include "Player.h"
+#include "ItemInventory.h"
 #include "Village.h"
 
 class StoreMap : public PrintSetting
 {
 private:
 	Store* store;
+	Player player;
+	ItemInventory* iit;
 	int count;
 	int buyCellNum;
 public:
-	Player* player;
 	virtual void SetColor(int fontColor, int backgroundColor);
 	virtual void PrintS(int count, int font, int background, bool isEndl, int x, int y);
 	virtual void gotoxy(int x, int y);
@@ -28,7 +30,8 @@ public:
 	void ShowItem(int x, int y, int num);
 	void ChoiceBuy();
 	void PrintStoreMap();
-	void ClearText(int x, int y);
+	void ClearText(int x, int y);																																																																																																																																							
+	bool CheckBuy();
 	void LeftRightInput();
 
 	StoreMap();
