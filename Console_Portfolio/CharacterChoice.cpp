@@ -48,8 +48,8 @@ bool CharacterChoice::ChoiceScene()
 	std::cout << "\n\n\t\t\t   °ÕÁö\t\t\t\t\t\t\t\t\tÇÑÁ¶\n\n";
 	PrintBackGround(2, 2, 4, 12);
 	PrintBackGround(2, 2, 72, 12);
-	nd.PrintNinZaPortrait1(20, 13);
-	ad.PrintArcherPortrait1(92, 13);
+	nd.PrintNinJaPortrait(20, 13);
+	ad.PrintArcherPortrait(92, 13);
 	SetColor(15, 0);
 	md.PrintOperation_Keys(130, 3);
 	PrintOperate(132, 5);
@@ -105,8 +105,8 @@ bool CharacterChoice::ChoiceScene()
 					charNum = 0;
 				}
 			}
-			nd.PrintNinZaPortrait1(20, 13);
-			ad.PrintArcherPortrait1(92, 13);
+			nd.PrintNinJaPortrait(20, 13);
+			ad.PrintArcherPortrait(92, 13);
 			SetColor(15, 0);
 			md.PrintOperation_Keys(130, 3);
 			PrintOperate(132, 5);
@@ -308,7 +308,7 @@ void CharacterChoice::PrintCharacterAbility(int num)
 {
 	if (num == 1)
 	{
-		nd.PrintNinZa1();
+		nd.PrintNinJa();
 		PrintNinjarBackGround();
 		SetColor(0, 15);
 		PrintAbilityTool(135, 50);
@@ -327,7 +327,7 @@ void CharacterChoice::PrintCharacterAbility(int num)
 	else
 	{
 		bt.PrintEnmeyBack();
-		ad.PrintArcher1(156, 1);
+		ad.PrintArcher(156, 1);
 		SetColor(0, 15);
 		PrintAbilityTool(135, 46);
 		gotoxy(139, 48);

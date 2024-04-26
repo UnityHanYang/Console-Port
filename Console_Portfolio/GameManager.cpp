@@ -1,5 +1,30 @@
 #include "GameManager.h"
-#include <iostream>
+
+void GameManager::RandomEnemyUnit(int enemyLevel)
+{
+	ArcherDot ad;
+	NinjaDot nd;
+	srand(time(NULL));
+	int num = rand() % 2;
+	switch (enemyLevel)
+	{
+	case 1:
+		if (num == 0)
+		{
+			nd.PrintEnemyLowerNinJa();
+		}
+		else
+		{
+			ad.PrintEnemyLowerArcher(130, 4);
+		}
+		break;
+	case 2:
+		break;
+	case 3:
+		break;
+	}
+
+}
 
 GameManager::GameManager()
 {

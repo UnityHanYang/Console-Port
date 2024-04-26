@@ -49,7 +49,7 @@ void CharacterInfo::CharacterOne()
 		std::cout << "\n\t\t\t\t\t\t      캐릭터를 선택하세요.\n\n\n\n";
 		std::cout << "\n\n\t\t\t ▶ 겐지(주인공) ◀\n\n";
 		cc.PrintBackGround(11, 11, 4, 12);
-		nd.PrintNinZaPortrait1(20, 13);
+		nd.PrintNinJaPortrait(20, 13);
 		SetColor(15, 0);
 		charChoiceNum = 1;
 	}
@@ -58,7 +58,7 @@ void CharacterInfo::CharacterOne()
 		std::cout << "\n\t\t\t\t\t\t      캐릭터를 선택하세요.\n\n\n\n";
 		std::cout << "\n\n\t\t\t ▶ 한조(주인공) ◀\n\n";
 		cc.PrintBackGround(11, 11, 4, 12);
-		ad.PrintArcherPortrait1(24, 13);
+		ad.PrintArcherPortrait(24, 13);
 		SetColor(15, 0);
 		charChoiceNum = 2;
 	}
@@ -103,8 +103,8 @@ void CharacterInfo::ChoiceCharacter()
 					std::cout << "\n\n\t\t\t ▶ 겐지 ◀\t\t\t\t\t\t\t\t한조\n\n";
 					cc.PrintBackGround(11, 11, 4, 12);
 					cc.PrintBackGround(2, 2, 72, 12);
-					nd.PrintNinZaPortrait1(20, 13);
-					ad.PrintArcherPortrait1(92, 13);
+					nd.PrintNinJaPortrait(20, 13);
+					ad.PrintArcherPortrait(92, 13);
 					charChoiceNum = 1;
 					break;
 				case RIGHT_ARROW:
@@ -112,8 +112,8 @@ void CharacterInfo::ChoiceCharacter()
 					std::cout << "\n\n\t\t\t   겐지\t\t\t\t\t\t\t\t    ▶ 한조 ◀\n\n";
 					cc.PrintBackGround(2, 2, 4, 12);
 					cc.PrintBackGround(11, 11, 72, 12);
-					nd.PrintNinZaPortrait1(20, 13);
-					ad.PrintArcherPortrait1(92, 13);
+					nd.PrintNinJaPortrait(20, 13);
+					ad.PrintArcherPortrait(92, 13);
 					SetColor(15, 0);
 					charChoiceNum = 2;
 					break;
@@ -122,8 +122,8 @@ void CharacterInfo::ChoiceCharacter()
 					std::cout << "\n\n\t\t\t   겐지\t\t\t\t\t\t\t\t\t한조\n\n";
 					cc.PrintBackGround(2, 2, 4, 12);
 					cc.PrintBackGround(2, 2, 72, 12);
-					nd.PrintNinZaPortrait1(20, 13);
-					ad.PrintArcherPortrait1(92, 13);
+					nd.PrintNinJaPortrait(20, 13);
+					ad.PrintArcherPortrait(92, 13);
 					SetColor(15, 0);
 				}
 				SetColor(15, 0);
@@ -166,7 +166,7 @@ void CharacterInfo::PrintCharacterAbility(int num)
 	MapManager mm;
 	if (num == 1)
 	{
-		nd.PrintNinZa1();
+		nd.PrintNinJa();
 		cc.PrintNinjarBackGround();
 		SetColor(0, 15);
 		cc.PrintAbilityTool(135, 50);
@@ -185,7 +185,7 @@ void CharacterInfo::PrintCharacterAbility(int num)
 	else
 	{
 		bt.PrintEnmeyBack();
-		ad.PrintArcher1(156, 1);
+		ad.PrintArcher(156, 1);
 		SetColor(0, 15);
 		cc.PrintAbilityTool(135, 46);
 		gotoxy(139, 48);
