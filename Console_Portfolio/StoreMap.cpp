@@ -248,16 +248,15 @@ void StoreMap::PrintMoneyText(int x, int y)
 
 void StoreMap::ShowItem(int x, int y, int num)
 {
-	Store store;
 	SetColor(15, 0);
 	gotoxy(x, y - 4);
 	std::cout << "-포션-";
 	gotoxy(x, y - 2);
 	std::cout << "     이름                           가격";
 
-	store.PrintName(x, y, num);
+	store->PrintName(x, y, num);
 
-	store.PrintPrice(x + 37, y, num);
+	store->PrintPrice(x + 37, y, num);
 
 }
 #pragma endregion
@@ -282,8 +281,7 @@ void StoreMap::ClearText(int x, int y)
 #pragma region 아이템 구매
 bool StoreMap::CheckBuy()
 {
-	Store store;
-	if (player.GetMoney() >= store.GetCurrentItemPrice())
+	if (player.GetMoney() >= store->GetCurrentItemPrice())
 		return true;
 
 	return false;
@@ -293,7 +291,6 @@ void StoreMap::ChoiceBuy()
 {
 	ShowItem(16, 14, 0);
 	ItemSell itemS;
-	Store store;
 	int input;
 	while (true)
 	{
@@ -307,12 +304,12 @@ void StoreMap::ChoiceBuy()
 				{
 				case DOWN_ARROW:
 					count = (count > 5) ? count : count += 1;
-					itemS.ClearRightSection(66, 9);
+					itemS.ClearRightSection(66, 9, 37);
 					ShowItem(16, 14, count);
 					break;
 				case UP_ARROW:
 					count = (count < 2) ? count : count -= 1;
-					itemS.ClearRightSection(66, 9);
+					itemS.ClearRightSection(66, 9, 37);
 					ShowItem(16, 14, count);
 					break;
 				}
@@ -321,16 +318,20 @@ void StoreMap::ChoiceBuy()
 			{
 				if (CheckBuy())
 				{
-					if (std::find(iit->GetInventory().begin(), iit->GetInventory().end(), store.GetCurrentItem()) == iit->GetInventory().end())
+					if (std::find(iit->GetInventory().begin(), iit->GetInventory().end(), store->GetCurrentItem()) == iit->GetInventory().end())
 					{
-						iit->AddInventory(store.GetCurrentItem());
+						if (store->GetCurrentItem()->GetCount() == 0)
+						{
+							store->GetCurrentItem()->SetCount();
+						}
+						iit->AddInventory(store->GetCurrentItem());
 					}
 					else
 					{
-						int index = std::find(iit->GetInventory().begin(), iit->GetInventory().end(), store.GetCurrentItem()) - iit->GetInventory().begin();
-						iit->AddItemCountInventory(store.GetCurrentItem(), index);
+						int index = std::find(iit->GetInventory().begin(), iit->GetInventory().end(), store->GetCurrentItem()) - iit->GetInventory().begin();
+						iit->AddItemCountInventory(store->GetCurrentItem(), index);
 					}
-					player.SetMoney(-store.GetCurrentItemPrice());
+					player.SetMoney(-store->GetCurrentItemPrice());
 
 					PrintMoneyText(89, 5);
 				}
@@ -338,7 +339,8 @@ void StoreMap::ChoiceBuy()
 			else if (input == ESC)
 			{
 				count = 0;
-				itemS.ClearRightSection(66, 9);
+				itemS.ClearRightSection(66, 9, 37);
+				itemS.ClearRightSection(11, 13, 30);
 				ClearText(16, 14);
 				LeftRightInput();
 				break;
@@ -365,10 +367,12 @@ void StoreMap::LeftRightInput()
 				{
 				case RIGHT_ARROW:
 					buySellNum = (buySellNum > 2) ? buySellNum : buySellNum += 1;
+					itemS.ClearRightSection(11, 10, 30);
 					PrintBuyAndSellText(15, 5, buySellNum);
 					break;
 				case LEFT_ARROW:
 					buySellNum = (buySellNum < 2) ? buySellNum : buySellNum -= 1;
+					itemS.ClearRightSection(11, 10, 30);
 					PrintBuyAndSellText(15, 5, buySellNum);
 					break;
 				}
@@ -429,8 +433,8 @@ void StoreMap::PrintBuyAndSellText(int x, int y, int num)
 #pragma region 화면 출력
 void StoreMap::PrintStoreMap()
 {
-	Store store;
-	store.VectorPush();
+	//Store store;
+	store->VectorPush();
 	PrintBuyAndSellTool(10, 3);
 	PrintMoneyTool(86, 3);
 	PrintItemTool(10, 8);
@@ -446,11 +450,13 @@ void StoreMap::PrintStoreMap()
 StoreMap::StoreMap()
 {
 	iit = new ItemInventory;
+	store = new Store;
 	count = 0;
 }
 
 StoreMap::~StoreMap()
 {
 	delete iit;
+	delete store;
 }
 

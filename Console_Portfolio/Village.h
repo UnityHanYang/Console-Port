@@ -9,6 +9,7 @@
 #include "InformationTool.h"
 #include "StoreMap.h"
 #include "ItemInventoryWindow.h"
+#include "Hotel.h"
 
 
 class Village : public PrintSetting
@@ -24,6 +25,8 @@ private:
 	int infoArr[8] = {};
 	MapDot md;
 	InformationTool it;
+	Hotel hotel;
+	bool isRelax;
 public:
 	void PrintOperation(int x, int y);
 	virtual void SetColor(int fontColor, int backgroundColor);
@@ -39,6 +42,6 @@ public:
 	int GetCurrentY() { return currentY; }
 	bool GetIsXTrue() { return isXTrue; }
 
-	Village() : mapX{ 0 }, mapY{ 0 }, message{}, infoArr{ 28, 29, 59, 60, 22, 23, 72, 73 } {};
+	Village() : mapX{ 0 }, mapY{ 0 }, message{}, infoArr{ 28, 29, 59, 60, 22, 23, 72, 73 }, isRelax{ false } {};
 };
 

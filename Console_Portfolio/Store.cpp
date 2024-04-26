@@ -1,6 +1,7 @@
 #include "Store.h"
 
 std::vector<Item*> Store::itemVec = {};
+//Item* Store::currentItem = new Item;
 
 #pragma region πÈ≈Õ ª¿‘
 void Store::VectorPush()
@@ -21,23 +22,25 @@ void Store::PrintName(int x, int y, int count)
 	ItemSell itemS;
 	int this_count = 0;
 	int index = 1;
-	itemS.ClearRightSection(66, 9);
-	for (std::vector<Item*>::iterator it = itemVec.begin(); it != itemVec.end(); ++it)
+	itemS.ClearRightSection(66, 9, 37);
+	itemS.ClearRightSection(11, 13, 30);
+	std::vector<Item*>::iterator iter;
+	for (iter = itemVec.begin(); iter != itemVec.end(); ++iter)
 	{
 		gotoxy(x, y + this_count);
 		if (index == count)
 		{
 			std::cout << "                      " << std::endl;
 			gotoxy(x, y + this_count);
-			std::cout << "¢∫ " << (*it)->GetName() << std::endl;
-			PrintFeature(x + 54, y - 3, *it);
-			currentItem = *it;
+			std::cout << "¢∫ " << (*iter)->GetName() << std::endl;
+			PrintFeature(x + 54, y - 3, *iter);
+			currentItem = *iter;
 		}
 		else
 		{
 			std::cout << "                      " << std::endl;
 			gotoxy(x, y + this_count);
-			std::cout << (*it)->GetName() << std::endl;
+			std::cout << (*iter)->GetName() << std::endl;
 		}
 		index++;
 		this_count += 2;
@@ -48,21 +51,22 @@ void Store::PrintPrice(int x, int y, int count)
 {
 	int this_count = 0;
 	int index = 1;
-	for (std::vector<Item*>::iterator it = itemVec.begin(); it != itemVec.end(); ++it)
+	std::vector<Item*>::iterator iter;
+	for (iter = itemVec.begin(); iter != itemVec.end(); ++iter)
 	{
 		gotoxy(x, y + this_count);
 		if (index == count)
 		{
 			std::cout << "       " << std::endl;
 			gotoxy(x, y + this_count);
-			std::cout << (*it)->GetPrice() << " ¢∏" << std::endl;
-			currentItemPrice = (*it)->GetPrice();
+			std::cout << (*iter)->GetPrice() << " ¢∏" << std::endl;
+			currentItemPrice = (*iter)->GetPrice();
 		}
 		else
 		{
 			std::cout << "       " << std::endl;
 			gotoxy(x, y + this_count);
-			std::cout << (*it)->GetPrice() << std::endl;
+			std::cout << (*iter)->GetPrice() << std::endl;
 		}
 		index++;
 		this_count += 2;

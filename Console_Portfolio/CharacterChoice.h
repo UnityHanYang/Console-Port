@@ -5,11 +5,12 @@
 #include "NinjaDot.h"
 #include "ArcherDot.h"
 #include "MapDot.h"
-#include "Battle.h"
+#include "BattleMapDot.h"
 #include "MapManager.h"
 #include "NinJa.h"
 #include "Archer.h"
 #include "GameManager.h"
+#include "Hotel.h"
 
 
 class CharacterChoice : public PrintSetting
@@ -20,7 +21,8 @@ private:
 	ArcherDot ad;
 	MapDot md;
 	GameManager gm;
-	Battle bt;
+	BattleMapDot bt;
+	Hotel hotel;
 public:
 	virtual void SetColor(int fontColor, int backgroundColor);
 	virtual void PrintS(int count, int font, int background, bool isEndl, int x, int y);

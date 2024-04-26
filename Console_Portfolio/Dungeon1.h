@@ -15,6 +15,8 @@ private:
 	int mapY;
 	static int enemyArrXY[6];
 	static int treasureBoxXY[6];
+	bool isCollsionEnemy;
+	bool isEntrance;
 	MapDot md;
 	DungeonBoss db;
 public:
@@ -33,6 +35,6 @@ public:
 
 	void PrintTalkMessage(int x, int y, char message[50]);
 
-	Dungeon1() : mapX{ 0 }, mapY{ 0 } {}
+	Dungeon1() : mapX{ 0 }, mapY{ 0 }, isCollsionEnemy{ false }, isEntrance{ false } {}
 };
 

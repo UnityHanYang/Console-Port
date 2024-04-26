@@ -7,15 +7,15 @@ protected:
     const char* name;
     const char* job;
     static int currentHp;
-	int maxHp;
-	int currentMp;
-	int maxMp;
-    int def;
-    int atk;
-    int critical;
+	static int maxHp;
+	static int currentMp;
+	static int maxMp;
+	static int def;
+	static int atk;
+	static int critical;
 public:
 
-    Character(const char* r_name, const char* r_job, int r_maxHp, int r_currentMp, int r_maxMp, int r_def, int r_atk, int r_critical) : name(r_name), job(r_job), maxHp(r_maxHp), currentMp(r_currentMp), maxMp(r_maxMp), def(r_def), atk(r_atk), critical(r_critical) {};
+    Character(const char* r_name, const char* r_job) : name(r_name), job(r_job) {};
 
 	int GetCurrentHp() { return currentHp; }
 	int GetMaxHp() { return maxHp; }

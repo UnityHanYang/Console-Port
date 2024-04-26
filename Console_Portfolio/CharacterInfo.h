@@ -3,7 +3,7 @@
 #include "PrintSetting.h"
 #include "NinjaDot.h"
 #include "ArcherDot.h"
-#include "Battle.h"
+#include "BattleMapDot.h"
 #include <Windows.h>
 #include "MapDot.h"
 #include <conio.h>
@@ -17,7 +17,7 @@ private:
 	static bool isJoin;
 	NinjaDot nd;
 	ArcherDot ad;
-	Battle bt;
+	BattleMapDot bt;
 	MapDot md;
 	GameManager gm;
 public:

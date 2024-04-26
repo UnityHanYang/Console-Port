@@ -7,6 +7,7 @@
 #include "CharacterInfo.h"
 #include "GameManager.h"
 #include "CharacterChoice.h"
+#include "ItemSell.h"
 #include "Item.h"
 #include "Player.h"
 
@@ -38,7 +39,7 @@ public:
 	void ClearSection(int x, int y);
 	void SettingInfo(int x, int y, int num);
 	void ClearSection2(int x, int y);
-	void HpMpHeal(Character& charcater, Item* item, int x, int y);
+	void HpMpHeal(Character* charcater, Item* item, int x, int y);
 
 	void InventoryTool();
 

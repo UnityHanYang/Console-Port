@@ -209,10 +209,12 @@ void CharacterChoice::ReadMore(int num)
 					system("cls");
 					if (num == 1)
 					{
+						hotel.AddCharacter(gm.nj);
 						characterNum = 1;
 					}
 					else
 					{
+						hotel.AddCharacter(gm.ah);
 						characterNum = 2;
 					}
 					break;

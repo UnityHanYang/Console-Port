@@ -4,4 +4,4 @@ int Player::money = 200;
 
 Player::Player()
 {
-}
+}	

@@ -175,9 +175,9 @@ void CharacterInfo::PrintCharacterAbility(int num)
 		std::cout << "                직업: " << gm.nj->GetOccupation();
 		gotoxy(139, 55);
 		std::cout << " 공격력: " << gm.nj->GetAtk();
-		std::cout << "                마나: " << gm.nj->GetMaxMp();
+		std::cout << "                마나: " << gm.nj->GetCurrentMp();
 		gotoxy(139, 58);
-		std::cout << " 체력: " << gm.nj->GetMaxHp();
+		std::cout << " 체력: " << gm.nj->GetCurrentHp();
 		std::cout << "                   방어력: " << gm.nj->GetDef();
 		gotoxy(139, 61);
 		std::cout << " 치명타 확률: " << gm.nj->GetCritical() << "%";
@@ -193,9 +193,9 @@ void CharacterInfo::PrintCharacterAbility(int num)
 		std::cout << "                직업: " << gm.ah->GetOccupation();
 		gotoxy(139, 51);
 		std::cout << " 공격력: " << gm.ah->GetAtk();
-		std::cout << "                마나: " << gm.ah->GetMaxMp();
+		std::cout << "                마나: " << gm.ah->GetCurrentMp();
 		gotoxy(139, 54);
-		std::cout << " 체력: " << gm.ah->GetMaxHp();
+		std::cout << " 체력: " << gm.ah->GetCurrentHp();
 		std::cout << "                   방어력: " << gm.ah->GetDef();
 		gotoxy(139, 57);
 		std::cout << " 치명타 확률: " << gm.ah->GetCritical() << "%";

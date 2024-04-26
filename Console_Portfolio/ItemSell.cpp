@@ -15,6 +15,7 @@ void ItemSell::PrintInventory(int x, int y, int num)
 	int this_count = 0;
 	int index = 1;
 	SetColor(15, 0);
+	ClearRightSection(11, 13, 30);
 	gotoxy(x, y - 4);
 	std::cout << "-포션-";
 	gotoxy(x, y - 2);
@@ -22,25 +23,19 @@ void ItemSell::PrintInventory(int x, int y, int num)
 	if (!inven->GetInventory().empty())
 	{
 		SetColor(15, 0);
-		for (std::vector<Item*>::iterator iter = inven->GetInventory().begin(); iter != inven->GetInventory().end(); ++iter)
+		std::vector<Item*>::iterator iter;
+		for (iter = inven->GetInventory().begin(); iter != inven->GetInventory().end(); ++iter)
 		{
 			gotoxy(x, y + this_count);
 			if (index == num)
 			{
-				std::cout << "                        " << std::endl;
 				gotoxy(x, y + this_count);
 				std::cout << "▶ " << (*iter)->GetName() << std::endl;
 
 				gotoxy(x + 54, y - 3);
-				std::cout << "                             ";
-				gotoxy(x + 54, y - 3);
 				std::cout << "수량: " << (*iter)->GetCount() << std::endl;
 				gotoxy(x + 54, y - 1);
-				std::cout << "                             ";
-				gotoxy(x + 54, y - 1);
 				std::cout << (*iter)->GetFeature() << std::endl;
-				gotoxy(x + 37, y + this_count);
-				std::cout << "       " << std::endl;
 				gotoxy(x + 37, y + this_count);
 				std::cout << (*iter)->GetPrice() << " ◀" << std::endl;
 
@@ -51,12 +46,9 @@ void ItemSell::PrintInventory(int x, int y, int num)
 			}
 			else
 			{
-				std::cout << "                        " << std::endl;
 				gotoxy(x, y + this_count);
 				std::cout << (*iter)->GetName() << std::endl;
 
-				gotoxy(x + 37, y + this_count);
-				std::cout << "       " << std::endl;
 				gotoxy(x + 37, y + this_count);
 				std::cout << (*iter)->GetPrice() << std::endl;
 			}
@@ -73,13 +65,14 @@ void ItemSell::UseItemYesOrNo(int x, int y, Item* item)
 	StoreMap storeM;
 	ItemInventoryWindow iiw;
 	Player player;
-	SetColor(15, 0);
-	gotoxy(x + 58, y + 27);
-	std::cout << "                                   ";
+	ClearRightSection(66, 9, 37);
+	SetColor(15, 0); 
+	gotoxy(x + 54, y - 3);
+	std::cout << "수량: " << item->GetCount() << std::endl;
+	gotoxy(x + 54, y - 1);
+	std::cout << item->GetFeature() << std::endl;
 	gotoxy(x + 58, y + 27);
 	std::cout << item->GetName() << "을 판매하시겠습까? ";
-	gotoxy(x + 70, y + 29);
-	std::cout << "               ";
 	gotoxy(x + 70, y + 29);
 	std::cout << "예 / 아니오";
 	int choice = 0;
@@ -125,7 +118,7 @@ void ItemSell::UseItemYesOrNo(int x, int y, Item* item)
 				if (choice == 1)
 				{
 					iiw.ClearText(16, 14);
-					ClearRightSection(66, 9);
+					ClearRightSection(66, 9, 37);
 					ChocieSell();
 					break;
 				}
@@ -136,20 +129,23 @@ void ItemSell::UseItemYesOrNo(int x, int y, Item* item)
 					iiw.ClearSection(16, 14);
 					if (item->GetCount() > 0)
 					{
-						ClearRightSection(66, 9);
+						ClearRightSection(66, 9, 37);
+						gotoxy(x + 54, y - 3);
+						std::cout << "수량: " << item->GetCount() << std::endl;
+						gotoxy(x + 54, y - 1);
+						std::cout << item->GetFeature() << std::endl;
 						PrintInventory(x, y, count);
 					}
 					else
 					{
-						ClearRightSection(66, 9);
+						ClearRightSection(66, 9, 37);
 						inven->FindInventory(item);
 						iiw.ClearSection2(16, 14);
 						ChocieSell();
 					}
 					if (inven->GetInventory().empty())
 					{
-						ClearRightSection(66, 9);
-						inven->GetInventory().clear();
+						ClearRightSection(66, 9, 37);
 						ClearOption(15, 5);
 						storeM.PrintBuyAndSellText(15, 5, 2);
 						storeM.LeftRightInput();
@@ -225,7 +221,8 @@ void ItemSell::ChocieSell()
 				{
 					count = 0;
 					storeM.ClearText(16, 14);
-					ClearRightSection(58, 14);
+					ClearRightSection(66, 9, 37);
+					ClearRightSection(11, 13, 30);
 					storeM.PrintBuyAndSellText(15, 5, storeM.GetBuySellNum());
 					storeM.LeftRightInput();
 					break;
@@ -242,9 +239,9 @@ void ItemSell::ClearOption(int x, int y)
 	gotoxy(x, y);
 	std::cout << "                                                                ";
 }
-void ItemSell::ClearRightSection(int x, int y)
+void ItemSell::ClearRightSection(int x, int y, int loopNum)
 {
-	for (int i = 0; i < 37; i++)
+	for (int i = 0; i < loopNum; i++)
 	{
 		gotoxy(x, y + i);
 		std::cout << "                                                    ";

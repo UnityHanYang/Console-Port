@@ -9,6 +9,7 @@ void MapManager::Current_Map()
 	Village vg;
 	Dungeon1 dg;
 	DungeonBoss db;
+	Battle bt;
 	if (ms == Map_State::village)
 	{
 		vg.PrintMapAndCharMove(96, 80);
@@ -20,6 +21,10 @@ void MapManager::Current_Map()
 	else if (ms == Map_State::boss_dungeon)
 	{
 		db.PrintMapAndCharMove(162, 79);
+	}
+	else if (ms == Map_State::battle)
+	{
+		bt.PrintBattleMap();
 	}
 }
 
@@ -46,10 +51,6 @@ void MapManager::Current_StackMap()
 			break;
 		case 6:
 			ci.ChoiceCharacter();
-			break;
-		case 7:
-			break;
-		default:
 			break;
 		}
 	}

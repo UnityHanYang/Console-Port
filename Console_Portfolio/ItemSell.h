@@ -21,7 +21,7 @@ public:
 	void ChocieSell();
 	void UseItemYesOrNo(int x, int y, Item* item);
 	void ClearOption(int x, int y); 
-	void ClearRightSection(int x, int y);
+	void ClearRightSection(int x, int y, int loopNum);
 
 	ItemSell();
 	~ItemSell();

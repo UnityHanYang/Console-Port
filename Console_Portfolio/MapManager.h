@@ -5,13 +5,15 @@
 #include "Dungeon1.h"
 #include "DungeonBoss.h"
 #include "CharacterInfo.h"
+#include "Battle.h"
 #include <stack>
 
 enum Map_State
 {
 	village,
 	dungeon,
-	boss_dungeon
+	boss_dungeon,
+	battle
 };
 
 class MapManager

@@ -52,6 +52,27 @@
     <Filter Include="정보창\인벤토리\아이템">
       <UniqueIdentifier>{f61a830b-726a-40c0-82c8-bebb6b5ac46b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="맵\여관">
+      <UniqueIdentifier>{3a1eb622-d443-4138-9d14-40f010a69156}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="맵\보스맵">
+      <UniqueIdentifier>{98fa59a2-db1e-4718-97d6-7784d43587fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="맵\던전">
+      <UniqueIdentifier>{fb3c8ab0-5763-4623-986c-5fe435b31302}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="맵\마을">
+      <UniqueIdentifier>{52c2a961-0027-40d5-910e-610b6eeb67f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="맵\배틀">
+      <UniqueIdentifier>{b22f61d1-4537-422a-be7e-3a443b0e40a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="캐릭터\닌자">
+      <UniqueIdentifier>{d9d0c8f5-6283-44e6-8d03-8446d168da18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="캐릭터\궁수">
+      <UniqueIdentifier>{c9294c18-f341-474c-96b7-c344a6f3458e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ArcherDot.h">
@@ -78,23 +99,8 @@
     <ClInclude Include="MapManager.h">
       <Filter>맵</Filter>
     </ClInclude>
-    <ClInclude Include="Village.h">
-      <Filter>맵</Filter>
-    </ClInclude>
-    <ClInclude Include="Dungeon1.h">
-      <Filter>맵</Filter>
-    </ClInclude>
-    <ClInclude Include="DungeonBoss.h">
-      <Filter>맵</Filter>
-    </ClInclude>
-    <ClInclude Include="NinJa.h">
-      <Filter>캐릭터</Filter>
-    </ClInclude>
     <ClInclude Include="Character.h">
       <Filter>캐릭터\캐릭터 속성 세팅</Filter>
-    </ClInclude>
-    <ClInclude Include="Archer.h">
-      <Filter>캐릭터</Filter>
     </ClInclude>
     <ClInclude Include="CharacterInfo.h">
       <Filter>정보창</Filter>
@@ -120,7 +126,7 @@
     <ClInclude Include="ItemInventory.h">
       <Filter>정보창\인벤토리\아이템</Filter>
     </ClInclude>
-    <ClInclude Include="Battle.h">
+    <ClInclude Include="BattleMapDot.h">
       <Filter>dot</Filter>
     </ClInclude>
     <ClInclude Include="ItemInventoryWindow.h">
@@ -128,6 +134,33 @@
     </ClInclude>
     <ClInclude Include="ItemSell.h">
       <Filter>정보창\상점</Filter>
+    </ClInclude>
+    <ClInclude Include="Hotel.h">
+      <Filter>맵\여관</Filter>
+    </ClInclude>
+    <ClInclude Include="DungeonBoss.h">
+      <Filter>맵\보스맵</Filter>
+    </ClInclude>
+    <ClInclude Include="Dungeon1.h">
+      <Filter>맵\던전</Filter>
+    </ClInclude>
+    <ClInclude Include="Village.h">
+      <Filter>맵\마을</Filter>
+    </ClInclude>
+    <ClInclude Include="Battle.h">
+      <Filter>맵\배틀</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyNinJa.h">
+      <Filter>캐릭터\닌자</Filter>
+    </ClInclude>
+    <ClInclude Include="NinJa.h">
+      <Filter>캐릭터\닌자</Filter>
+    </ClInclude>
+    <ClInclude Include="Archer.h">
+      <Filter>캐릭터\궁수</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyArcher.h">
+      <Filter>캐릭터\궁수</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -155,18 +188,6 @@
     <ClCompile Include="MapManager.cpp">
       <Filter>맵</Filter>
     </ClCompile>
-    <ClCompile Include="Village.cpp">
-      <Filter>맵</Filter>
-    </ClCompile>
-    <ClCompile Include="Dungeon1.cpp">
-      <Filter>맵</Filter>
-    </ClCompile>
-    <ClCompile Include="DungeonBoss.cpp">
-      <Filter>맵</Filter>
-    </ClCompile>
-    <ClCompile Include="NinJa.cpp">
-      <Filter>캐릭터</Filter>
-    </ClCompile>
     <ClCompile Include="Character.cpp">
       <Filter>캐릭터\캐릭터 속성 세팅</Filter>
     </ClCompile>
@@ -191,20 +212,44 @@
     <ClCompile Include="ItemInventory.cpp">
       <Filter>정보창\인벤토리\아이템</Filter>
     </ClCompile>
-    <ClCompile Include="Battle.cpp">
+    <ClCompile Include="BattleMapDot.cpp">
       <Filter>dot</Filter>
     </ClCompile>
     <ClCompile Include="ItemInventoryWindow.cpp">
       <Filter>정보창\인벤토리\아이템</Filter>
-    </ClCompile>
-    <ClCompile Include="Archer.cpp">
-      <Filter>캐릭터</Filter>
     </ClCompile>
     <ClCompile Include="CharacterInfo.cpp">
       <Filter>정보창</Filter>
     </ClCompile>
     <ClCompile Include="ItemSell.cpp">
       <Filter>정보창\상점</Filter>
+    </ClCompile>
+    <ClCompile Include="Hotel.cpp">
+      <Filter>맵\여관</Filter>
+    </ClCompile>
+    <ClCompile Include="DungeonBoss.cpp">
+      <Filter>맵\보스맵</Filter>
+    </ClCompile>
+    <ClCompile Include="Dungeon1.cpp">
+      <Filter>맵\던전</Filter>
+    </ClCompile>
+    <ClCompile Include="Village.cpp">
+      <Filter>맵\마을</Filter>
+    </ClCompile>
+    <ClCompile Include="Battle.cpp">
+      <Filter>맵\배틀</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyNinJa.cpp">
+      <Filter>캐릭터\닌자</Filter>
+    </ClCompile>
+    <ClCompile Include="NinJa.cpp">
+      <Filter>캐릭터\닌자</Filter>
+    </ClCompile>
+    <ClCompile Include="Archer.cpp">
+      <Filter>캐릭터\궁수</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyArcher.cpp">
+      <Filter>캐릭터\궁수</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

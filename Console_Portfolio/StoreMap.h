@@ -11,11 +11,14 @@
 #include "ItemSell.h"
 #include <algorithm>
 
+class Store;
+
 class StoreMap : public PrintSetting
 {
 private:
 	Player player;
 	ItemInventory* iit;
+	Store* store;
 	int count;
 	static int buySellNum;
 public:

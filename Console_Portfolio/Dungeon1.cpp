@@ -62,7 +62,6 @@ void Dungeon1::PrintMapAndCharMove(int x, int y)
 	int input;
 	while (true)
 	{
-
 		if (!CheckEnemyXY(mapX, mapY))
 		{
 			if (_kbhit())
@@ -118,15 +117,31 @@ void Dungeon1::PrintMapAndCharMove(int x, int y)
 				{
 					if (input == Enter)
 					{
+						isEntrance = true;
 						break;
 					}
 				}
 			}
 		}
+		else
+		{
+			isCollsionEnemy = true;
+			break;
+		}
 	}
 	system("cls");
-	mm.ms = Map_State::boss_dungeon;
-	mm.Current_Map();
+	if (isEntrance)
+	{
+		mm.ms = Map_State::boss_dungeon;
+		mm.Current_Map();
+		isEntrance = false;
+	}
+	if(isCollsionEnemy)
+	{
+		mm.ms = Map_State::battle;
+		mm.Current_Map();
+		isCollsionEnemy = false;
+	}
 }
 #pragma endregion
 
@@ -199,8 +214,8 @@ bool Dungeon1::CheckEnemyXY(int x, int y)
 	char message[50] = {};
 	for (int i = 0; i < sizeof(enemyArrXY) / sizeof(enemyArrXY[0]); i += 2)
 	{
-		RECT playerSquare = { x - 2, y - 1, x + 3, y + 2 };
-		RECT enemySquare = { enemyArrXY[i] - 2, enemyArrXY[i + 1] - 1, enemyArrXY[i] + 3, enemyArrXY[i + 1] + 2 };
+		RECT playerSquare = { x - 1, y - 1, x + 3, y + 2 };
+		RECT enemySquare = { enemyArrXY[i] - 2, enemyArrXY[i + 1] - 1, enemyArrXY[i] + 4, enemyArrXY[i + 1] + 2 };
 		RECT intersect;
 
 		if (IntersectRect(&intersect, &playerSquare, &enemySquare)) {
@@ -224,7 +239,8 @@ void Dungeon1::CheckTreasureXY(int x, int y)
 			intersect.right = 0;
 		intersect.bottom = 0;
 
-		if (IntersectRect(&intersect, &playerSquare, &treasureSquare)) {
+		if (IntersectRect(&intersect, &playerSquare, &treasureSquare))
+		{
 
 		}
 	}

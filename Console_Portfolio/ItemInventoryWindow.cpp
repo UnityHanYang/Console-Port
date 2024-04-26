@@ -380,12 +380,12 @@ void ItemInventoryWindow::ChoiceHealChar(int x, int y, Item* item)
 			{
 				if (characterNum == 1)
 				{
-					HpMpHeal(*gm.nj, item, x, y);
+					HpMpHeal(gm.nj, item, x, y);
 					break;
 				}
 				else if (characterNum == 2)
 				{
-					HpMpHeal(*gm.ah, item, x, y);
+					HpMpHeal(gm.ah, item, x, y);
 					break;
 				}
 			}
@@ -395,18 +395,18 @@ void ItemInventoryWindow::ChoiceHealChar(int x, int y, Item* item)
 #pragma endregion
 
 #pragma region HP, MP È¸º¹
-void ItemInventoryWindow::HpMpHeal(Character& character, Item* item, int x, int y)
+void ItemInventoryWindow::HpMpHeal(Character* character, Item* item, int x, int y)
 {
 	if (item->GetItemType() == ItemType::hpPotion)
 	{
-		if (character.GetCurrentHp() < character.GetMaxHp())
+		if (character->GetCurrentHp() < character->GetMaxHp())
 		{
-			(character.GetCurrentHp() + item->GetHeal() <= character.GetMaxHp()) ? character.SetCurrentHp(item->GetHeal()) : character.SetCurrentHp((character.GetCurrentHp() + item->GetHeal()) - character.GetMaxHp());
+			(character->GetCurrentHp() + item->GetHeal() <= character->GetMaxHp()) ? character->SetCurrentHp(item->GetHeal()) : character->SetCurrentHp((character->GetCurrentHp() + item->GetHeal()) - character->GetMaxHp());
 			item->MinusCount();
 			gotoxy(x + 65, y + 27);
 			std::cout << "                         ";
 			gotoxy(x + 65, y + 27);
-			std::cout << character.GetName() << ":  " << character.GetCurrentHp() << " / " << character.GetMaxHp();;
+			std::cout << character->GetName() << ":  " << character->GetCurrentHp() << " / " << character->GetMaxHp();;
 			Sleep(1500);
 			ClearSection(x, y);
 			if (item->GetCount() > 0)
@@ -430,14 +430,14 @@ void ItemInventoryWindow::HpMpHeal(Character& character, Item* item, int x, int 
 	}
 	else if (item->GetItemType() == ItemType::mpPotion)
 	{
-		if (character.GetCurrentMp() < character.GetMaxMp())
+		if (character->GetCurrentMp() < character->GetMaxMp())	
 		{
-			(character.GetCurrentMp() + item->GetHeal() <= character.GetMaxMp()) ? character.SetCurrentMp(item->GetHeal()) : character.SetCurrentMp((character.GetCurrentMp() + item->GetHeal()) - character.GetMaxMp());
+			(character->GetCurrentMp() + item->GetHeal() <= character->GetMaxMp()) ? character->SetCurrentMp(item->GetHeal()) : character->SetCurrentMp((character->GetCurrentMp() + item->GetHeal()) - character->GetMaxMp());
 			item->MinusCount();
 			gotoxy(x + 65, y + 27);
 			std::cout << "                         ";
 			gotoxy(x + 65, y + 27);
-			std::cout << character.GetName() << ":  " << character.GetCurrentMp() << " / " << character.GetMaxMp();
+			std::cout << character->GetName() << ":  " << character->GetCurrentMp() << " / " << character->GetMaxMp();
 			Sleep(1500);
 			ClearSection(x, y);
 			if (item->GetCount() > 0)
@@ -537,7 +537,8 @@ void ItemInventoryWindow::SettingInfo(int x, int y, int num)
 	if (!iit->GetInventory().empty())
 	{
 		SetColor(15, 0);
-		for (std::vector<Item*>::iterator iter = iit->GetInventory().begin(); iter != iit->GetInventory().end(); ++iter)
+		std::vector<Item*>::iterator iter;
+		for (iter = iit->GetInventory().begin(); iter != iit->GetInventory().end(); ++iter)
 		{
 			gotoxy(x, y + this_count);
 			if (index == num)
@@ -649,6 +650,7 @@ void ItemInventoryWindow::PrintOptionText(int x, int y, int num)
 
 void ItemInventoryWindow::LeftRightInput()
 {
+	ItemSell itemS;
 	int input;
 	while (true)
 	{
@@ -662,6 +664,7 @@ void ItemInventoryWindow::LeftRightInput()
 				{
 				case RIGHT_ARROW:
 					option = 2;
+					itemS.ClearRightSection(11, 10, 30);
 					PrintOptionText(27, 5, option);
 					break;
 				case LEFT_ARROW:

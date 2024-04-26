@@ -168,6 +168,17 @@ void Village::PrintMapAndCharMove(int x, int y)
 
 			switch (PrintBuildingInfo())
 			{
+			case 1:
+				if (input == Enter)
+				{
+					hotel.CharacterHeal(hotel.GetCharacterCount());
+					isRelax = true;
+					strcpy_s(message, " 회복 완료                                ");
+					PrintTalkMessage(207, 59, message);
+					Sleep(1500);
+					isRelax = false;
+				}
+				break;
 			case 2:
 				if (input == Enter)
 				{
@@ -291,12 +302,13 @@ int Village::PrintBuildingInfo()
 	switch (CheckBuildingXY(mapX, mapY))
 	{
 	case 1:
+		strcpy_s(message, " 여관에서 쉬시겠습니까?(Hp, Mp 회복)      ");
 		break;
 	case 2:
 		strcpy_s(message, " 상점을 여시겠습니까?                    ");
 		break;
 	case 3:
-		strcpy_s(message, " 남의 집에 함부로 들어가지 맙시다.      ");
+		strcpy_s(message, " 남의 집에 함부로 들어가지 맙시다.       ");
 		break;
 	case 4:
 		break;
@@ -310,13 +322,16 @@ int Village::PrintBuildingInfo()
 		strcpy_s(message, " 주민 집                                ");
 		break;
 	case 8:
-		strcpy_s(message, " 도박장                                ");
+		strcpy_s(message, " 도박장                                 ");
 		break;
 	case 9:
 		strcpy_s(message, " 던전에 입장하시겠습니까?                ");
 		break;
 	default:
-		strcpy_s(message, " 건물 이름은 이곳에 출력됩니다.          ");
+		if (!isRelax)
+		{
+			strcpy_s(message, " 건물 이름은 이곳에 출력됩니다.          ");
+		}
 		break;
 	}
 	PrintTalkMessage(207, 59, message);
@@ -346,17 +361,20 @@ int Village::CheckBuildingXY(int x, int y)
 	}
 	if (md.GetVillageMap()[y - 1][divide] == 0 && md.GetVillageMap()[y - 1][divide + 1] == 0)
 	{
-		if (divide == 26 && divide + 1 == 27 || divide == 26 && divide + 1 == 25)
+		if (divide == 26 && divide + 1 == 27 && y - 1 == 26  || 
+			divide == 25 && divide + 1 == 26 && y - 1 == 26 ||
+			divide == 7 && divide + 1 == 8 && y - 1 == 26 || 
+			divide == 8 && divide + 1 == 9 && y - 1 == 26)
 		{
-			num = 1;
+			num = 3;
 		}
 		else if (divide == 61 && divide + 1 == 62 || divide == 62 && divide + 1 == 63)
 		{
 			num = 2;
 		}
-		else if (divide == 7 && divide + 1 == 8 || divide == 8 && divide + 1 == 9 || divide == 25 && divide + 1 == 26 || divide == 26 && divide + 1 == 27)
+		else if (divide == 25 && divide + 1 == 26 && y - 1 == 65 || divide == 26 && divide + 1 == 27 && y - 1 == 65)
 		{
-			num = 3;
+			num = 1;
 		}
 		else if (divide == 83 && divide + 1 == 84 || divide == 84 && divide + 1 == 85)
 		{
