@@ -34,6 +34,5 @@ public:
 	void PrintTalkMessage(int x, int y, char message[50]);
 
 	Dungeon1() : mapX{ 0 }, mapY{ 0 } {}
-	~Dungeon1();
 };
 

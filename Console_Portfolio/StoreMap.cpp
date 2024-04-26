@@ -1,6 +1,6 @@
 #include "StoreMap.h"
 
-
+int StoreMap::buySellNum = 0;
 #define ARROW 224
 #define UP_ARROW 72
 #define DOWN_ARROW 80
@@ -9,6 +9,7 @@
 #define Enter 13
 #define ESC 27
 
+#pragma region 상속 메서드
 void StoreMap::SetColor(int fontColor, int backgroundColor)
 {
 	int Color = fontColor + backgroundColor * 16;
@@ -36,7 +37,9 @@ void StoreMap::gotoxy(int x, int y)
 	COORD pos = { x,y };
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 }
+#pragma endregion
 
+#pragma region 테두리
 void StoreMap::PrintBuyAndSellTool(int x, int y)
 {
 	SetColor(15, 0);
@@ -94,7 +97,7 @@ void StoreMap::PrintItemTool(int x, int y)
 	std::cout << "│                                                    │";
 	gotoxy(x, y + 11);
 	std::cout << "│                                                    │";
-	gotoxy(x, y +12);
+	gotoxy(x, y + 12);
 	std::cout << "│                                                    │";
 	gotoxy(x, y + 13);
 	std::cout << "│                                                    │";
@@ -232,6 +235,166 @@ void StoreMap::PrintItemDetailTool(int x, int y)
 	gotoxy(x, y + 38);
 	std::cout << "└────────────────────────────────────────────────────┘";
 }
+#pragma endregion
+
+#pragma region 아이템 자세히 보기
+void StoreMap::PrintMoneyText(int x, int y)
+{
+	gotoxy(x, y);
+	std::cout << "                      ";
+	gotoxy(x, y);
+	std::cout << "소지금: " << player.GetMoney();
+}
+
+void StoreMap::ShowItem(int x, int y, int num)
+{
+	Store store;
+	SetColor(15, 0);
+	gotoxy(x, y - 4);
+	std::cout << "-포션-";
+	gotoxy(x, y - 2);
+	std::cout << "     이름                           가격";
+
+	store.PrintName(x, y, num);
+
+	store.PrintPrice(x + 37, y, num);
+
+}
+#pragma endregion
+
+#pragma region 부분 제거(더블 버퍼링)
+void StoreMap::ClearText(int x, int y)
+{
+	SetColor(0, 0);
+	for (int i = 0; i < 35; i++)
+	{
+		gotoxy(x - 2, y - 4 + i);
+		std::cout << "                                                ";
+
+	}
+
+	gotoxy(x + 53, y - 3);
+	std::cout << "                                       ";
+
+}
+#pragma endregion
+
+#pragma region 아이템 구매
+bool StoreMap::CheckBuy()
+{
+	Store store;
+	if (player.GetMoney() >= store.GetCurrentItemPrice())
+		return true;
+
+	return false;
+}
+
+void StoreMap::ChoiceBuy()
+{
+	ShowItem(16, 14, 0);
+	ItemSell itemS;
+	Store store;
+	int input;
+	while (true)
+	{
+		if (_kbhit())
+		{
+			input = _getch();
+			if (input == ARROW)
+			{
+				input = _getch();
+				switch (input)
+				{
+				case DOWN_ARROW:
+					count = (count > 5) ? count : count += 1;
+					itemS.ClearRightSection(66, 9);
+					ShowItem(16, 14, count);
+					break;
+				case UP_ARROW:
+					count = (count < 2) ? count : count -= 1;
+					itemS.ClearRightSection(66, 9);
+					ShowItem(16, 14, count);
+					break;
+				}
+			}
+			else if (input == Enter)
+			{
+				if (CheckBuy())
+				{
+					if (std::find(iit->GetInventory().begin(), iit->GetInventory().end(), store.GetCurrentItem()) == iit->GetInventory().end())
+					{
+						iit->AddInventory(store.GetCurrentItem());
+					}
+					else
+					{
+						int index = std::find(iit->GetInventory().begin(), iit->GetInventory().end(), store.GetCurrentItem()) - iit->GetInventory().begin();
+						iit->AddItemCountInventory(store.GetCurrentItem(), index);
+					}
+					player.SetMoney(-store.GetCurrentItemPrice());
+
+					PrintMoneyText(89, 5);
+				}
+			}
+			else if (input == ESC)
+			{
+				count = 0;
+				itemS.ClearRightSection(66, 9);
+				ClearText(16, 14);
+				LeftRightInput();
+				break;
+			}
+		}
+	}
+}
+#pragma endregion
+
+#pragma region 옵션 선택
+void StoreMap::LeftRightInput()
+{
+	int input;
+	ItemSell itemS;
+	while (true)
+	{
+		if (_kbhit())
+		{
+			input = _getch();
+			if (input == ARROW)
+			{
+				input = _getch();
+				switch (input)
+				{
+				case RIGHT_ARROW:
+					buySellNum = (buySellNum > 2) ? buySellNum : buySellNum += 1;
+					PrintBuyAndSellText(15, 5, buySellNum);
+					break;
+				case LEFT_ARROW:
+					buySellNum = (buySellNum < 2) ? buySellNum : buySellNum -= 1;
+					PrintBuyAndSellText(15, 5, buySellNum);
+					break;
+				}
+			}
+			else if (input == Enter)
+			{
+				switch (buySellNum)
+				{
+				case 1:
+					ClearText(16, 14);
+					ChoiceBuy();
+					break;
+				case 2:
+					ClearText(16, 14);
+					itemS.ChocieSell();
+					break;
+				case 3:
+					system("cls");
+					Village vg;
+					vg.PrintMapAndCharMove(vg.GetCurrentX(), vg.GetCurrentY());
+					break;
+				}
+			}
+		}
+	}
+}
 
 void StoreMap::PrintBuyAndSellText(int x, int y, int num)
 {
@@ -251,7 +414,7 @@ void StoreMap::PrintBuyAndSellText(int x, int y, int num)
 		break;
 	case 3:
 		std::cout << "                                                                ";
-		gotoxy(x, y); 
+		gotoxy(x, y);
 		std::cout << "       구입                    판매                  ▶ 취소 ◀";
 		break;
 	default:
@@ -261,174 +424,33 @@ void StoreMap::PrintBuyAndSellText(int x, int y, int num)
 		break;
 	}
 }
+#pragma endregion
 
-void StoreMap::PrintMoneyText(int x, int y)
-{
-	gotoxy(x, y);
-	std::cout << "                      ";
-	gotoxy(x, y);
-	std::cout << "소지금: " << player.GetMoney();
-}
-
-void StoreMap::ShowItem(int x, int y , int num)
-{
-	SetColor(15, 0);
-	gotoxy(x, y-4);
-	std::cout << "-포션-";
-	gotoxy(x, y-2);
-	std::cout << "     이름                           가격";
-
-	store->PrintName(x, y, num);
-
-	store->PrintPrice(x+37, y, num);
-
-}
-
-void StoreMap::ChoiceBuy()
-{
-	ShowItem(16, 14, 0);
-
-	int input;
-	while (true)
-	{
-		if (_kbhit())
-		{
-			input = _getch();
-			if (input == ARROW)
-			{
-				input = _getch();
-				switch (input)
-				{
-				case DOWN_ARROW:
-					count = (count > 5) ? count : count += 1;
-					ShowItem(16, 14, count);
-					break;
-				case UP_ARROW:
-					count = (count < 2) ? count : count -= 1;
-					ShowItem(16, 14, count);
-					break;
-				}
-			}
-			else if (input == Enter)
-			{
-				if (CheckBuy())
-				{
-					if (std::find(iit->GetInventory().begin(), iit->GetInventory().end(), store->GetCurrentItem()) == iit->GetInventory().end())
-					{
-						iit->AddInventory(store->GetCurrentItem());
-					}
-					else
-					{
-						int index = std::find(iit->GetInventory().begin(), iit->GetInventory().end(), store->GetCurrentItem()) - iit->GetInventory().begin();
-						iit->AddItemCountInventory(store->GetCurrentItem(), index);
-					}
-					player.SetMoney(-store->GetCurrentItemPrice());
-
-					PrintMoneyText(89, 5);
-				}
-			}
-			else if (input == ESC)
-			{
-				count = 0;
-				ClearText(16, 14);
-				LeftRightInput();
-				break;
-			}
-		}
-	}
-}
-
-void StoreMap::ClearText(int x, int y)
-{
-	SetColor(0, 0);
-	for (int i = 0; i < 16; i++)
-	{
-		gotoxy(x, y-4 + i);
-		std::cout << "                                             ";
-	}
-
-	gotoxy(x + 53, y - 3);
-	std::cout << "                                       ";
-	
-}
-
-bool StoreMap::CheckBuy()
-{
-	if(player.GetMoney() >= store->GetCurrentItemPrice())
-		return true;
-
-	return false;
-}
-
-void StoreMap::LeftRightInput()
-{
-	int input;
-	ItemSell itemS;
-	while (true)
-	{
-		if (_kbhit())
-		{
-			input = _getch();
-			if (input == ARROW)
-			{
-				input = _getch();
-				switch (input)
-				{
-				case RIGHT_ARROW:
-					buyCellNum = (buyCellNum > 2) ? buyCellNum : buyCellNum += 1;
-					PrintBuyAndSellText(15, 5, buyCellNum);
-					break;
-				case LEFT_ARROW:
-					buyCellNum = (buyCellNum < 2) ? buyCellNum : buyCellNum -= 1;
-					PrintBuyAndSellText(15, 5, buyCellNum);
-					break;
-				}
-			}
-			else if (input == Enter)
-			{
-				switch (buyCellNum)
-				{
-				case 1:
-					ChoiceBuy();
-					break;
-				case 2:
-					itemS.ChocieSell();
-					break;
-				case 3:
-					system("cls");
-					Village vg;
-					vg.PrintMapAndCharMove(vg.GetCurrentX(), vg.GetCurrentY());
-					break;
-				}
-			}
-		}
-	}
-}
-
+#pragma region 화면 출력
 void StoreMap::PrintStoreMap()
 {
-	store->VectorPush();
+	Store store;
+	store.VectorPush();
 	PrintBuyAndSellTool(10, 3);
 	PrintMoneyTool(86, 3);
 	PrintItemTool(10, 8);
 	PrintItemDetailTool(65, 8);
 	PrintMoneyText(89, 5);
-	PrintBuyAndSellText(15, 5, buyCellNum);
+	PrintBuyAndSellText(15, 5, buySellNum);
 
 	LeftRightInput();
 }
+#pragma endregion
+
 
 StoreMap::StoreMap()
 {
-	store = new Store;
 	iit = new ItemInventory;
 	count = 0;
-	buyCellNum = 0;
 }
 
 StoreMap::~StoreMap()
 {
-	delete store;
 	delete iit;
 }
 

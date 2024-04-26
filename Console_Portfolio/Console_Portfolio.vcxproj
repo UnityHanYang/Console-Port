@@ -157,7 +157,6 @@
     <ClInclude Include="Dungeon1.h" />
     <ClInclude Include="DungeonBoss.h" />
     <ClInclude Include="GameManager.h" />
-    <ClInclude Include="ICharacter.h" />
     <ClInclude Include="InformationTool.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="ItemInventory.h" />
@@ -184,7 +183,6 @@
     <ClCompile Include="Dungeon1.cpp" />
     <ClCompile Include="DungeonBoss.cpp" />
     <ClCompile Include="GameManager.cpp" />
-    <ClCompile Include="ICharacter.cpp" />
     <ClCompile Include="InformationTool.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="ItemInventory.cpp" />

@@ -18,7 +18,6 @@ public:
 	virtual void gotoxy(int x, int y);
 	void PrintMapAndCharMove(int x, int y);
 	void PrintOperation(int x, int y);
-	int CheckObjectXY(int x, int y, bool isEntrance);
 	bool CheckMapXY(int x1, int y1, int x1Count, int y1Count, int x2Count, int y2Count);
 	void PrintEnemy();
 	int CheckCurrentXY(int x, int y);

@@ -25,7 +25,4 @@ public:
 	void Current_StackMap();
 	std::stack<int> GetStack() { return s_map; }
 	void SetStack(int num) { s_map.push(num); }
-
-	MapManager();
-
 };

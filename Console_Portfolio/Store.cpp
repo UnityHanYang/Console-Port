@@ -1,6 +1,8 @@
 #include "Store.h"
 
+std::vector<Item*> Store::itemVec = {};
 
+#pragma region 백터 삽입
 void Store::VectorPush()
 {
 	itemVec.push_back(smallHpPotion);
@@ -11,11 +13,15 @@ void Store::VectorPush()
 	itemVec.push_back(bigMpPotion);
 
 }
+#pragma endregion
 
+#pragma region 아이템 이름, 금액, 설명
 void Store::PrintName(int x, int y, int count)
 {
+	ItemSell itemS;
 	int this_count = 0;
 	int index = 1;
+	itemS.ClearRightSection(66, 9);
 	for (std::vector<Item*>::iterator it = itemVec.begin(); it != itemVec.end(); ++it)
 	{
 		gotoxy(x, y + this_count);
@@ -24,7 +30,7 @@ void Store::PrintName(int x, int y, int count)
 			std::cout << "                      " << std::endl;
 			gotoxy(x, y + this_count);
 			std::cout << "▶ " << (*it)->GetName() << std::endl;
-			PrintFeature(x+54, y- 3, *it);
+			PrintFeature(x + 54, y - 3, *it);
 			currentItem = *it;
 		}
 		else
@@ -70,12 +76,15 @@ void Store::PrintFeature(int x, int y, Item* item)
 	gotoxy(x, y);
 	std::cout << (item)->GetFeature() << std::endl;
 }
+#pragma endregion
 
+#pragma region 위치 이동
 void Store::gotoxy(int x, int y)
 {
 	COORD pos = { x,y };
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 }
+#pragma endregion
 
 Store::Store()
 {

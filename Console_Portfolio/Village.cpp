@@ -13,7 +13,7 @@ int Village::currentNum = 0;
 #define Enter 13
 #define X_Key 120
 
-
+#pragma region 상속 메서드
 void Village::SetColor(int fontColor, int backgroundColor)
 {
 	int Color = fontColor + backgroundColor * 16;
@@ -40,7 +40,9 @@ void Village::gotoxy(int x, int y)
 	COORD pos = { x,y };
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 }
+#pragma endregion
 
+#pragma region 맵 출력, 플레이어 이동
 void Village::PrintMapAndCharMove(int x, int y)
 {
 	MapManager mm;
@@ -135,7 +137,7 @@ void Village::PrintMapAndCharMove(int x, int y)
 				PrintS(2, 1, 1, 1, mapX, mapY + 1);
 				SetColor(15, 0);
 			}
-			else if(input == X_Key)
+			else if (input == X_Key)
 			{
 				currentNum = 0;
 				CheckXState(currentNum);
@@ -185,7 +187,9 @@ void Village::PrintMapAndCharMove(int x, int y)
 		}
 	}
 }
+#pragma endregion
 
+#pragma region 조작법, 안내창
 void Village::CheckXState(int num)
 {
 	if (!isXTrue)
@@ -279,7 +283,9 @@ void Village::PrintOperation(int x, int y)
 	gotoxy(x, y + 34);
 	std::cout << "전환할 수 있습니다.";
 }
+#pragma endregion
 
+#pragma region 대화창
 int Village::PrintBuildingInfo()
 {
 	switch (CheckBuildingXY(mapX, mapY))
@@ -326,7 +332,9 @@ void Village::PrintTalkMessage(int x, int y, char message[50])
 		std::cout << message[i];
 	}
 }
+#pragma endregion
 
+#pragma region 건물 감지
 int Village::CheckBuildingXY(int x, int y)
 {
 	int num = 0;
@@ -376,7 +384,9 @@ int Village::CheckBuildingXY(int x, int y)
 	}
 	return num;
 }
+#pragma endregion
 
+#pragma region 플레이어 이동 제약 사항
 bool Village::CheckMapXY(int x1, int y1, int x1Count, int y1Count, int x2Count, int y2Count)
 {
 	if (md.GetVillageMap()[y1 + y1Count][((x1 / 2) + x1Count)] != 7 || md.GetVillageMap()[y1 + y2Count][((x1 / 2) + x2Count)] != 7)
@@ -384,3 +394,4 @@ bool Village::CheckMapXY(int x1, int y1, int x1Count, int y1Count, int x2Count, 
 
 	return true;
 }
+#pragma endregion

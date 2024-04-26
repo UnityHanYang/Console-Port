@@ -2,6 +2,7 @@
 #include <iostream>
 #include "Item.h"
 #include <vector>
+#include "ItemSell.h"
 
 class Store
 {
@@ -12,7 +13,7 @@ private:
 	Item* smallMpPotion;
 	Item* middleMpPotion;
 	Item* bigMpPotion;
-	std::vector<Item*> itemVec;
+	static std::vector<Item*> itemVec;
 	int currentItemPrice;
 	Item* currentItem;
 	ItemType hpType;

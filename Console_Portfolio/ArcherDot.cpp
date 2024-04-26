@@ -1,40 +1,43 @@
 #include "ArcherDot.h"
 
+#pragma region 상속 메서드
 void ArcherDot::PrintS(int count, int font, int background, bool isEndl, int x, int y)
 {
-	SetColor(font, background);
-	gotoxy(x, y);
+    SetColor(font, background);
+    gotoxy(x, y);
 
-	for (int i = 0; i < count; i++)
-	{
-		std::cout << "ㅁ";
-	}
+    for (int i = 0; i < count; i++)
+    {
+        std::cout << "ㅁ";
+    }
 
-	if (isEndl)
-	{
-		std::cout << std::endl;
-	}
+    if (isEndl)
+    {
+        std::cout << std::endl;
+    }
 }
 
 void ArcherDot::SetColor(int fontColor, int backgroundColor)
 {
-	int Color = fontColor + backgroundColor * 16;
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color);
+    int Color = fontColor + backgroundColor * 16;
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color);
 }
 
 void ArcherDot::gotoxy(int x, int y)
 {
-	COORD pos = { x,y };
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+    COORD pos = { x,y };
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 }
+#pragma endregion
 
+#pragma region 궁수 캐릭터 출력(초상화)
 void ArcherDot::PrintArcherPortrait1(int x, int y)
 {
     PrintS(4, 0, 0, 0, x, y);
-    PrintS(7, 0, 0, 1, x+12, y);
-    PrintS(8, 0, 0, 0, x-4, y+1);
-    PrintS(2, 6, 6, 0, x+12, y+1);
-    PrintS(5, 0, 0, 1, x+16, y+1);
+    PrintS(7, 0, 0, 1, x + 12, y);
+    PrintS(8, 0, 0, 0, x - 4, y + 1);
+    PrintS(2, 6, 6, 0, x + 12, y + 1);
+    PrintS(5, 0, 0, 1, x + 16, y + 1);
     PrintS(11, 0, 0, 0, x - 8, y + 2);
     PrintS(2, 6, 6, 0, x + 14, y + 2);
     PrintS(5, 0, 0, 1, x + 18, y + 2);
@@ -51,7 +54,7 @@ void ArcherDot::PrintArcherPortrait1(int x, int y)
     PrintS(8, 0, 0, 0, x + 6, y + 6);
     PrintS(5, 6, 6, 1, x + 20, y + 6);
     PrintS(6, 0, 0, 0, x - 16, y + 7);
-    PrintS(6, 14, 14, 0, x-4, y + 7);
+    PrintS(6, 14, 14, 0, x - 4, y + 7);
     PrintS(7, 0, 0, 0, x + 8, y + 7);
     PrintS(5, 6, 6, 1, x + 20, y + 7);
     PrintS(3, 0, 0, 0, x - 16, y + 8);
@@ -96,7 +99,7 @@ void ArcherDot::PrintArcherPortrait1(int x, int y)
     PrintS(3, 0, 0, 0, x - 18, y + 13);
     PrintS(11, 14, 14, 0, x - 10, y + 13);
     PrintS(1, 0, 0, 0, x + 12, y + 13);
-    PrintS(1, 14, 14, 0, x+14, y + 13);
+    PrintS(1, 14, 14, 0, x + 14, y + 13);
     PrintS(2, 0, 0, 1, x + 16, y + 13);
     PrintS(2, 0, 0, 0, x - 18, y + 14);
     PrintS(12, 14, 14, 0, x - 10, y + 14);
@@ -115,7 +118,7 @@ void ArcherDot::PrintArcherPortrait1(int x, int y)
     PrintS(2, 0, 0, 0, x - 18, y + 17);
     PrintS(2, 8, 8, 0, x - 6, y + 17);
     PrintS(3, 14, 14, 0, x - 2, y + 17);
-    PrintS(2, 8, 8, 0, x+4, y + 17);
+    PrintS(2, 8, 8, 0, x + 4, y + 17);
     PrintS(1, 14, 14, 0, x + 8, y + 17);
     PrintS(2, 0, 0, 0, x + 10, y + 17);
     PrintS(3, 14, 14, 1, x + 14, y + 17);
@@ -147,8 +150,9 @@ void ArcherDot::PrintArcherPortrait1(int x, int y)
     PrintS(8, 7, 7, 0, x - 18, y + 24);
     PrintS(15, 14, 14, 1, x - 2, y + 24);
 }
+#pragma endregion
 
-
+#pragma region 궁수 캐릭터 출력(전신)
 void ArcherDot::PrintArcher1(int x, int y)
 {
     PrintS(2, 0, 0, 1, x, y);
@@ -542,3 +546,4 @@ void ArcherDot::PrintArcher1(int x, int y)
 
     std::cout << std::endl;
 }
+#pragma endregion

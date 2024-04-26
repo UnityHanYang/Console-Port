@@ -11,6 +11,7 @@ int charNum = 0;
 #define RIGHT_ARROW 77
 #define Enter_Key 13
 
+#pragma region 상속 메서드
 void CharacterChoice::SetColor(int fontColor, int backgroundColor)
 {
 	int Color = fontColor + backgroundColor * 16;
@@ -38,7 +39,9 @@ void CharacterChoice::gotoxy(int x, int y)
 	COORD pos = { x,y };
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 }
+#pragma endregion
 
+#pragma region 캐릭터 선택
 bool CharacterChoice::ChoiceScene()
 {
 	std::cout << "\n\t\t\t\t\t\t      캐릭터를 선택하세요.\n\n\n\n";
@@ -110,7 +113,31 @@ bool CharacterChoice::ChoiceScene()
 		}
 	}
 }
+#pragma endregion
 
+#pragma region 조작키
+void CharacterChoice::PrintOperate(int x, int y)
+{
+	gotoxy(x, y);
+	std::cout << "→: 오른쪽 선택";
+	gotoxy(x, y + 2);
+	std::cout << "←: 왼쪽 선택";
+	gotoxy(x, y + 4);
+	std::cout << "Enter: 선택";
+	gotoxy(x, y + 6);
+	std::cout << "선택을 하고 Enter 키를";
+	gotoxy(x, y + 7);
+	std::cout << "누르면 캐릭터에 대해";
+	gotoxy(x, y + 8);
+	std::cout << "자세히 볼 수 있습니다.";
+	gotoxy(x, y + 10);
+	std::cout << "선택이 안 된 캐릭터는 나중에";
+	gotoxy(x, y + 11);
+	std::cout << "동료가 되어 파티에 가입됩니다.";
+}
+#pragma endregion
+
+#pragma region 캐릭터 자세히 보기
 void CharacterChoice::ReadMore(int num)
 {
 	PrintCharacterAbility(num);
@@ -202,7 +229,9 @@ void CharacterChoice::ReadMore(int num)
 		}
 	}
 }
+#pragma endregion
 
+#pragma region 배경
 void CharacterChoice::PrintBackGround(int font, int background, int x, int y)
 {
 	PrintS(26, font, background, 1, x, y);
@@ -232,26 +261,6 @@ void CharacterChoice::PrintBackGround(int font, int background, int x, int y)
 	PrintS(26, font, background, 1, x, y + 24);
 	PrintS(26, font, background, 1, x, y + 25);
 	PrintS(26, font, background, 1, x, y + 26);
-}
-
-void CharacterChoice::PrintOperate(int x, int y)
-{
-	gotoxy(x, y);
-	std::cout << "→: 오른쪽 선택";
-	gotoxy(x, y + 2);
-	std::cout << "←: 왼쪽 선택";
-	gotoxy(x, y + 4);
-	std::cout << "Enter: 선택";
-	gotoxy(x, y + 6);
-	std::cout << "선택을 하고 Enter 키를";
-	gotoxy(x, y + 7);
-	std::cout << "누르면 캐릭터에 대해";
-	gotoxy(x, y + 8);
-	std::cout << "자세히 볼 수 있습니다.";
-	gotoxy(x, y + 10);
-	std::cout << "선택이 안 된 캐릭터는 나중에";
-	gotoxy(x, y + 11);
-	std::cout << "동료가 되어 파티에 가입됩니다.";
 }
 
 void CharacterChoice::PrintNinjarBackGround()
@@ -290,7 +299,9 @@ void CharacterChoice::PrintNinjarBackGround()
 	}
 
 }
+#pragma endregion
 
+#pragma region 캐릭터 정보
 void CharacterChoice::PrintCharacterAbility(int num)
 {
 	if (num == 1)
@@ -300,12 +311,12 @@ void CharacterChoice::PrintCharacterAbility(int num)
 		SetColor(0, 15);
 		PrintAbilityTool(135, 50);
 		gotoxy(139, 52);
-		std::cout << " 이름: " <<  gm.nj->GetName();
+		std::cout << " 이름: " << gm.nj->GetName();
 		std::cout << "                직업: " << gm.nj->GetOccupation();
 		gotoxy(139, 55);
 		std::cout << " 공격력: " << gm.nj->GetAtk();
 		std::cout << "                마나: " << gm.nj->GetMaxMp();
-		gotoxy(139, 58);  
+		gotoxy(139, 58);
 		std::cout << " 체력: " << gm.nj->GetMaxHp();
 		std::cout << "                   방어력: " << gm.nj->GetDef();
 		gotoxy(139, 61);
@@ -342,9 +353,4 @@ void CharacterChoice::PrintAbilityTool(int x, int y)
 	gotoxy(x, y + 14);
 	std::cout << "──────────────────────────────────────────────────";
 }
-
-CharacterChoice::CharacterChoice()
-{
-}
-
-
+#pragma endregion

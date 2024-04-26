@@ -3,6 +3,7 @@
 std::stack<int> MapManager::s_map = { };
 Map_State MapManager::ms = Map_State::village;
 
+#pragma region ¸Ê ÀÌµ¿(enum, stack)
 void MapManager::Current_Map()
 {
 	Village vg;
@@ -53,7 +54,4 @@ void MapManager::Current_StackMap()
 		}
 	}
 }
-
-MapManager::MapManager()
-{
-}
+#pragma endregion

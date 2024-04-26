@@ -1,11 +1,6 @@
 #include "GameManager.h"
 #include <iostream>
 
-
-void GameManager::GameScene()
-{
-}
-
 GameManager::GameManager()
 {
 	nj = new NinJa("°ÕÁö", "´ÑÀÚ", 80, 5, 30, 5, 7, 2);

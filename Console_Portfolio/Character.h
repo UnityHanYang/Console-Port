@@ -1,8 +1,7 @@
 #pragma once
 #include <iostream>
-#include "ICharacter.h"
 
-class Character : public ICharacter
+class Character
 {
 protected:
     const char* name;

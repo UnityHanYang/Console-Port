@@ -9,7 +9,6 @@ class GameManager
 public:
 	NinJa* nj;
 	Archer* ah;
-	void GameScene();
 
 	GameManager();
 	~GameManager();

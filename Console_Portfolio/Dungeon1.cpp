@@ -10,6 +10,7 @@ int Dungeon1::treasureBoxXY[6] = { 10, 3, 182, 51, 88, 7 };
 #define DOWN_ARROW 80
 #define Enter 13
 
+#pragma region 상속 메서드
 void Dungeon1::SetColor(int fontColor, int backgroundColor)
 {
 	int Color = fontColor + backgroundColor * 16;
@@ -36,7 +37,9 @@ void Dungeon1::gotoxy(int x, int y)
 	COORD pos = { x,y };
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 }
+#pragma endregion
 
+#pragma region 맵 출력, 플레이어 이동
 void Dungeon1::PrintMapAndCharMove(int x, int y)
 {
 	int xCpy, yCpy;
@@ -125,7 +128,9 @@ void Dungeon1::PrintMapAndCharMove(int x, int y)
 	mm.ms = Map_State::boss_dungeon;
 	mm.Current_Map();
 }
+#pragma endregion
 
+#pragma region 조작법, 안내창
 void Dungeon1::PrintOperation(int x, int y)
 {
 	gotoxy(x, y);
@@ -174,7 +179,9 @@ void Dungeon1::PrintOperation(int x, int y)
 	gotoxy(x, y + 23);
 	std::cout << "감소합니다. 유의하세요!";
 }
+#pragma endregion
 
+#pragma region 대화창
 void Dungeon1::PrintTalkMessage(int x, int y, char message[50])
 {
 	gotoxy(x, y);
@@ -184,11 +191,9 @@ void Dungeon1::PrintTalkMessage(int x, int y, char message[50])
 		std::cout << message[i];
 	}
 }
+#pragma endregion
 
-Dungeon1::~Dungeon1()
-{
-}
-
+#pragma region 충돌 처리
 bool Dungeon1::CheckEnemyXY(int x, int y)
 {
 	char message[50] = {};
@@ -214,9 +219,9 @@ void Dungeon1::CheckTreasureXY(int x, int y)
 		RECT playerSquare = { x - 1, y - 1, x + 2, y + 2 };
 		RECT treasureSquare = { treasureBoxXY[i] - 3, treasureBoxXY[i + 1] - 1, treasureBoxXY[i] + 4, treasureBoxXY[i + 1] + 1 };
 		RECT intersect;
-		intersect.left = 0; 
-		intersect.top = 0, 
-		intersect.right = 0; 
+		intersect.left = 0;
+		intersect.top = 0,
+			intersect.right = 0;
 		intersect.bottom = 0;
 
 		if (IntersectRect(&intersect, &playerSquare, &treasureSquare)) {
@@ -224,7 +229,9 @@ void Dungeon1::CheckTreasureXY(int x, int y)
 		}
 	}
 }
+#pragma endregion
 
+#pragma region 적, 보물상자 생성
 void Dungeon1::PrintEnemy()
 {
 	for (int i = 0; i < sizeof(enemyArrXY) / sizeof(enemyArrXY[0]); i += 2)
@@ -242,6 +249,9 @@ void Dungeon1::PrintTreasure()
 	}
 }
 
+#pragma endregion
+
+#pragma region 현재 위치, 던전 입구 감지
 int Dungeon1::CheckCurrentXY(int x, int y)
 {
 	int num = 0;
@@ -260,13 +270,15 @@ int Dungeon1::CheckCurrentXY(int x, int y)
 
 bool Dungeon1::CheckEntranceXY(int x, int y)
 {
-	if (md.GetDungeonMap()[y - 1][x / 2] == 0 && md.GetDungeonMap()[y - 1][(x / 2)+1] == 0)
+	if (md.GetDungeonMap()[y - 1][x / 2] == 0 && md.GetDungeonMap()[y - 1][(x / 2) + 1] == 0)
 	{
 		return true;
 	}
 	return false;
 }
+#pragma endregion
 
+#pragma region 플레이어 제약 사항
 bool Dungeon1::CheckMapXY(int x1, int y1, int x1Count, int y1Count, int x2Count, int y2Count)
 {
 	if (md.GetDungeonMap()[y1 + y1Count][((x1 / 2) + x1Count)] == 8 || md.GetDungeonMap()[y1 + y2Count][((x1 / 2) + x2Count)] == 8)
@@ -276,3 +288,4 @@ bool Dungeon1::CheckMapXY(int x1, int y1, int x1Count, int y1Count, int x2Count,
 
 	return true;
 }
+#pragma endregion

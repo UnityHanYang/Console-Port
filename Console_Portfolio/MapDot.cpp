@@ -5,6 +5,7 @@ int MapDot::villageNextMap[ROW_SIZE][COL_SIZE] = {};
 int MapDot::dungeonMap[ROW_SIZE][COL_SIZE] = {};
 int MapDot::dungeonBossMap[ROW_SIZE][COL_SIZE] = {};
 
+#pragma region 鼻樓 詭憮萄
 void MapDot::SetColor(int fontColor, int backgroundColor)
 {
 	int Color = fontColor + backgroundColor * 16;
@@ -31,7 +32,9 @@ void MapDot::gotoxy(int x, int y)
 	COORD pos = { x,y };
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 }
+#pragma endregion
 
+#pragma region 裘 轎溘(葆擊)
 void MapDot::SettingVillageMap()
 {
 
@@ -132,6 +135,23 @@ void MapDot::SettingVillageMap()
 
 }
 
+void MapDot::PrintVillageMap()
+{
+
+	for (int i = 0; i < ROW_SIZE; i++)
+	{
+		for (int j = 0; j < COL_SIZE; j++)
+		{
+			SetColor(villageMap[i][j], villageMap[i][j]);
+			std::cout << "仃";
+			SetColor(0, 0);
+		}
+		std::cout << std::endl;
+	}
+}
+#pragma endregion
+
+#pragma region 裘 轎溘(湍瞪)
 void MapDot::SettingDungeonMap()
 {
 	int copyMap[ROW_SIZE][COL_SIZE] =
@@ -229,6 +249,23 @@ void MapDot::SettingDungeonMap()
 	}
 }
 
+void MapDot::PrintDungeonMap()
+{
+
+	for (int i = 0; i < ROW_SIZE; i++)
+	{
+		for (int j = 0; j < COL_SIZE; j++)
+		{
+			SetColor(dungeonMap[i][j], dungeonMap[i][j]);
+			std::cout << "仃";
+			SetColor(0, 0);
+		}
+		std::cout << std::endl;
+	}
+}
+#pragma endregion
+
+#pragma region 裘 轎溘(爾蝶裘)
 void MapDot::SettingDungeonBossMap()
 {
 	int copyMap[ROW_SIZE][COL_SIZE] =
@@ -326,6 +363,22 @@ void MapDot::SettingDungeonBossMap()
 	}
 }
 
+void MapDot::PrintDungeonBossMap()
+{
+	for (int i = 0; i < ROW_SIZE; i++)
+	{
+		for (int j = 0; j < COL_SIZE; j++)
+		{
+			SetColor(dungeonBossMap[i][j], dungeonBossMap[i][j]);
+			std::cout << "仃";
+			SetColor(0, 0);
+		}
+		std::cout << std::endl;
+	}
+}
+#pragma endregion
+
+#pragma region 纔舒葬
 void MapDot::PrintOperation_Keys(int x, int y)
 {
 	gotoxy(x, y);
@@ -412,50 +465,6 @@ void MapDot::PrintOperation_Keys(int x, int y)
 	std::cout << "戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎";
 }
 
-void MapDot::PrintVillageMap()
-{
-
-	for (int i = 0; i < ROW_SIZE; i++)
-	{
-		for (int j = 0; j < COL_SIZE; j++)
-		{
-			SetColor(villageMap[i][j], villageMap[i][j]);
-			std::cout << "仃";
-			SetColor(0, 0);
-		}
-		std::cout << std::endl;
-	}
-}
-
-void MapDot::PrintDungeonMap()
-{
-
-	for (int i = 0; i < ROW_SIZE; i++)
-	{
-		for (int j = 0; j < COL_SIZE; j++)
-		{
-			SetColor(dungeonMap[i][j], dungeonMap[i][j]);
-			std::cout << "仃";
-			SetColor(0, 0);
-		}
-		std::cout << std::endl;
-	}
-}
-
-void MapDot::PrintDungeonBossMap()
-{
-	for (int i = 0; i < ROW_SIZE; i++)
-	{
-		for (int j = 0; j < COL_SIZE; j++)
-		{
-			SetColor(dungeonBossMap[i][j], dungeonBossMap[i][j]);
-			std::cout << "仃";
-			SetColor(0, 0);
-		}
-		std::cout << std::endl;
-	}
-}
-
 void MapDot::PrintConsole(int x, int y)
 {
 	gotoxy(x, y);
@@ -469,3 +478,4 @@ void MapDot::PrintConsole(int x, int y)
 	gotoxy(x, y + 4);
 	std::cout << "戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎";
 }
+#pragma endregion

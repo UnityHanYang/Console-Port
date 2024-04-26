@@ -9,6 +9,7 @@ int DungeonBoss::enemyArrXY[4] = { 30, 60, 80, 70 };
 #define DOWN_ARROW 80
 #define Enter 13
 
+#pragma region 상속 메서드
 void DungeonBoss::SetColor(int fontColor, int backgroundColor)
 {
 	int Color = fontColor + backgroundColor * 16;
@@ -35,7 +36,9 @@ void DungeonBoss::gotoxy(int x, int y)
 	COORD pos = { x,y };
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 }
+#pragma endregion
 
+#pragma region 맵 출력, 플레이어 이동
 void DungeonBoss::PrintMapAndCharMove(int x, int y)
 {
 	int xCpy, yCpy;
@@ -115,7 +118,9 @@ void DungeonBoss::PrintMapAndCharMove(int x, int y)
 		}
 	}
 }
+#pragma endregion
 
+#pragma region 조작법, 안내창
 void DungeonBoss::PrintOperation(int x, int y)
 {
 	gotoxy(x, y);
@@ -169,12 +174,9 @@ void DungeonBoss::PrintOperation(int x, int y)
 	gotoxy(x, y + 25);
 	std::cout << "감소합니다. 유의하세요!";
 }
+#pragma endregion
 
-int DungeonBoss::CheckObjectXY(int x, int y, bool isEntrance)
-{
-	return 0;
-}
-
+#pragma region 플레이어 이동 제약 사항
 bool DungeonBoss::CheckMapXY(int x1, int y1, int x1Count, int y1Count, int x2Count, int y2Count)
 {
 	SetColor(15, 0);
@@ -185,32 +187,9 @@ bool DungeonBoss::CheckMapXY(int x1, int y1, int x1Count, int y1Count, int x2Cou
 
 	return true;
 }
+#pragma endregion
 
-void DungeonBoss::PrintEnemy()
-{
-	for (int i = 0; i < sizeof(enemyArrXY) / sizeof(enemyArrXY[0]); i += 2)
-	{
-		PrintS(2, 5, 5, 1, enemyArrXY[i], enemyArrXY[i + 1]);
-		PrintS(2, 5, 5, 0, enemyArrXY[i], enemyArrXY[i + 1] + 1);
-	}
-}
-
-int DungeonBoss::CheckCurrentXY(int x, int y)
-{
-	int num = 0;
-	if (md.GetDungeonBossMap()[y][x / 2] == 12)
-	{
-		num = 12;
-		return num;
-	}
-	else if (md.GetDungeonBossMap()[y][x / 2] == 4)
-	{
-		num = 4;
-		return num;
-	}
-	return 0;
-}
-
+#pragma region 충돌 감지
 bool DungeonBoss::CheckEnemyXY(int x, int y)
 {
 	char message[50];
@@ -226,3 +205,34 @@ bool DungeonBoss::CheckEnemyXY(int x, int y)
 	}
 	return false;
 }
+
+#pragma endregion
+
+#pragma region 적 생성
+void DungeonBoss::PrintEnemy()
+{
+	for (int i = 0; i < sizeof(enemyArrXY) / sizeof(enemyArrXY[0]); i += 2)
+	{
+		PrintS(2, 5, 5, 1, enemyArrXY[i], enemyArrXY[i + 1]);
+		PrintS(2, 5, 5, 0, enemyArrXY[i], enemyArrXY[i + 1] + 1);
+	}
+}
+#pragma endregion
+
+#pragma region 현재 위치 체크
+int DungeonBoss::CheckCurrentXY(int x, int y)
+{
+	int num = 0;
+	if (md.GetDungeonBossMap()[y][x / 2] == 12)
+	{
+		num = 12;
+		return num;
+	}
+	else if (md.GetDungeonBossMap()[y][x / 2] == 4)
+	{
+		num = 4;
+		return num;
+	}
+	return 0;
+}
+#pragma endregion

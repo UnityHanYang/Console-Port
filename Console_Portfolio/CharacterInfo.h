@@ -33,7 +33,5 @@ public:
 	void SetJoinWhether(bool b_Value) { isJoin = b_Value; }
 	void PrintCharacterAbility(int num);
 	void PrintOperate(int x, int y);
-
-	CharacterInfo();
 };
 

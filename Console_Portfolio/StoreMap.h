@@ -14,11 +14,10 @@
 class StoreMap : public PrintSetting
 {
 private:
-	Store* store;
 	Player player;
 	ItemInventory* iit;
 	int count;
-	int buyCellNum;
+	static int buySellNum;
 public:
 	virtual void SetColor(int fontColor, int backgroundColor);
 	virtual void PrintS(int count, int font, int background, bool isEndl, int x, int y);
@@ -35,6 +34,7 @@ public:
 	void ClearText(int x, int y);																																																																																																																																							
 	bool CheckBuy();
 	void LeftRightInput();
+	int GetBuySellNum() { return buySellNum; }
 
 	StoreMap();
 	~StoreMap();

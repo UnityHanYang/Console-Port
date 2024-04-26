@@ -33,7 +33,5 @@ public:
 	void PrintCharacterAbility(int num);
 	void PrintAbilityTool(int x, int y);
 	int GetCharacter() { return characterNum; }
-
-	CharacterChoice();
 };
 

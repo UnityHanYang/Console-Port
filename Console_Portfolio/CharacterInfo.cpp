@@ -9,7 +9,7 @@ bool CharacterInfo::isJoin = false;
 #define ESC 27
 int charChoiceNum = 0;
 
-
+#pragma region 상속 메서드
 void CharacterInfo::SetColor(int fontColor, int backgroundColor)
 {
 	int Color = fontColor + backgroundColor * 16;
@@ -37,7 +37,9 @@ void CharacterInfo::gotoxy(int x, int y)
 	COORD pos = { x,y };
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 }
+#pragma endregion
 
+#pragma region 캐릭터 선택
 void CharacterInfo::CharacterOne()
 {
 	SetColor(15, 0);
@@ -150,7 +152,13 @@ void CharacterInfo::ChoiceCharacter()
 		}
 	}
 }
+#pragma endregion
 
+#pragma region 캐릭터 정보
+void CharacterInfo::ReadMore(int num)
+{
+	PrintCharacterAbility(num);
+}
 
 void CharacterInfo::PrintCharacterAbility(int num)
 {
@@ -212,7 +220,9 @@ void CharacterInfo::PrintCharacterAbility(int num)
 		}
 	}
 }
+#pragma endregion
 
+#pragma region 조작키
 void CharacterInfo::PrintBackOperate(int x, int y)
 {
 	gotoxy(x, y);
@@ -231,12 +241,4 @@ void CharacterInfo::PrintOperate(int x, int y)
 	std::cout << "ESC: 뒤로가기";
 	SetColor(15, 0);
 }
-
-void CharacterInfo::ReadMore(int num)
-{
-	PrintCharacterAbility(num);
-}
-
-CharacterInfo::CharacterInfo()
-{
-}
+#pragma endregion

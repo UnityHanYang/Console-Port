@@ -90,9 +90,6 @@
     <ClInclude Include="NinJa.h">
       <Filter>캐릭터</Filter>
     </ClInclude>
-    <ClInclude Include="ICharacter.h">
-      <Filter>캐릭터\캐릭터 속성 세팅</Filter>
-    </ClInclude>
     <ClInclude Include="Character.h">
       <Filter>캐릭터\캐릭터 속성 세팅</Filter>
     </ClInclude>
@@ -169,9 +166,6 @@
     </ClCompile>
     <ClCompile Include="NinJa.cpp">
       <Filter>캐릭터</Filter>
-    </ClCompile>
-    <ClCompile Include="ICharacter.cpp">
-      <Filter>캐릭터\캐릭터 속성 세팅</Filter>
     </ClCompile>
     <ClCompile Include="Character.cpp">
       <Filter>캐릭터\캐릭터 속성 세팅</Filter>

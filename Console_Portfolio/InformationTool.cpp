@@ -1,5 +1,6 @@
 #include "InformationTool.h"
 
+#pragma region 상속 메서드
 void InformationTool::SetColor(int fontColor, int backgroundColor)
 {
 	int Color = fontColor + backgroundColor * 16;
@@ -26,7 +27,9 @@ void InformationTool::gotoxy(int x, int y)
 	COORD pos = { x,y };
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 }
+#pragma endregion
 
+#pragma region 조작키 지우기(더블 버퍼링)
 void InformationTool::ClearOperation(int x, int y)
 {
 	gotoxy(x, y);
@@ -79,7 +82,9 @@ void InformationTool::ClearOperation(int x, int y)
 	gotoxy(x, y + 34);
 	std::cout << "                             ";
 }
+#pragma endregion
 
+#pragma region 정보창
 void InformationTool::PrintInfo(int x, int y, int num)
 {
 	SetColor(15, 0);
@@ -96,3 +101,5 @@ void InformationTool::PrintInfo(int x, int y, int num)
 	gotoxy(x, y + 14);
 	std::cout << "    돌아갈 수 있습니다.";
 }
+
+#pragma endregion

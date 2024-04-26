@@ -8,6 +8,7 @@
 #define Enter 13
 #define ESC 27
 
+#pragma region 상속 메서드
 void ItemInventoryWindow::SetColor(int fontColor, int backgroundColor)
 {
 	int Color = fontColor + backgroundColor * 16;
@@ -35,7 +36,9 @@ void ItemInventoryWindow::gotoxy(int x, int y)
 	COORD pos = { x,y };
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 }
+#pragma endregion
 
+#pragma region 테두리
 void ItemInventoryWindow::PrintItemAndCancelTool(int x, int y)
 {
 	SetColor(15, 0);
@@ -231,28 +234,9 @@ void ItemInventoryWindow::PrintItemDetailTool(int x, int y)
 	gotoxy(x, y + 38);
 	std::cout << "└────────────────────────────────────────────────────┘";
 }
+#pragma endregion
 
-
-void ItemInventoryWindow::PrintMoneyText(int x, int y)
-{
-	gotoxy(x, y);
-	std::cout << "소지금: " << player.GetMoney();
-}
-
-void ItemInventoryWindow::ShowItem(int x, int y, int num)
-{
-	SetColor(15, 0);
-	gotoxy(x, y - 4);
-	std::cout << "-포션-";
-	gotoxy(x, y - 2);
-	std::cout << "     이름                          ";
-
-
-	SettingInfo(x, y, num);
-
-}
-
-
+#pragma region 아이템 사용 여부
 void ItemInventoryWindow::UseItemYesOrNo(int x, int y, Item* item)
 {
 	SetColor(15, 0);
@@ -328,7 +312,9 @@ void ItemInventoryWindow::UseItemYesOrNo(int x, int y, Item* item)
 		}
 	}
 }
+#pragma endregion
 
+#pragma region 회복시킬 캐릭터 선택
 void ItemInventoryWindow::ChoiceHealChar(int x, int y, Item* item)
 {
 	GameManager gm;
@@ -399,12 +385,16 @@ void ItemInventoryWindow::ChoiceHealChar(int x, int y, Item* item)
 				}
 				else if (characterNum == 2)
 				{
-
+					HpMpHeal(*gm.ah, item, x, y);
+					break;
 				}
 			}
 		}
 	}
 }
+#pragma endregion
+
+#pragma region HP, MP 회복
 void ItemInventoryWindow::HpMpHeal(Character& character, Item* item, int x, int y)
 {
 	if (item->GetItemType() == ItemType::hpPotion)
@@ -474,8 +464,9 @@ void ItemInventoryWindow::HpMpHeal(Character& character, Item* item, int x, int 
 		LeftRightInput();
 	}
 }
+#pragma endregion
 
-
+#pragma region 부분 지우기(더블 버퍼링)
 void ItemInventoryWindow::ClearSection2(int x, int y)
 {
 	SetColor(0, 0);
@@ -485,7 +476,6 @@ void ItemInventoryWindow::ClearSection2(int x, int y)
 		std::cout << "                                          ";
 	}
 }
-
 
 void ItemInventoryWindow::ClearSection(int x, int y)
 {
@@ -498,6 +488,47 @@ void ItemInventoryWindow::ClearSection(int x, int y)
 	gotoxy(x + 70, y + 29);
 	std::cout << "               ";
 }
+
+void ItemInventoryWindow::ClearText(int x, int y)
+{
+	SetColor(0, 0);
+	for (int i = 0; i < 16; i++)
+	{
+		gotoxy(x, y - 4 + i);
+		std::cout << "                                          ";
+	}
+
+	gotoxy(x + 53, y - 3);
+	std::cout << "                                       ";
+	gotoxy(x + 53, y - 1);
+	std::cout << "                                       ";
+	gotoxy(x + 58, y + 27);
+	std::cout << "                                       ";
+	gotoxy(x + 70, y + 29);
+	std::cout << "               ";
+}
+#pragma endregion
+
+#pragma region 아이템 자세히 보기
+void ItemInventoryWindow::PrintMoneyText(int x, int y)
+{
+	gotoxy(x, y);
+	std::cout << "소지금: " << player.GetMoney();
+}
+
+void ItemInventoryWindow::ShowItem(int x, int y, int num)
+{
+	SetColor(15, 0);
+	gotoxy(x, y - 4);
+	std::cout << "-포션-";
+	gotoxy(x, y - 2);
+	std::cout << "     이름                          ";
+
+
+	SettingInfo(x, y, num);
+
+}
+
 
 void ItemInventoryWindow::SettingInfo(int x, int y, int num)
 {
@@ -527,7 +558,6 @@ void ItemInventoryWindow::SettingInfo(int x, int y, int num)
 				if (isEnter)
 				{
 					UseItemYesOrNo(x, y, *iter);
-					isEnter = false;
 				}
 			}
 			else
@@ -541,8 +571,9 @@ void ItemInventoryWindow::SettingInfo(int x, int y, int num)
 		}
 	}
 }
+#pragma endregion
 
-
+#pragma region 아이템 선택
 void ItemInventoryWindow::ChoiceUse()
 {
 	ShowItem(16, 14, 0);
@@ -589,26 +620,9 @@ void ItemInventoryWindow::ChoiceUse()
 		}
 	}
 }
+#pragma endregion
 
-void ItemInventoryWindow::ClearText(int x, int y)
-{
-	SetColor(0, 0);
-	for (int i = 0; i < 16; i++)
-	{
-		gotoxy(x, y - 4 + i);
-		std::cout << "                                          ";
-	}
-
-	gotoxy(x + 53, y - 3);
-	std::cout << "                                       ";
-	gotoxy(x + 53, y - 1);
-	std::cout << "                                       ";
-	gotoxy(x + 58, y + 27);
-	std::cout << "                                       ";
-	gotoxy(x + 70, y + 29);
-	std::cout << "               ";
-}
-
+#pragma region 옵션 선택
 void ItemInventoryWindow::PrintOptionText(int x, int y, int num)
 {
 	SetColor(15, 0);
@@ -632,7 +646,6 @@ void ItemInventoryWindow::PrintOptionText(int x, int y, int num)
 		break;
 	}
 }
-
 
 void ItemInventoryWindow::LeftRightInput()
 {
@@ -674,7 +687,9 @@ void ItemInventoryWindow::LeftRightInput()
 		}
 	}
 }
+#pragma endregion
 
+#pragma region 화면 출력
 void ItemInventoryWindow::InventoryTool()
 {
 	PrintItemAndCancelTool(10, 3);
@@ -686,6 +701,8 @@ void ItemInventoryWindow::InventoryTool()
 
 	LeftRightInput();
 }
+#pragma endregion
+
 
 ItemInventoryWindow::ItemInventoryWindow()
 {
