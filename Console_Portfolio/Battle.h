@@ -14,6 +14,8 @@ private:
 	BattleMapDot bmd;
 	NinjaDot nd;
 	ArcherDot ad;
+	Character* chr;
+	Character* target;
 	MapDot md;
 public:
 	virtual void SetColor(int fontColor, int backgroundColor);

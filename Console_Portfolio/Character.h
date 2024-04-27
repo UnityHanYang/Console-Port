@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include "Item.h"
 
 class Character
 {
@@ -17,7 +18,9 @@ protected:
 	int atk;
 	int critical;
 public:
-
+	virtual void NorMalAttack(Character* target);
+	virtual void ItemUse(Item* item);
+	virtual void SkillAttack(Character* target);
     Character(const char* r_name, const char* r_job, int r_level, int r_currentExp, int r_maxExp, int r_currentHp, int r_maxHp, int r_currentMp, int r_maxMp, int r_def, int r_atk, int r_critical) : 
 		name(r_name), job(r_job), level(r_level), currentExp(r_currentExp), maxExp(r_maxExp), currentHp(r_currentHp), maxHp(r_maxHp), currentMp(r_currentMp), maxMp(r_maxMp), def(r_def), atk(r_atk), critical(r_critical) {};
 

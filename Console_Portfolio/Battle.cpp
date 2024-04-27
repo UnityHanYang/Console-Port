@@ -52,7 +52,24 @@ void Battle::PrintBattleMap()
 	{
 		bmd.PrintMultiBattleMap();
 	}
+	if (gm->GetCharacter() == 1)
+	{
+		chr = gm->nj;
+	}
+	else
+	{
+		chr = gm->ah;
+	}
+	if (gm->GetRandomNum() == 0)
+	{
+		target = gm->e_nj;
+	}
+	else
+	{
+		target = gm->e_ah;
+	}
 	PrintOption(count, 206, 62);
+	
 	bmd.PrintEnemyInfoTool();
 	bmd.PrintHpTool(141, 46);
 	md.PrintConsole(192, 83);
@@ -61,7 +78,9 @@ void Battle::PrintBattleMap()
 	{
 	case 1:
 		(gm->GetCharacter() == 1) ? nd.PrintNinJaPortrait(116, 60),
-			bmd.PrintHeroHp(gm->nj, 102, 89) : ad.PrintArcherPortrait(120, 60), bmd.PrintHeroHp(gm->ah, 102, 89);
+			bmd.PrintHeroHp(gm->nj, 102, 89) : ad.PrintArcherPortrait(120, 60), 
+			bmd.PrintHeroHp(gm->ah, 102, 89);
+
 		(gm->GetRandomNum() == 0) ? bmd.PrintEnemyCurrentHpMp(gm->e_nj, 145, 48), 
 			bmd.PrintEnemyInfoText(gm->e_nj) : bmd.PrintEnemyCurrentHpMp(gm->e_ah, 145, 48), bmd.PrintEnemyInfoText(gm->e_ah);
 		break;
@@ -89,6 +108,19 @@ void Battle::PrintBattleMap()
 					count = (count > 2) ? count : count += 1;
 					PrintOption(count, 206, 62);
 					break;
+				}
+			}
+			else if (input == Enter)
+			{
+				if (count == 1)
+				{
+					SetColor(13, 0);
+					gotoxy(1, 1);
+					std::cout << target->GetCurrentHp();
+					chr->NorMalAttack(target);
+					SetColor(13, 0);
+					gotoxy(1, 2);
+					std::cout << target->GetCurrentHp();
 				}
 			}
 		}
