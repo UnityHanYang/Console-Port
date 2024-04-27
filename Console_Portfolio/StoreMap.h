@@ -10,6 +10,7 @@
 #include "Village.h"
 #include "ItemSell.h"
 #include <algorithm>
+#include "GameManager.h"
 
 class Store;
 

@@ -117,7 +117,9 @@ void Dungeon1::PrintMapAndCharMove(int x, int y)
 				{
 					if (input == Enter)
 					{
-						isEntrance = true;
+						system("cls");
+						mm.ms = Map_State::boss_dungeon;
+						mm.Current_Map();
 						break;
 					}
 				}
@@ -125,22 +127,11 @@ void Dungeon1::PrintMapAndCharMove(int x, int y)
 		}
 		else
 		{
-			isCollsionEnemy = true;
+			system("cls");
+			mm.ms = Map_State::battle;
+			mm.Current_Map();
 			break;
 		}
-	}
-	system("cls");
-	if (isEntrance)
-	{
-		mm.ms = Map_State::boss_dungeon;
-		mm.Current_Map();
-		isEntrance = false;
-	}
-	if(isCollsionEnemy)
-	{
-		mm.ms = Map_State::battle;
-		mm.Current_Map();
-		isCollsionEnemy = false;
 	}
 }
 #pragma endregion

@@ -317,7 +317,7 @@ void ItemInventoryWindow::UseItemYesOrNo(int x, int y, Item* item)
 #pragma region 회복시킬 캐릭터 선택
 void ItemInventoryWindow::ChoiceHealChar(int x, int y, Item* item)
 {
-	GameManager gm;
+	GameManager* gm = GameManager::GetInstance();
 	CharacterChoice cc;
 	CharacterInfo ci;
 	int characterNum = 0;
@@ -332,29 +332,29 @@ void ItemInventoryWindow::ChoiceHealChar(int x, int y, Item* item)
 	}
 	else
 	{
-		if (cc.GetCharacter() == 1)
+		if (gm->GetCharacter() == 1)
 		{
-			std::cout << "▶ " << gm.nj->GetName() << ":  ";
+			std::cout << "▶ " << gm->nj->GetName() << ":  ";
 			if (item->GetItemType() == ItemType::hpPotion)
 			{
-				std::cout << gm.nj->GetCurrentHp() << " / " << gm.nj->GetMaxHp();
+				std::cout << gm->nj->GetCurrentHp() << " / " << gm->nj->GetMaxHp();
 			}
 			else if (item->GetItemType() == ItemType::mpPotion)
 			{
-				std::cout << gm.nj->GetCurrentMp() << " / " << gm.nj->GetMaxMp();
+				std::cout << gm->nj->GetCurrentMp() << " / " << gm->nj->GetMaxMp();
 			}
 			characterNum = 1;
 		}
-		else if (cc.GetCharacter() == 2)
+		else if (gm->GetCharacter() == 2)
 		{
-			std::cout << "▶ " << gm.ah->GetName() << ":  ";
+			std::cout << "▶ " << gm->ah->GetName() << ":  ";
 			if (item->GetItemType() == ItemType::hpPotion)
 			{
-				std::cout << gm.ah->GetCurrentHp() << " / " << gm.ah->GetMaxHp();
+				std::cout << gm->ah->GetCurrentHp() << " / " << gm->ah->GetMaxHp();
 			}
 			else if (item->GetItemType() == ItemType::mpPotion)
 			{
-				std::cout << gm.ah->GetCurrentMp() << " / " << gm.ah->GetMaxMp();
+				std::cout << gm->ah->GetCurrentMp() << " / " << gm->ah->GetMaxMp();
 			}
 			characterNum = 2;
 		}
@@ -380,12 +380,12 @@ void ItemInventoryWindow::ChoiceHealChar(int x, int y, Item* item)
 			{
 				if (characterNum == 1)
 				{
-					HpMpHeal(gm.nj, item, x, y);
+					HpMpHeal(*gm->nj, item, x, y);
 					break;
 				}
 				else if (characterNum == 2)
 				{
-					HpMpHeal(gm.ah, item, x, y);
+					HpMpHeal(*gm->ah, item, x, y);
 					break;
 				}
 			}
@@ -395,18 +395,18 @@ void ItemInventoryWindow::ChoiceHealChar(int x, int y, Item* item)
 #pragma endregion
 
 #pragma region HP, MP 회복
-void ItemInventoryWindow::HpMpHeal(Character* character, Item* item, int x, int y)
+void ItemInventoryWindow::HpMpHeal(Character& character, Item* item, int x, int y)
 {
 	if (item->GetItemType() == ItemType::hpPotion)
 	{
-		if (character->GetCurrentHp() < character->GetMaxHp())
+		if (character.GetCurrentHp() < character.GetMaxHp())
 		{
-			(character->GetCurrentHp() + item->GetHeal() <= character->GetMaxHp()) ? character->SetCurrentHp(item->GetHeal()) : character->SetCurrentHp((character->GetCurrentHp() + item->GetHeal()) - character->GetMaxHp());
+			(character.GetCurrentHp() + item->GetHeal() <= character.GetMaxHp()) ? character.SetCurrentHp(item->GetHeal()) : character.SetCurrentHp((character.GetCurrentHp() + item->GetHeal()) - character.GetMaxHp());
 			item->MinusCount();
 			gotoxy(x + 65, y + 27);
 			std::cout << "                         ";
 			gotoxy(x + 65, y + 27);
-			std::cout << character->GetName() << ":  " << character->GetCurrentHp() << " / " << character->GetMaxHp();;
+			std::cout << character.GetName() << ":  " << character.GetCurrentHp() << " / " << character.GetMaxHp();;
 			Sleep(1500);
 			ClearSection(x, y);
 			if (item->GetCount() > 0)
@@ -430,14 +430,14 @@ void ItemInventoryWindow::HpMpHeal(Character* character, Item* item, int x, int 
 	}
 	else if (item->GetItemType() == ItemType::mpPotion)
 	{
-		if (character->GetCurrentMp() < character->GetMaxMp())	
+		if (character.GetCurrentMp() < character.GetMaxMp())	
 		{
-			(character->GetCurrentMp() + item->GetHeal() <= character->GetMaxMp()) ? character->SetCurrentMp(item->GetHeal()) : character->SetCurrentMp((character->GetCurrentMp() + item->GetHeal()) - character->GetMaxMp());
+			(character.GetCurrentMp() + item->GetHeal() <= character.GetMaxMp()) ? character.SetCurrentMp(item->GetHeal()) : character.SetCurrentMp((character.GetCurrentMp() + item->GetHeal()) - character.GetMaxMp());
 			item->MinusCount();
 			gotoxy(x + 65, y + 27);
 			std::cout << "                         ";
 			gotoxy(x + 65, y + 27);
-			std::cout << character->GetName() << ":  " << character->GetCurrentMp() << " / " << character->GetMaxMp();
+			std::cout << character.GetName() << ":  " << character.GetCurrentMp() << " / " << character.GetMaxMp();
 			Sleep(1500);
 			ClearSection(x, y);
 			if (item->GetCount() > 0)

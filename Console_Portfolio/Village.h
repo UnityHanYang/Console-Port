@@ -8,6 +8,7 @@
 #include "CharacterInfo.h"
 #include "InformationTool.h"
 #include "StoreMap.h"
+#include "GameManager.h"
 #include "ItemInventoryWindow.h"
 #include "Hotel.h"
 
@@ -25,6 +26,7 @@ private:
 	int infoArr[8] = {};
 	MapDot md;
 	InformationTool it;
+	GameManager gm;
 	Hotel hotel;
 	bool isRelax;
 public:

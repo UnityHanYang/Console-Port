@@ -1,7 +1,7 @@
 #include "Hotel.h"
 
-std::vector<Character*> Hotel::chracterCount = {};
 
+#pragma region 플레이어 회복
 void Hotel::CharacterHeal(std::vector<Character*> characterVec)
 {
 	std::vector<Character*>::iterator iter;
@@ -14,3 +14,5 @@ void Hotel::CharacterHeal(std::vector<Character*> characterVec)
 		(*iter)->SetCurrentMp(mp);
 	}
 }
+#pragma endregion
+

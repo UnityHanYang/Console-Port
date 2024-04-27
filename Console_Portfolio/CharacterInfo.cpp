@@ -43,21 +43,22 @@ void CharacterInfo::gotoxy(int x, int y)
 void CharacterInfo::CharacterOne()
 {
 	SetColor(15, 0);
+	GameManager gm;
 	CharacterChoice cc;
-	if (cc.GetCharacter() == 1)
+	if (gm.GetCharacter() == 1)
 	{
 		std::cout << "\n\t\t\t\t\t\t      캐릭터를 선택하세요.\n\n\n\n";
 		std::cout << "\n\n\t\t\t ▶ 겐지(주인공) ◀\n\n";
-		cc.PrintBackGround(11, 11, 4, 12);
+		cbg.PrintBackGround(11, 11, 4, 12);
 		nd.PrintNinJaPortrait(20, 13);
 		SetColor(15, 0);
 		charChoiceNum = 1;
 	}
-	else if (cc.GetCharacter() == 2)
+	else if (gm.GetCharacter() == 2)
 	{
 		std::cout << "\n\t\t\t\t\t\t      캐릭터를 선택하세요.\n\n\n\n";
 		std::cout << "\n\n\t\t\t ▶ 한조(주인공) ◀\n\n";
-		cc.PrintBackGround(11, 11, 4, 12);
+		cbg.PrintBackGround(11, 11, 4, 12);
 		ad.PrintArcherPortrait(24, 13);
 		SetColor(15, 0);
 		charChoiceNum = 2;
@@ -101,8 +102,8 @@ void CharacterInfo::ChoiceCharacter()
 				case LEFT_ARROW:
 					std::cout << "\n\t\t\t\t\t\t      캐릭터를 선택하세요.\n\n\n\n";
 					std::cout << "\n\n\t\t\t ▶ 겐지 ◀\t\t\t\t\t\t\t\t한조\n\n";
-					cc.PrintBackGround(11, 11, 4, 12);
-					cc.PrintBackGround(2, 2, 72, 12);
+					cbg.PrintBackGround(11, 11, 4, 12);
+					cbg.PrintBackGround(2, 2, 72, 12);
 					nd.PrintNinJaPortrait(20, 13);
 					ad.PrintArcherPortrait(92, 13);
 					charChoiceNum = 1;
@@ -110,8 +111,8 @@ void CharacterInfo::ChoiceCharacter()
 				case RIGHT_ARROW:
 					std::cout << "\n\t\t\t\t\t\t      캐릭터를 선택하세요.\n\n\n\n";
 					std::cout << "\n\n\t\t\t   겐지\t\t\t\t\t\t\t\t    ▶ 한조 ◀\n\n";
-					cc.PrintBackGround(2, 2, 4, 12);
-					cc.PrintBackGround(11, 11, 72, 12);
+					cbg.PrintBackGround(2, 2, 4, 12);
+					cbg.PrintBackGround(11, 11, 72, 12);
 					nd.PrintNinJaPortrait(20, 13);
 					ad.PrintArcherPortrait(92, 13);
 					SetColor(15, 0);
@@ -120,8 +121,8 @@ void CharacterInfo::ChoiceCharacter()
 				default:
 					std::cout << "\n\t\t\t\t\t\t      캐릭터를 선택하세요.\n\n\n\n";
 					std::cout << "\n\n\t\t\t   겐지\t\t\t\t\t\t\t\t\t한조\n\n";
-					cc.PrintBackGround(2, 2, 4, 12);
-					cc.PrintBackGround(2, 2, 72, 12);
+					cbg.PrintBackGround(2, 2, 4, 12);
+					cbg.PrintBackGround(2, 2, 72, 12);
 					nd.PrintNinJaPortrait(20, 13);
 					ad.PrintArcherPortrait(92, 13);
 					SetColor(15, 0);
@@ -163,42 +164,43 @@ void CharacterInfo::ReadMore(int num)
 void CharacterInfo::PrintCharacterAbility(int num)
 {
 	CharacterChoice cc;
+	GameManager* gm = GameManager::GetInstance();
 	MapManager mm;
 	if (num == 1)
 	{
 		nd.PrintNinJa();
-		cc.PrintNinjarBackGround();
+		cbg.PrintNinjarBackGround();
 		SetColor(0, 15);
 		cc.PrintAbilityTool(135, 50);
 		gotoxy(139, 52);
-		std::cout << " 이름: " << gm.nj->GetName();
-		std::cout << "                직업: " << gm.nj->GetOccupation();
+		std::cout << " 이름: " << gm->nj->GetName();
+		std::cout << "                직업: " << gm->nj->GetOccupation();
 		gotoxy(139, 55);
-		std::cout << " 공격력: " << gm.nj->GetAtk();
-		std::cout << "                마나: " << gm.nj->GetCurrentMp();
+		std::cout << " 공격력: " << gm->nj->GetAtk();
+		std::cout << "                마나: " << gm->nj->GetCurrentMp();
 		gotoxy(139, 58);
-		std::cout << " 체력: " << gm.nj->GetCurrentHp();
-		std::cout << "                   방어력: " << gm.nj->GetDef();
+		std::cout << " 체력: " << gm->nj->GetCurrentHp();
+		std::cout << "                   방어력: " << gm->nj->GetDef();
 		gotoxy(139, 61);
-		std::cout << " 치명타 확률: " << gm.nj->GetCritical() << "%";
+		std::cout << " 치명타 확률: " << gm->nj->GetCritical() << "%";
 	}
 	else
 	{
-		bt.PrintEnmeyBack();
+		cbg.PrintArcherBack();
 		ad.PrintArcher(156, 1);
 		SetColor(0, 15);
 		cc.PrintAbilityTool(135, 46);
 		gotoxy(139, 48);
-		std::cout << " 이름: " << gm.ah->GetName();
-		std::cout << "                직업: " << gm.ah->GetOccupation();
+		std::cout << " 이름: " << gm->ah->GetName();
+		std::cout << "                직업: " << gm->ah->GetOccupation();
 		gotoxy(139, 51);
-		std::cout << " 공격력: " << gm.ah->GetAtk();
-		std::cout << "                마나: " << gm.ah->GetCurrentMp();
+		std::cout << " 공격력: " << gm->ah->GetAtk();
+		std::cout << "                마나: " << gm->ah->GetCurrentMp();
 		gotoxy(139, 54);
-		std::cout << " 체력: " << gm.ah->GetCurrentHp();
-		std::cout << "                   방어력: " << gm.ah->GetDef();
+		std::cout << " 체력: " << gm->ah->GetCurrentHp();
+		std::cout << "                   방어력: " << gm->ah->GetDef();
 		gotoxy(139, 57);
-		std::cout << " 치명타 확률: " << gm.ah->GetCritical() << "%";
+		std::cout << " 치명타 확률: " << gm->ah->GetCritical() << "%";
 	}
 	SetColor(0, 15);
 	md.PrintOperation_Keys(230, 3);

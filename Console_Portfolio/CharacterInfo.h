@@ -3,7 +3,7 @@
 #include "PrintSetting.h"
 #include "NinjaDot.h"
 #include "ArcherDot.h"
-#include "BattleMapDot.h"
+#include "CharacterBackGround.h"
 #include <Windows.h>
 #include "MapDot.h"
 #include <conio.h>
@@ -17,9 +17,8 @@ private:
 	static bool isJoin;
 	NinjaDot nd;
 	ArcherDot ad;
-	BattleMapDot bt;
 	MapDot md;
-	GameManager gm;
+	CharacterBackGround cbg;
 public:
 	virtual void SetColor(int fontColor, int backgroundColor);
 	virtual void PrintS(int count, int font, int background, bool isEndl, int x, int y);

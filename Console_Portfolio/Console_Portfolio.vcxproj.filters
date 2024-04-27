@@ -162,6 +162,9 @@
     <ClInclude Include="EnemyArcher.h">
       <Filter>캐릭터\궁수</Filter>
     </ClInclude>
+    <ClInclude Include="CharacterBackGround.h">
+      <Filter>dot</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -250,6 +253,9 @@
     </ClCompile>
     <ClCompile Include="EnemyArcher.cpp">
       <Filter>캐릭터\궁수</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterBackGround.cpp">
+      <Filter>dot</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -171,7 +171,7 @@ void Village::PrintMapAndCharMove(int x, int y)
 			case 1:
 				if (input == Enter)
 				{
-					hotel.CharacterHeal(hotel.GetCharacterCount());
+					hotel.CharacterHeal(gm.GetCharacterCount());
 					isRelax = true;
 					strcpy_s(message, " 회복 완료                                ");
 					PrintTalkMessage(207, 59, message);
