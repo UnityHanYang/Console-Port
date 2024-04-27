@@ -23,5 +23,6 @@ public:
 	virtual void gotoxy(int x, int y);
 	void PrintBattleMap();
 	void PrintOption(int num, int x, int y);
+	void EnemyTurn();
 };
 

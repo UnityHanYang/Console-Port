@@ -2,7 +2,7 @@
 
 void NinJa::NorMalAttack(Character* target)
 {
-	int damage = this->GetAtk() * (1 - (target->GetDef() / (100 + target->GetDef())));
+	int damage = this->GetAtk() - target->GetDef();
 	target->SetCurrentHp(-damage);
 }
 

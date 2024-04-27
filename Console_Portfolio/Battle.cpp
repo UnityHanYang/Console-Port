@@ -114,18 +114,19 @@ void Battle::PrintBattleMap()
 			{
 				if (count == 1)
 				{
-					SetColor(13, 0);
-					gotoxy(1, 1);
-					std::cout << target->GetCurrentHp();
 					chr->NorMalAttack(target);
-					SetColor(13, 0);
-					gotoxy(1, 2);
-					std::cout << target->GetCurrentHp();
+					const char* text = chr->GetName() + "가 " + target->GetName()
+						+ "에게 " + (chr->GetAtk() - target->GetDef()) + "만큼 피해를 입혔습니다";
+					bmd.PrintConsoleText("플레이어 턴 입니다", 195, 85);
 				}
 			}
 		}
 
 	}
+}
+
+void Battle::EnemyTurn()
+{
 }
 
 void Battle::PrintOption(int num, int x, int y)
