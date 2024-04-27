@@ -93,9 +93,6 @@
     <ClInclude Include="CharacterChoice.h">
       <Filter>캐릭터 선택</Filter>
     </ClInclude>
-    <ClInclude Include="DoubleBuffer.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="MapManager.h">
       <Filter>맵</Filter>
     </ClInclude>
@@ -165,6 +162,9 @@
     <ClInclude Include="CharacterBackGround.h">
       <Filter>dot</Filter>
     </ClInclude>
+    <ClInclude Include="FileInOut.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -184,9 +184,6 @@
     </ClCompile>
     <ClCompile Include="CharacterChoice.cpp">
       <Filter>캐릭터 선택</Filter>
-    </ClCompile>
-    <ClCompile Include="DoubleBuffer.cpp">
-      <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="MapManager.cpp">
       <Filter>맵</Filter>
@@ -256,6 +253,9 @@
     </ClCompile>
     <ClCompile Include="CharacterBackGround.cpp">
       <Filter>dot</Filter>
+    </ClCompile>
+    <ClCompile Include="FileInOut.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

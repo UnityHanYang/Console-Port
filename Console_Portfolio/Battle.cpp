@@ -41,22 +41,35 @@ void Battle::gotoxy(int x, int y)
 
 void Battle::PrintBattleMap()
 {
-	GameManager gm;
-	gm.RandomEnemyUnit(1);
-	if (gm.GetCharacterCount().size() < 2)
+	int count = 0;
+	GameManager* gm = GameManager::GetInstance();
+	gm->RandomEnemyUnit(1);
+	if (gm->GetCharacterCount().size() < 2)
 	{
 		bmd.PrintSoloBattleMap();
 	}
 	else
 	{
-		//bmd.PrintMultiBattleMap();
+		bmd.PrintMultiBattleMap();
 	}
-	SetColor(15, 0);
-	gotoxy(215, 72);
-	std::cout << "공격";
-	gotoxy(215, 74);
-	std::cout << "방어";
+	PrintOption(count, 206, 62);
 	bmd.PrintEnemyInfoTool();
+	bmd.PrintHpTool(141, 46);
+	md.PrintConsole(192, 83);
+	bmd.PrintConsoleText("플레이어 턴 입니다", 195, 85);
+	switch (gm->GetEnemyLevelNum())
+	{
+	case 1:
+		(gm->GetCharacter() == 1) ? nd.PrintNinJaPortrait(116, 60),
+			bmd.PrintHeroHp(gm->nj, 102, 89) : ad.PrintArcherPortrait(120, 60), bmd.PrintHeroHp(gm->ah, 102, 89);
+		(gm->GetRandomNum() == 0) ? bmd.PrintEnemyCurrentHpMp(gm->e_nj, 145, 48), 
+			bmd.PrintEnemyInfoText(gm->e_nj) : bmd.PrintEnemyCurrentHpMp(gm->e_ah, 145, 48), bmd.PrintEnemyInfoText(gm->e_ah);
+		break;
+	case 2:
+		break;
+	case 3:
+		break;
+	}
 	int input;
 	while (true)
 	{
@@ -68,9 +81,13 @@ void Battle::PrintBattleMap()
 				input = _getch();
 				switch (input)
 				{
-				case LEFT_ARROW:
+				case UP_ARROW:
+					count = (count < 2) ? count : count -= 1;
+					PrintOption(count, 206, 62);
 					break;
-				case RIGHT_ARROW:
+				case DOWN_ARROW:
+					count = (count > 2) ? count : count += 1;
+					PrintOption(count, 206, 62);
 					break;
 				}
 			}
@@ -79,19 +96,66 @@ void Battle::PrintBattleMap()
 	}
 }
 
-void Battle::PrintEnemyInfoText(Character* character)
+void Battle::PrintOption(int num, int x, int y)
 {
 	SetColor(15, 0);
-	gotoxy(244, 17);
-	std::cout << "적 정보";
-	gotoxy(244, 19);
-	std::cout << "최대 Hp: " << character->GetMaxHp();
-	gotoxy(244, 21);
-	std::cout << "최대 Mp: " << character->GetMaxMp();
-	gotoxy(244, 23);
-	std::cout << "공격력: " << character->GetAtk();
-	gotoxy(244, 25);
-	std::cout << "방어력: " << character->GetDef();
-	gotoxy(244, 27);
-	std::cout << "치명타 확률: " << character->GetCritical();
+	switch (num)
+	{
+	case 1:
+		gotoxy(x - 2, y);
+		std::cout << "             ";
+		gotoxy(x - 2, y);
+		std::cout << "▶ 공격 ◀";
+		gotoxy(x - 4, y+4);
+		std::cout << "             ";
+		gotoxy(x, y+4);
+		std::cout << "스킬";
+		gotoxy(x- 5, y+8);
+		std::cout << "             ";
+		gotoxy(x- 1, y+8);
+		std::cout << "아이템";
+		break;
+	case 2:
+		gotoxy(x - 4, y );
+		std::cout << "               ";
+		gotoxy(x, y );
+		std::cout << "공격";
+		gotoxy(x - 6, y + 4);
+		std::cout << "               ";
+		gotoxy(x - 2, y + 4);
+		std::cout << "▶ 스킬 ◀";
+		gotoxy(x - 5, y + 8);
+		std::cout << "               ";
+		gotoxy(x - 1, y + 8);
+		std::cout << "아이템";
+		break;
+	case 3:
+		gotoxy(x - 4, y);
+		std::cout << "               ";
+		gotoxy(x, y);
+		std::cout << "공격";
+		gotoxy(x - 4, y+4);
+		std::cout << "               ";
+		gotoxy(x, y+4);
+		std::cout << "스킬";
+		gotoxy(x-7, y+8);
+		std::cout << "               ";
+		gotoxy(x-3, y+8);
+		std::cout << "▶ 아이템 ◀";
+		break;
+	default:
+		gotoxy(x - 4, y);
+		std::cout << "               ";
+		gotoxy(x, y);
+		std::cout << "공격";
+		gotoxy(x - 4, y+4);
+		std::cout << "               ";
+		gotoxy(x, y+4);
+		std::cout << "스킬";
+		gotoxy(x-5, y+8);
+		std::cout << "               ";
+		gotoxy(x-1, y+8);
+		std::cout << "아이템";
+		break;
+	}
 }

@@ -2,6 +2,7 @@
 #include <iostream>
 #include <Windows.h>
 #include "PrintSetting.h"
+#include "Character.h"
 
 class BattleMapDot : public PrintSetting
 {
@@ -13,5 +14,10 @@ public:
 	void PrintMultiBattleMap();
 	void PrintEnemyInfoTool();
 	void PrintEnmeyBack();
+	void PrintHpTool(int x, int y);
+	void PrintEnemyCurrentHpMp(Character* character, int x, int y);
+	void PrintEnemyInfoText(Character* character);
+	void PrintHeroHp(Character* character, int x, int y);
+	void PrintConsoleText(const char* text, int x, int y);
 };
 

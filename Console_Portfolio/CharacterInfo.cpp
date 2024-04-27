@@ -176,13 +176,14 @@ void CharacterInfo::PrintCharacterAbility(int num)
 		std::cout << " 이름: " << gm->nj->GetName();
 		std::cout << "                직업: " << gm->nj->GetOccupation();
 		gotoxy(139, 55);
-		std::cout << " 공격력: " << gm->nj->GetAtk();
-		std::cout << "                마나: " << gm->nj->GetCurrentMp();
+		std::cout << " 레벨: " << gm->nj->GetLevel();
+		std::cout << "                공격력: " << gm->nj->GetAtk();
 		gotoxy(139, 58);
-		std::cout << " 체력: " << gm->nj->GetCurrentHp();
-		std::cout << "                   방어력: " << gm->nj->GetDef();
+		std::cout << " 마나: " << gm->nj->GetCurrentMp();
+		std::cout << "                   체력: " << gm->nj->GetCurrentHp();
 		gotoxy(139, 61);
-		std::cout << " 치명타 확률: " << gm->nj->GetCritical() << "%";
+		std::cout << " 방어력: " << gm->nj->GetDef() << "%";
+		std::cout << "                   치명타 확률: " << gm->nj->GetCritical();
 	}
 	else
 	{
@@ -194,13 +195,14 @@ void CharacterInfo::PrintCharacterAbility(int num)
 		std::cout << " 이름: " << gm->ah->GetName();
 		std::cout << "                직업: " << gm->ah->GetOccupation();
 		gotoxy(139, 51);
-		std::cout << " 공격력: " << gm->ah->GetAtk();
-		std::cout << "                마나: " << gm->ah->GetCurrentMp();
-		gotoxy(139, 54);
-		std::cout << " 체력: " << gm->ah->GetCurrentHp();
-		std::cout << "                   방어력: " << gm->ah->GetDef();
-		gotoxy(139, 57);
-		std::cout << " 치명타 확률: " << gm->ah->GetCritical() << "%";
+		std::cout << " 레벨: " << gm->ah->GetLevel();
+		std::cout << "                공격력: " << gm->ah->GetAtk();
+		gotoxy(139, 58);
+		std::cout << " 마나: " << gm->ah->GetCurrentMp();
+		std::cout << "                   체력: " << gm->ah->GetCurrentHp();
+		gotoxy(139, 61);
+		std::cout << " 방어력: " << gm->ah->GetDef() << "%";
+		std::cout << "                   치명타 확률: " << gm->ah->GetCritical();
 	}
 	SetColor(0, 15);
 	md.PrintOperation_Keys(230, 3);

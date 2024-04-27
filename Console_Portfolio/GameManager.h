@@ -19,6 +19,8 @@ class GameManager
 private:
 	static std::vector<Character*> chracterCount;
 	static int characterNum;
+	static int enemyLevelNum;
+	static int randomNum;
 public:
 	NinJa* nj;
 	Archer* ah;
@@ -33,6 +35,8 @@ public:
 	void AddCharacter(Character* ch) { chracterCount.push_back(ch); }
 	int GetCharacter() { return characterNum; }
 	void SetCharacter(int num) { characterNum = num; }
+	int GetEnemyLevelNum() { return enemyLevelNum; }
+	int GetRandomNum() { return randomNum; }
 
 	static GameManager* instance;
 

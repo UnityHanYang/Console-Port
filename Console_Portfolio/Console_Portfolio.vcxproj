@@ -155,11 +155,11 @@
     <ClInclude Include="CharacterBackGround.h" />
     <ClInclude Include="CharacterChoice.h" />
     <ClInclude Include="CharacterInfo.h" />
-    <ClInclude Include="DoubleBuffer.h" />
     <ClInclude Include="Dungeon1.h" />
     <ClInclude Include="DungeonBoss.h" />
     <ClInclude Include="EnemyArcher.h" />
     <ClInclude Include="EnemyNinJa.h" />
+    <ClInclude Include="FileInOut.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="Hotel.h" />
     <ClInclude Include="InformationTool.h" />
@@ -186,11 +186,11 @@
     <ClCompile Include="CharacterBackGround.cpp" />
     <ClCompile Include="CharacterChoice.cpp" />
     <ClCompile Include="CharacterInfo.cpp" />
-    <ClCompile Include="DoubleBuffer.cpp" />
     <ClCompile Include="Dungeon1.cpp" />
     <ClCompile Include="DungeonBoss.cpp" />
     <ClCompile Include="EnemyArcher.cpp" />
     <ClCompile Include="EnemyNinJa.cpp" />
+    <ClCompile Include="FileInOut.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Hotel.cpp" />
     <ClCompile Include="InformationTool.cpp" />
