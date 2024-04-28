@@ -41,7 +41,6 @@ void Battle::gotoxy(int x, int y)
 
 void Battle::PrintBattleMap()
 {
-	int count = 0;
 	GameManager* gm = GameManager::GetInstance();
 	gm->RandomEnemyUnit(1);
 	if (gm->GetCharacterCount().size() < 2)
@@ -68,12 +67,13 @@ void Battle::PrintBattleMap()
 	{
 		target = gm->e_ah;
 	}
+	int count = 0;
 	PrintOption(count, 206, 62);
 	
 	bmd.PrintEnemyInfoTool();
 	bmd.PrintHpTool(141, 46);
 	md.PrintConsole(192, 83);
-	bmd.PrintConsoleText("플레이어 턴 입니다", "", "", "", "", "", 195, 85);
+	bmd.PrintConsoleText("플레이어 턴", "", "", "", "", "", 195, 85);
 	switch (gm->GetEnemyLevelNum())
 	{
 	case 1:
@@ -133,6 +133,7 @@ void Battle::PrintBattleMap()
 			{
 				if (count == 1)
 				{
+					ClearOption(206, 62);
 					chr->NorMalAttack(target);
 					char buffer[50];
 					sprintf(buffer, "%d", (chr->GetAtk() - target->GetDef()));
@@ -140,9 +141,25 @@ void Battle::PrintBattleMap()
 					bmd.PrintConsoleText(chr->GetName(), "가 ", target->GetName(), "에게 ", cstr, "만큼 피해를 입혔습니다", 195, 85);
 					hpBar = (target->GetCurrentHp() * 20) / target->GetMaxHp();
 					mpBar = (target->GetCurrentMp() * 20) / target->GetMaxMp();
-					bmd.PrintEnemyCurrentHpMp(target, 145, 48, hpBar, mpBar);
+					if (hpBar <= 0)
+					{
+						if (target->GetCurrentHp() > 0)
+						{
+							bmd.PrintEnemyCurrentHpMp(target, 145, 48, 1, mpBar);
+						}
+						else
+						{
+							bmd.PrintEnemyCurrentHpMp(target, 145, 48, 0, mpBar);
+							EnemyDie();
+						}
+					}
+					else
+					{
+						bmd.PrintEnemyCurrentHpMp(target, 145, 48, hpBar, mpBar);
+					}
 					Sleep(2000);
 					EnemyTurn();
+					count = 0;
 				}
 			}
 		}
@@ -152,7 +169,8 @@ void Battle::PrintBattleMap()
 
 void Battle::EnemyTurn()
 {
-	bmd.PrintConsoleText("상대턴 턴 입니다", "", "", "", "", "", 195, 85);
+	GameManager gm;
+	bmd.PrintConsoleText("상대 턴", "", "", "", "", "", 195, 85);
 	srand(time(NULL));
 	int ran = (rand() % 500) + 1000;
 	Sleep(ran);
@@ -163,10 +181,151 @@ void Battle::EnemyTurn()
 	bmd.PrintConsoleText(target->GetName(), "가 ", chr->GetName(), "에게 ", cstr, "만큼 피해를 입혔습니다", 195, 85);
 	hpBar = (chr->GetCurrentHp() * 20) / chr->GetMaxHp();
 	mpBar = (chr->GetCurrentMp() * 20) / chr->GetMaxMp();
-	bmd.PrintHeroHp(chr, 102, 88, hpBar, mpBar);
+	if (hpBar <= 0)
+	{
+		if (chr->GetCurrentHp() > 0)
+		{
+			bmd.PrintHeroHp(chr, 102, 88, 1, mpBar);
+		}
+		else
+		{
+			bmd.PrintHeroHp(chr, 102, 88, 0, mpBar);
+		}
+	}
+	else
+	{
+		bmd.PrintHeroHp(chr, 102, 88, hpBar, mpBar);
+	}
+	if (CheckPlayerDie(gm.GetCharacterCount()))
+	{
+		Sleep(2000);
+		PlayerDie(gm.GetCharacterCount());
+	}
 	Sleep(2000);
-	bmd.PrintConsoleText("플레이어 턴 입니다", "", "", "", "", "", 195, 85);
-}	
+	bmd.PrintConsoleText("플레이어 턴", "", "", "", "", "", 195, 85);
+	PrintOption(0, 206, 62);
+
+}
+
+void Battle::PlayerDie(std::vector<Character*> characterVec)
+{
+	MapManager mm;
+	bmd.PrintConsoleText("전투 패배... 마을로 돌아갑니다.", "", "", "", "", "", 195, 85);
+	Sleep(2000);
+
+	std::vector<Character*>::iterator iter;
+	for (iter = characterVec.begin(); iter != characterVec.end(); iter++)
+	{
+		(*iter)->SetCurrentHp((*iter)->GetMaxHp());
+		(*iter)->SetCurrentMp((*iter)->GetMaxMp());
+	}
+	system("cls");
+	mm.ms = Map_State::village;
+	mm.Current_Map();
+}
+
+void Battle::CheckExpLevel(std::vector<Character*> characterVec, int exp)
+{
+	std::vector<Character*>::iterator iter;
+	bool isEnter = false;
+	for (iter = characterVec.begin(); iter != characterVec.end(); iter++)
+	{
+		(*iter)->SetCurrentExp(exp);
+		while (true)
+		{
+			if ((*iter)->GetCurrentExp() > (*iter)->GetMaxExp())
+			{
+				SpecUp(*iter);
+				isEnter = true;
+			}
+			else
+			{
+				break;
+			}
+		}
+		if (isEnter)
+		{
+			Sleep(1000);
+			char buffer[50];
+			sprintf(buffer, "%d", (*iter)->GetLevel());
+			const char* cstr = buffer;
+			bmd.PrintConsoleText((*iter)->GetName(), ": ", cstr, "레벨 달성", "", "", 195, 85);
+			isEnter = false;
+		}
+	}
+}
+
+void Battle::SpecUp(Character* ch)
+{
+	ch->SetLevel(1);
+	ch->SetMaxExp(10);
+	ch->SetCritical(1);
+	ch->SetMaxHp(10);
+	ch->SetCurrentHp(10);
+	ch->SetAtk(2);
+	ch->SetDef(1);
+	ch->SetMaxMp(3);
+	ch->SetCurrentMp(3);
+}
+
+void Battle::EnemyDie()
+{
+	GameManager gm;
+	Dungeon1* dg = new Dungeon1;
+	MapManager mm;
+	int exp = 0;
+	Sleep(1500);
+	bmd.PrintConsoleText("전투 승리", "", "", "", "", "", 195, 85);
+	Sleep(1000);
+	switch (gm.GetEnemyLevelNum())
+	{
+	case 1:
+		bmd.PrintConsoleText("300원 획득", "", "", "", "", "", 195, 85);
+		Sleep(0500);
+		bmd.PrintConsoleText("경험치 30 획득", "", "", "", "", "", 195, 85);
+		exp = 30;
+		break;
+	case 2:
+		bmd.PrintConsoleText("700원 획득", "", "", "", "", "", 195, 85);
+		Sleep(1000);
+		bmd.PrintConsoleText("경험치 80 획득", "", "", "", "", "", 195, 85);
+		exp = 80;
+		break;
+	case 3:
+		bmd.PrintConsoleText("3000원 획득", "", "", "", "", "", 195, 85);
+		Sleep(1000);
+		bmd.PrintConsoleText("경험치 300 획득", "", "", "", "", "", 195, 85);
+		exp = 300;
+		break;
+	}
+	CheckExpLevel(gm.GetCharacterCount(), exp);
+	dg->SetEnemyArrXY(dg->GetCurrentEnemyIndex());
+	Sleep(1000);
+	system("cls");
+	mm.ms = Map_State::dungeon;
+	mm.Current_Map();
+}
+
+bool Battle::CheckPlayerDie(std::vector<Character*> characterVec)
+{
+	bool isDie = false;
+	GameManager gm;
+	std::vector<Character*>::iterator iter;
+	for (iter = characterVec.begin(); iter != characterVec.end(); iter++)
+	{
+		if ((*iter)->GetCurrentHp() < 1)
+		{
+			isDie = true;
+		}
+		else
+		{
+			isDie = false;
+		}
+	}
+	return isDie;
+}
+
+
 
 void Battle::PrintOption(int num, int x, int y)
 {
@@ -230,4 +389,20 @@ void Battle::PrintOption(int num, int x, int y)
 		std::cout << "아이템";
 		break;
 	}
+}
+
+void Battle::ClearOption(int x, int y)
+{
+	gotoxy(x - 6, y);
+	std::cout << "                 ";
+	gotoxy(x - 6, y+2);
+	std::cout << "                 ";
+	gotoxy(x - 6, y+4);
+	std::cout << "                 ";
+	gotoxy(x - 6, y+6);
+	std::cout << "                 ";
+	gotoxy(x - 6, y + 8);
+	std::cout << "                 ";
+	gotoxy(x - 6, y + 10);
+	std::cout << "                 ";
 }

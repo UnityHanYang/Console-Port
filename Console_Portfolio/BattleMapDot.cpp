@@ -309,6 +309,7 @@ void BattleMapDot::PrintEnmeyBack()
 
 void BattleMapDot::PrintEnemyCurrentHpMp(Character* character, int x, int y, int hpBarCount, int mpBarCount)
 {
+	int hp = 0;
 	SetColor(15, 0);
 	gotoxy(x, y);
 	std::cout << "                                                     ";
@@ -319,7 +320,15 @@ void BattleMapDot::PrintEnemyCurrentHpMp(Character* character, int x, int y, int
 	gotoxy(x+20, y+1);
 	std::cout << "                           ";
 	gotoxy(x + 20, y + 1);
-	std::cout << character->GetCurrentHp() << " / " << character->GetMaxHp();
+	if (character->GetCurrentHp() < 0)
+	{
+		hp = 0;
+	}
+	else
+	{
+		hp = character->GetCurrentHp();
+	}
+	std::cout << hp << " / " << character->GetMaxHp();
 
 	SetColor(15, 0);
 	gotoxy(x, y + 3);
@@ -353,6 +362,7 @@ void BattleMapDot::PrintEnemyInfoText(Character* character)
 
 void BattleMapDot::PrintHeroHp(Character* character, int x, int y, int hpBarCount, int mpBarCount)
 {
+	int hp = 0;
 	SetColor(0, 15);
 	gotoxy(x, y);
 	std::cout << "                                                   ";
@@ -369,7 +379,15 @@ void BattleMapDot::PrintHeroHp(Character* character, int x, int y, int hpBarCoun
 	gotoxy(x, y + 1);
 	std::cout << "                                                   ";
 	gotoxy(x + 22, y + 1);
-	std::cout << character->GetCurrentHp() << " / " << character->GetMaxHp();
+	if (character->GetCurrentHp() < 0)
+	{
+		hp = 0;
+	}
+	else
+	{
+		hp = character->GetCurrentHp();
+	}
+	std::cout << hp << " / " << character->GetMaxHp();
 	gotoxy(x, y + 4);
 	std::cout << "                                                   ";
 	gotoxy(x + 22, y + 4);

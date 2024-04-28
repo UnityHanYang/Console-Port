@@ -1,13 +1,14 @@
 #include "Dungeon1.h"
 
-int Dungeon1::enemyArrXY[6] = { 140, 36, 32, 60, 120, 15 };
 int Dungeon1::treasureBoxXY[6] = { 10, 3, 182, 51, 88, 7 };
+std::vector<int> Dungeon1::enemyArrXY = {};
 
 
 int Dungeon1::currentX = 0;
 int Dungeon1::currentY = 0;
 bool Dungeon1::isXTrue = false;
 int Dungeon1::currentNum = 0;
+int Dungeon1::currentEnemyIndex = 0;
 
 #define ARROW 224
 #define LEFT_ARROW 75
@@ -64,7 +65,6 @@ void Dungeon1::PrintMapAndCharMove(int x, int y)
 	PrintS(2, 1, 1, 1, x, y);
 	PrintS(2, 1, 1, 0, x, y + 1);
 	SetColor(15, 0);
-
 	if (isXTrue)
 	{
 		it.PrintInfo(208, 12, currentNum);
@@ -215,8 +215,16 @@ void Dungeon1::HpMinus()
 	{
 		if (CheckLavaZone(mapX, mapY))
 		{
-			(gm->GetCharacter() == 1) ? gm->nj->SetCurrentHp(-2), std::this_thread::sleep_for(std::chrono::milliseconds(1000)) : gm->ah->SetCurrentHp(-2), std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-
+			if (gm->GetCharacter() == 1)
+			{
+				gm->nj->SetCurrentHp(-2);
+				std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+			}
+			else
+			{
+				gm->ah->SetCurrentHp(-2);
+				std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+			}
 		}
 	}
 }
@@ -317,16 +325,24 @@ void Dungeon1::PrintTalkMessage(int x, int y, char message[50])
 bool Dungeon1::CheckEnemyXY(int x, int y)
 {
 	char message[50] = {};
-	for (int i = 0; i < sizeof(enemyArrXY) / sizeof(enemyArrXY[0]); i += 2)
+	std::vector<int>::iterator iter;
+	int num = 0;
+	for (iter = enemyArrXY.begin(); iter != enemyArrXY.end(); iter += 2)
 	{
-		RECT playerSquare = { x - 1, y - 1, x + 3, y + 2 };
-		RECT enemySquare = { enemyArrXY[i] - 2, enemyArrXY[i + 1] - 1, enemyArrXY[i] + 4, enemyArrXY[i + 1] + 2 };
-		RECT intersect;
+		if (iter + 1 != enemyArrXY.end())
+		{
+			RECT playerSquare = { x - 1, y - 1, x + 3, y + 2 };
+			RECT enemySquare = { *iter, *(iter + 1), *iter + 1, *(iter + 1) + 1 };
+			RECT intersect;
 
-		if (IntersectRect(&intersect, &playerSquare, &enemySquare)) {
-			return true;
+			if (IntersectRect(&intersect, &playerSquare, &enemySquare)) {
+				currentEnemyIndex = num;
+				return true;
+			}
+			num += 2;
 		}
 	}
+	num = 0;
 	return false;
 }
 
@@ -355,10 +371,22 @@ void Dungeon1::CheckTreasureXY(int x, int y)
 #pragma region 적, 보물상자 생성
 void Dungeon1::PrintEnemy()
 {
-	for (int i = 0; i < sizeof(enemyArrXY) / sizeof(enemyArrXY[0]); i += 2)
+	/*for (int i = 0; i < sizeof(enemyArrXY) / sizeof(enemyArrXY[0]); i += 2)
 	{
 		PrintS(2, 5, 5, 1, enemyArrXY[i], enemyArrXY[i + 1]);
 		PrintS(2, 5, 5, 0, enemyArrXY[i], enemyArrXY[i + 1] + 1);
+	}*/
+	std::vector<int>::iterator iter;
+	for (iter = enemyArrXY.begin(); iter != enemyArrXY.end(); iter += 2)
+	{
+
+		if (iter + 1 != enemyArrXY.end())
+		{
+			//SetColor(10, 0);
+			//std::cout << 
+			PrintS(2, 5, 5, 1, *(iter), *(iter + 1));
+			PrintS(2, 5, 5, 0, *(iter), *(iter + 1) + 1);
+		}
 	}
 }
 
@@ -366,7 +394,7 @@ void Dungeon1::PrintTreasure()
 {
 	for (int i = 0; i < sizeof(enemyArrXY) / sizeof(enemyArrXY[0]); i += 2)
 	{
-		PrintS(2, 14, 14, 1, treasureBoxXY[i], treasureBoxXY[i + 1]);
+		//PrintS(2, 14, 14, 1, treasureBoxXY[i], treasureBoxXY[i + 1]);
 	}
 }
 
@@ -400,12 +428,19 @@ bool Dungeon1::CheckEntranceXY(int x, int y)
 
 bool Dungeon1::CheckLavaZone(int x, int y)
 {
-	if (md.GetDungeonMap()[y][x / 2] != 4 && md.GetDungeonMap()[y][(x / 2) + 1] != 4 &&
-		md.GetDungeonMap()[y+1][x / 2] != 4 && md.GetDungeonMap()[y+1][(x / 2) + 1] != 4)
+	//SetColor(13, 0);
+	//std::cout << (x/2) << ",  " << y << std::endl;
+	/*std::cout << md.GetDungeonMap()[y][x / 2] << std::endl;
+	std::cout << md.GetDungeonMap()[y][(x / 2) + 1] << std::endl;
+	std::cout << md.GetDungeonMap()[y + 1][x / 2] q	sssssssssssss<< std::endl;
+	std::cout << md.GetDungeonMap()[y + 1][(x / 2) + 1] << std::endl;*/
+	Sleep(3000);
+	if (md.GetDungeonMap()[y][(x / 2) + 1] == 4 || md.GetDungeonMap()[y][(x / 2) + 2] == 4 ||
+		md.GetDungeonMap()[y + 1][(x / 2) + 1] == 4 || md.GetDungeonMap()[y + 1][(x / 2) + 2] == 4)
 	{
-		return false;
+		return true;
 	}
-	return true;
+	return false;
 }
 #pragma endregion
 

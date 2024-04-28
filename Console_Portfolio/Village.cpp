@@ -46,6 +46,7 @@ void Village::gotoxy(int x, int y)
 void Village::PrintMapAndCharMove(int x, int y)
 {
 	MapManager mm;
+	GameManager gm;
 	StoreMap sm;
 	CharacterInfo ci;
 	ItemInventoryWindow iw;

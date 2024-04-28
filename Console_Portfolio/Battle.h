@@ -7,6 +7,7 @@
 #include "ArcherDot.h"
 #include "Character.h"
 #include "MapDot.h"
+#include "MapManager.h"
 #include <time.h>
 
 class Battle : public PrintSetting
@@ -26,6 +27,12 @@ public:
 	virtual void gotoxy(int x, int y);
 	void PrintBattleMap();
 	void PrintOption(int num, int x, int y);
+	void ClearOption(int x, int y);
 	void EnemyTurn();
+	void PlayerDie(std::vector<Character*> characterVec);
+	void EnemyDie();
+	bool CheckPlayerDie(std::vector<Character*> characterVec);
+	void CheckExpLevel(std::vector<Character*> characterVec, int exp);
+	void SpecUp(Character* ch);
 };
 

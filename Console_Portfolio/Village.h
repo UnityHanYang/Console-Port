@@ -26,7 +26,6 @@ private:
 	int infoArr[8] = {};
 	MapDot md;
 	InformationTool it;
-	GameManager gm;
 	Hotel hotel;
 	bool isRelax;
 public:
