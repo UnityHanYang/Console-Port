@@ -50,6 +50,8 @@ void DungeonBoss::PrintMapAndCharMove(int x, int y)
 	CharacterInfo ci;
 	MapManager mm;
 	ItemInventoryWindow iw;
+	GameManager* gm = GameManager::GetInstance();
+	Dungeon1 dg;
 	int xCpy, yCpy;
 	xCpy = yCpy = 0;
 
@@ -180,7 +182,30 @@ void DungeonBoss::PrintMapAndCharMove(int x, int y)
 						}
 
 					}
+					if (CheckDungeonDoorXY(mapX, mapY))
+					{
+						if (input == Enter)
+						{
+							system("cls");
+							dg.SetIsReturn(true);
+							dg.SetIsPush(false);
+							mm.ms = Map_State::dungeon;
+							mm.Current_Map();
+							break;
+						}
+					}
 				}
+			}
+			else
+			{
+				currentX = mapX;
+				currentY = mapY;
+				system("cls");
+				gm->RandomEnemyUnit(2);
+				mm.ms = Map_State::battle;
+				mm.Current_Map();
+				break;
+
 			}
 		}
 	}
@@ -257,6 +282,15 @@ void DungeonBoss::CheckXState(int num)
 		isXTrue = false;
 	}
 }
+
+bool DungeonBoss::CheckDungeonDoorXY(int x, int y)
+{
+	if (md.GetDungeonBossMap()[y + 2][x / 2] == 0 && md.GetDungeonBossMap()[y + 2][(x / 2) + 1] == 0)
+	{
+		return true;
+	}
+	return false;
+}
 #pragma endregion
 
 #pragma region 체력 감소
@@ -278,7 +312,7 @@ void DungeonBoss::HpMinus()
 #pragma region 멀티스레드
 void DungeonBoss::BossDungeonMultiThread()
 {
-	std::thread mainThread(&DungeonBoss::PrintMapAndCharMove, this, 162, 79);
+	std::thread mainThread(&DungeonBoss::PrintMapAndCharMove, this, 162, 77);
 	std::thread checkLavaZoneThread(&DungeonBoss::HpMinus, this);
 	mainThread.join();
 	checkLavaZoneThread.join();

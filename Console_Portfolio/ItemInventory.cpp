@@ -13,6 +13,7 @@ void ItemInventory::FindInventory(Item* item)
 			RemoveInventory(std::find(inventory.begin(), inventory.end(), item) - inventory.begin(), item);
 		}
 	}
+	delete itemToFind;
 }
 
 void ItemInventory::AddInventory(Item* item)

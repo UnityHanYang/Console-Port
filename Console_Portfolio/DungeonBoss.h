@@ -32,6 +32,7 @@ public:
 	int CheckCurrentXY(int x, int y);
 	bool CheckEnemyXY(int x, int y);
 	void CheckXState(int num);
+	bool CheckDungeonDoorXY(int x, int y);
 	int GetCurrentX() { return currentX; }
 	int GetCurrentY() { return currentY; }
 	bool GetIsXTrue() { return isXTrue; }

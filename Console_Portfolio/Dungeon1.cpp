@@ -2,13 +2,15 @@
 
 int Dungeon1::treasureBoxXY[6] = { 10, 3, 182, 51, 88, 7 };
 std::vector<int> Dungeon1::enemyArrXY = {};
+bool Dungeon1::isReturn = false;
+bool Dungeon1::isEnemyKill = false;
 
-
-int Dungeon1::currentX = 0;
-int Dungeon1::currentY = 0;
 bool Dungeon1::isXTrue = false;
+bool Dungeon1::isPush = false;
 int Dungeon1::currentNum = 0;
 int Dungeon1::currentEnemyIndex = 0;
+int Dungeon1::currentX = 0;
+int Dungeon1::currentY = 0;
 
 #define ARROW 224
 #define LEFT_ARROW 75
@@ -53,10 +55,15 @@ void Dungeon1::PrintMapAndCharMove(int x, int y)
 	int xCpy, yCpy;
 	xCpy = yCpy = 0;
 	md.SettingDungeonMap();
-
+	if (!isPush)
+	{
+		VecInit();
+		isPush = true;
+	}
 	MapManager mm;
 	CharacterInfo ci;
 	ItemInventoryWindow iw;
+	GameManager* gm = GameManager::GetInstance();
 	md.PrintDungeonMap();
 	SetColor(15, 0);
 	md.PrintOperation_Keys(206, 10);
@@ -197,7 +204,10 @@ void Dungeon1::PrintMapAndCharMove(int x, int y)
 			}
 			else
 			{
+				currentX = mapX;
+				currentY = mapY;
 				system("cls");
+				gm->RandomEnemyUnit(1);
 				mm.ms = Map_State::battle;
 				mm.Current_Map();
 				break;
@@ -208,6 +218,24 @@ void Dungeon1::PrintMapAndCharMove(int x, int y)
 }
 
 #pragma region 체력 감소
+void Dungeon1::VecInit()
+{
+	enemyArrXY.clear();
+	enemyArrXY.push_back(140);
+	enemyArrXY.push_back(36);
+	enemyArrXY.push_back(32);
+	enemyArrXY.push_back(60);
+	enemyArrXY.push_back(120);
+	enemyArrXY.push_back(15);
+}
+void Dungeon1::SetEnemyArrXY(int index)
+{
+	if (!enemyArrXY.empty())
+	{
+		enemyArrXY.erase(enemyArrXY.begin() + index);
+		enemyArrXY.erase(enemyArrXY.begin() + index);
+	}
+}
 void Dungeon1::HpMinus()
 {
 	GameManager* gm = GameManager::GetInstance();
@@ -233,10 +261,32 @@ void Dungeon1::HpMinus()
 #pragma region 멀티스레드
 void Dungeon1::DungeonMultiThread()
 {
-	std::thread mainThread(&Dungeon1::PrintMapAndCharMove, this, 16, 78);
-	std::thread checkLavaZoneThread(&Dungeon1::HpMinus, this);
-	mainThread.join();
-	checkLavaZoneThread.join();
+	if (isReturn)
+	{
+		std::thread mainThread(&Dungeon1::PrintMapAndCharMove, this, 162, 5);
+		isReturn = false;
+		std::thread checkLavaZoneThread(&Dungeon1::HpMinus, this);
+		mainThread.join();
+		checkLavaZoneThread.join();
+	}
+	else
+	{
+		if (isEnemyKill)
+		{
+			std::thread mainThread(&Dungeon1::PrintMapAndCharMove, this, currentX, currentY);
+			std::thread checkLavaZoneThread(&Dungeon1::HpMinus, this);
+			mainThread.join();
+			checkLavaZoneThread.join();
+			isEnemyKill = false;
+		}
+		else
+		{
+			std::thread mainThread(&Dungeon1::PrintMapAndCharMove, this, 16, 78);
+			std::thread checkLavaZoneThread(&Dungeon1::HpMinus, this);
+			mainThread.join();
+			checkLavaZoneThread.join();
+		}
+	}
 }
 #pragma endregion
 
@@ -324,25 +374,27 @@ void Dungeon1::PrintTalkMessage(int x, int y, char message[50])
 #pragma region 충돌 처리
 bool Dungeon1::CheckEnemyXY(int x, int y)
 {
-	char message[50] = {};
-	std::vector<int>::iterator iter;
-	int num = 0;
-	for (iter = enemyArrXY.begin(); iter != enemyArrXY.end(); iter += 2)
+	if (!enemyArrXY.empty())
 	{
-		if (iter + 1 != enemyArrXY.end())
+		char message[50] = {};
+		std::vector<int>::iterator iter;
+		int num = 0;
+		for (iter = enemyArrXY.begin(); iter != enemyArrXY.end(); iter += 2)
 		{
-			RECT playerSquare = { x - 1, y - 1, x + 3, y + 2 };
-			RECT enemySquare = { *iter, *(iter + 1), *iter + 1, *(iter + 1) + 1 };
-			RECT intersect;
+			if (iter + 1 != enemyArrXY.end())
+			{
+				RECT playerSquare = { x - 1, y - 1, x + 3, y + 2 };
+				RECT enemySquare = { *iter, *(iter + 1), *iter + 2, *(iter + 1) + 1 };
+				RECT intersect;
 
-			if (IntersectRect(&intersect, &playerSquare, &enemySquare)) {
-				currentEnemyIndex = num;
-				return true;
+				if (IntersectRect(&intersect, &playerSquare, &enemySquare)) {
+					currentEnemyIndex = num;
+					return true;
+				}
+				num += 2;
 			}
-			num += 2;
 		}
 	}
-	num = 0;
 	return false;
 }
 
@@ -371,19 +423,11 @@ void Dungeon1::CheckTreasureXY(int x, int y)
 #pragma region 적, 보물상자 생성
 void Dungeon1::PrintEnemy()
 {
-	/*for (int i = 0; i < sizeof(enemyArrXY) / sizeof(enemyArrXY[0]); i += 2)
-	{
-		PrintS(2, 5, 5, 1, enemyArrXY[i], enemyArrXY[i + 1]);
-		PrintS(2, 5, 5, 0, enemyArrXY[i], enemyArrXY[i + 1] + 1);
-	}*/
 	std::vector<int>::iterator iter;
 	for (iter = enemyArrXY.begin(); iter != enemyArrXY.end(); iter += 2)
 	{
-
 		if (iter + 1 != enemyArrXY.end())
 		{
-			//SetColor(10, 0);
-			//std::cout << 
 			PrintS(2, 5, 5, 1, *(iter), *(iter + 1));
 			PrintS(2, 5, 5, 0, *(iter), *(iter + 1) + 1);
 		}

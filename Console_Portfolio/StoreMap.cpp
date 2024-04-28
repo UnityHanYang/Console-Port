@@ -433,7 +433,6 @@ void StoreMap::PrintBuyAndSellText(int x, int y, int num)
 #pragma region 화면 출력
 void StoreMap::PrintStoreMap()
 {
-	//Store store;
 	store->VectorPush();
 	PrintBuyAndSellTool(10, 3);
 	PrintMoneyTool(86, 3);

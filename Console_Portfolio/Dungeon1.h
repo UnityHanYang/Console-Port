@@ -9,6 +9,7 @@
 #include "InformationTool.h"
 #include "ItemInventoryWindow.h"
 #include "CharacterInfo.h"
+#include "GameManager.h"
 #include <vector>
 #include <thread>
 
@@ -17,15 +18,18 @@ class Dungeon1 : public PrintSetting
 private:
 	int mapX;
 	int mapY;
+	static int currentX;
+	static int currentY;
 	static int treasureBoxXY[6];
 	static std::vector<int> enemyArrXY;
-	static int currentX;
 	int c_EnemyArrXY[6];
-	static int currentY;
 	InformationTool it;
 	static bool isXTrue;
 	static int currentNum;
+	static bool isPush;
 	static int currentEnemyIndex;
+	static bool isReturn;
+	static bool isEnemyKill;
 	MapDot md;
 public:
 	virtual void SetColor(int fontColor, int backgroundColor);
@@ -44,9 +48,14 @@ public:
 	int GetCurrentX() { return currentX; }
 	int GetCurrentY() { return currentY; }
 	bool GetIsXTrue() { return isXTrue; }
-	int GetCurrentEnemyIndex() {return currentEnemyIndex; }
+	int GetCurrentEnemyIndex() { return currentEnemyIndex; }
+	void SetIsPush(bool ispush) { isPush = ispush; }
+	void VecInit();
+	std::vector<int>* GetEnemyArrXY() { return &enemyArrXY; }
+	void SetIsReturn(bool isreturn) { isReturn = isreturn; }
+	void SetIsEnemyKill(bool isenemyKill) { isEnemyKill = isenemyKill; }
 
-	void SetEnemyArrXY(int index) { enemyArrXY.erase(enemyArrXY.begin() + index); enemyArrXY.erase(enemyArrXY.begin() + index+1); }
+	void SetEnemyArrXY(int index);
 	void HpMinus();
 	void DungeonMultiThread();
 	bool CheckLavaZone(int x, int y);
@@ -54,14 +63,6 @@ public:
 
 	void PrintTalkMessage(int x, int y, char message[50]);
 
-	Dungeon1() : mapX{ 0 }, mapY{ 0 }, c_EnemyArrXY{}
-	{
-		enemyArrXY.push_back(140);
-		enemyArrXY.push_back(36);
-		enemyArrXY.push_back(32);
-		enemyArrXY.push_back(60);
-		enemyArrXY.push_back(120);
-		enemyArrXY.push_back(15);
-	}
+	Dungeon1() : mapX{ 0 }, mapY{ 0 }, c_EnemyArrXY{}{}
 };
 

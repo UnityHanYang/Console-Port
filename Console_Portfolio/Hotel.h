@@ -5,7 +5,6 @@
 
 class Hotel
 {
-private:
 public:
 	void CharacterHeal(std::vector<Character*> characterVec);
 };

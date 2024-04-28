@@ -9,6 +9,7 @@
 #include "MapDot.h"
 #include "MapManager.h"
 #include <time.h>
+#include <vector>
 
 class Battle : public PrintSetting
 {

@@ -166,6 +166,7 @@ void CharacterInfo::PrintCharacterAbility(int num)
 	CharacterChoice cc;
 	GameManager* gm = GameManager::GetInstance();
 	MapManager mm;
+	Character* ch;
 	if (num == 1)
 	{
 		nd.PrintNinJa();
@@ -184,6 +185,7 @@ void CharacterInfo::PrintCharacterAbility(int num)
 		gotoxy(139, 61);
 		std::cout << " 방어력: " << gm->nj->GetDef();
 		std::cout << "                치명타 확률: " << gm->nj->GetCritical() << "%";
+		ch = gm->nj;
 	}
 	else
 	{
@@ -203,10 +205,11 @@ void CharacterInfo::PrintCharacterAbility(int num)
 		gotoxy(139, 57);
 		std::cout << " 방어력: " << gm->ah->GetDef();
 		std::cout << "                치명타 확률: " << gm->ah->GetCritical() << "%";
+		ch = gm->ah;
 	}
 	SetColor(0, 15);
 	md.PrintOperation_Keys(230, 3);
-	PrintBackOperate(232, 5);
+	PrintBackOperate(232, 5, ch);
 	SetColor(15, 0);
 	int input;
 	while (true)
@@ -227,10 +230,16 @@ void CharacterInfo::PrintCharacterAbility(int num)
 #pragma endregion
 
 #pragma region 조작키
-void CharacterInfo::PrintBackOperate(int x, int y)
+void CharacterInfo::PrintBackOperate(int x, int y, Character* ch)
 {
 	gotoxy(x, y);
 	std::cout << "ESC: 뒤로가기";
+	gotoxy(x, y + 10);
+	std::cout << "현재 경험치: " << ch->GetCurrentExp();
+	gotoxy(x, y + 12);
+	std::cout << "다음 레벨 경험치: " << ch->GetMaxExp();
+	gotoxy(x, y + 14);
+	std::cout << "다음 레벨까지 경험치: " << ch->GetMaxExp() - ch->GetCurrentExp();
 }
 
 void CharacterInfo::PrintOperate(int x, int y)

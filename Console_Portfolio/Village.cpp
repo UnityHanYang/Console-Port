@@ -50,6 +50,7 @@ void Village::PrintMapAndCharMove(int x, int y)
 	StoreMap sm;
 	CharacterInfo ci;
 	ItemInventoryWindow iw;
+	Dungeon1 dg;
 	md.SettingVillageMap();
 	md.PrintVillageMap();
 	SetColor(15, 0);
@@ -191,6 +192,7 @@ void Village::PrintMapAndCharMove(int x, int y)
 				if (input == Enter)
 				{
 					system("cls");
+					dg.SetIsPush(false);
 					mm.ms = Map_State::dungeon;
 					mm.Current_Map();
 				}

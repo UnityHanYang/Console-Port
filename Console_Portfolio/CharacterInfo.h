@@ -27,7 +27,7 @@ public:
 	void CharacterTwo();
 	void ReadMore(int num);
 	void ChoiceCharacter();
-	void PrintBackOperate(int x, int y);
+	void PrintBackOperate(int x, int y, Character* ch);
 	bool GetJoinWhether() { return isJoin; }
 	void SetJoinWhether(bool b_Value) { isJoin = b_Value; }
 	void PrintCharacterAbility(int num);

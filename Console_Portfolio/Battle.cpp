@@ -42,7 +42,6 @@ void Battle::gotoxy(int x, int y)
 void Battle::PrintBattleMap()
 {
 	GameManager* gm = GameManager::GetInstance();
-	gm->RandomEnemyUnit(1);
 	if (gm->GetCharacterCount().size() < 2)
 	{
 		bmd.PrintSoloBattleMap();
@@ -82,25 +81,46 @@ void Battle::PrintBattleMap()
 		if (gm->GetCharacter() == 1)
 		{
 			nd.PrintNinJaPortrait(116, 60);
-			bmd.PrintHeroHp(gm->nj, 102, 88, hpBar, mpBar);
 		}
 		else if (gm->GetCharacter() == 2)
 		{
 			ad.PrintArcherPortrait(120, 60);
-			bmd.PrintHeroHp(gm->ah, 102, 88, hpBar, mpBar);
+
+		}
+
+		if (hpBar <= 0)
+		{
+			if (chr->GetCurrentHp() > 0)
+			{
+				bmd.PrintHeroHp(chr, 102, 88, 1, mpBar);
+			}
+		}
+		else
+		{
+			bmd.PrintHeroHp(chr, 102, 88, hpBar, mpBar);
 		}
 
 		hpBar = (target->GetCurrentHp() * 20) / target->GetMaxHp();
 		mpBar = (target->GetCurrentMp() * 20) / target->GetMaxMp();
 		if (gm->GetRandomNum() == 0)
 		{
-			bmd.PrintEnemyCurrentHpMp(gm->e_nj, 145, 48, hpBar, mpBar);
 			bmd.PrintEnemyInfoText(gm->e_nj);
 		}
 		else if (gm->GetRandomNum() == 1)
 		{
-			bmd.PrintEnemyCurrentHpMp(gm->e_ah, 145, 48, hpBar, mpBar);
 			bmd.PrintEnemyInfoText(gm->e_ah);
+		}
+
+		if (hpBar <= 0)
+		{
+			if (chr->GetCurrentHp() > 0)
+			{
+				bmd.PrintEnemyCurrentHpMp(target, 145, 48, 1, mpBar);
+			}
+		}
+		else
+		{
+			bmd.PrintHeroHp(target, 145, 48, hpBar, mpBar);
 		}
 		break;
 	case 2:
@@ -233,7 +253,7 @@ void Battle::CheckExpLevel(std::vector<Character*> characterVec, int exp)
 		(*iter)->SetCurrentExp(exp);
 		while (true)
 		{
-			if ((*iter)->GetCurrentExp() > (*iter)->GetMaxExp())
+			if ((*iter)->GetCurrentExp() >= (*iter)->GetMaxExp())
 			{
 				SpecUp(*iter);
 				isEnter = true;
@@ -258,6 +278,7 @@ void Battle::CheckExpLevel(std::vector<Character*> characterVec, int exp)
 void Battle::SpecUp(Character* ch)
 {
 	ch->SetLevel(1);
+	ch->SetCurrentExp(-ch->GetMaxExp());
 	ch->SetMaxExp(10);
 	ch->SetCritical(1);
 	ch->SetMaxHp(10);
@@ -271,7 +292,7 @@ void Battle::SpecUp(Character* ch)
 void Battle::EnemyDie()
 {
 	GameManager gm;
-	Dungeon1* dg = new Dungeon1;
+	Dungeon1 dg;
 	MapManager mm;
 	int exp = 0;
 	Sleep(1500);
@@ -299,9 +320,10 @@ void Battle::EnemyDie()
 		break;
 	}
 	CheckExpLevel(gm.GetCharacterCount(), exp);
-	dg->SetEnemyArrXY(dg->GetCurrentEnemyIndex());
 	Sleep(1000);
+	dg.SetEnemyArrXY(dg.GetCurrentEnemyIndex());
 	system("cls");
+	dg.SetIsEnemyKill(true);
 	mm.ms = Map_State::dungeon;
 	mm.Current_Map();
 }
