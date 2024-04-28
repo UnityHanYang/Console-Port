@@ -190,7 +190,7 @@ void BattleMapDot::PrintEnemyInfoTool()
 	SetColor(15, 0);
 	gotoxy(240, 14);
 	std::cout << "忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖";
-	gotoxy(240, 14+ 1);
+	gotoxy(240, 14 + 1);
 	std::cout << "弛                                              弛";
 	gotoxy(240, 14 + 2);
 	std::cout << "弛                                              弛";
@@ -307,17 +307,31 @@ void BattleMapDot::PrintEnmeyBack()
 	}
 }
 
-void BattleMapDot::PrintEnemyCurrentHpMp(Character* character, int x, int y)
+void BattleMapDot::PrintEnemyCurrentHpMp(Character* character, int x, int y, int hpBarCount, int mpBarCount)
 {
 	SetColor(15, 0);
 	gotoxy(x, y);
+	std::cout << "                                                     ";
+	gotoxy(x, y);
 	std::cout << "Hp: ";
-	PrintS(20, 12, 12, 0, x + 5, y);
+	PrintS(hpBarCount, 12, 12, 0, x + 5, y);
+	SetColor(15, 0);
+	gotoxy(x+20, y+1);
+	std::cout << "                           ";
+	gotoxy(x + 20, y + 1);
+	std::cout << character->GetCurrentHp() << " / " << character->GetMaxHp();
 
 	SetColor(15, 0);
-	gotoxy(x, y + 2);
+	gotoxy(x, y + 3);
+	std::cout << "                                                     ";
+	gotoxy(x, y + 3);
 	std::cout << "Mp: ";
-	PrintS(20, 9, 9, 0, x + 5, y + 2);
+	PrintS(mpBarCount, 9, 9, 0, x + 5, y + 3);
+	SetColor(15, 0);
+	gotoxy(x + 20, y + 4);
+	std::cout << "                           ";
+	gotoxy(x + 20, y + 4);
+	std::cout << character->GetCurrentMp() << " / " << character->GetMaxMp();
 }
 
 void BattleMapDot::PrintEnemyInfoText(Character* character)
@@ -337,31 +351,38 @@ void BattleMapDot::PrintEnemyInfoText(Character* character)
 	std::cout << "纂貲顫 �捕�: " << character->GetCritical();
 }
 
-void BattleMapDot::PrintHeroHp(Character* character, int x, int y)
+void BattleMapDot::PrintHeroHp(Character* character, int x, int y, int hpBarCount, int mpBarCount)
 {
 	SetColor(0, 15);
 	gotoxy(x, y);
+	std::cout << "                                                   ";
+	gotoxy(x, y);
 	std::cout << "Hp: ";
-	//SetColor(12, 0);
-	//gotoxy(x+6, y);
-	PrintS(20, 12, 12, 0, x + 4, y);
-	//std::cout << character->GetCurrentHp();
+	PrintS(hpBarCount, 12, 12, 0, x + 4, y);
 	SetColor(0, 15);
-	gotoxy(x, y+2);
+	gotoxy(x, y + 3);
+	std::cout << "                                                   ";
+	gotoxy(x, y + 3);
 	std::cout << "Mp: ";
-	//SetColor(12, 12);
-	//gotoxy(x + 6, y+2);
-	PrintS(19, 9, 9, 0, x + 4, y + 2);
-	std::cout << character->GetCurrentMp();
+	PrintS(mpBarCount, 9, 9, 0, x + 4, y + 3);
+	SetColor(0, 15);
+	gotoxy(x, y + 1);
+	std::cout << "                                                   ";
+	gotoxy(x + 22, y + 1);
+	std::cout << character->GetCurrentHp() << " / " << character->GetMaxHp();
+	gotoxy(x, y + 4);
+	std::cout << "                                                   ";
+	gotoxy(x + 22, y + 4);
+	std::cout << character->GetCurrentMp() << " / " << character->GetMaxMp();
 }
 
-void BattleMapDot::PrintConsoleText(const char* text, int x, int y)
+void BattleMapDot::PrintConsoleText(const char* text1, const char* text2, const char* text3, const char* text4, const char* text5, const char* text6, int x, int y)
 {
 	SetColor(15, 0);
 	gotoxy(x, y);
 	std::cout << "                                                        ";
 	gotoxy(x, y);
-	std::cout << text;
+	std::cout << text1 << text2 << text3 << text4 << text5 << text6;
 }
 
 void BattleMapDot::PrintHpTool(int x, int y)
@@ -369,7 +390,7 @@ void BattleMapDot::PrintHpTool(int x, int y)
 	SetColor(15, 0);
 	gotoxy(x, y);
 	std::cout << "式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式";
-	gotoxy(x, y+6);
+	gotoxy(x, y + 8);
 	std::cout << "式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式";
 }
 

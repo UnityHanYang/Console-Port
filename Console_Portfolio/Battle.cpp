@@ -73,16 +73,35 @@ void Battle::PrintBattleMap()
 	bmd.PrintEnemyInfoTool();
 	bmd.PrintHpTool(141, 46);
 	md.PrintConsole(192, 83);
-	bmd.PrintConsoleText("플레이어 턴 입니다", 195, 85);
+	bmd.PrintConsoleText("플레이어 턴 입니다", "", "", "", "", "", 195, 85);
 	switch (gm->GetEnemyLevelNum())
 	{
 	case 1:
-		(gm->GetCharacter() == 1) ? nd.PrintNinJaPortrait(116, 60),
-			bmd.PrintHeroHp(gm->nj, 102, 89) : ad.PrintArcherPortrait(120, 60), 
-			bmd.PrintHeroHp(gm->ah, 102, 89);
+		hpBar = (chr->GetCurrentHp() * 20) / chr->GetMaxHp();
+		mpBar = (chr->GetCurrentMp() * 20) / chr->GetMaxMp();
+		if (gm->GetCharacter() == 1)
+		{
+			nd.PrintNinJaPortrait(116, 60);
+			bmd.PrintHeroHp(gm->nj, 102, 88, hpBar, mpBar);
+		}
+		else if (gm->GetCharacter() == 2)
+		{
+			ad.PrintArcherPortrait(120, 60);
+			bmd.PrintHeroHp(gm->ah, 102, 88, hpBar, mpBar);
+		}
 
-		(gm->GetRandomNum() == 0) ? bmd.PrintEnemyCurrentHpMp(gm->e_nj, 145, 48), 
-			bmd.PrintEnemyInfoText(gm->e_nj) : bmd.PrintEnemyCurrentHpMp(gm->e_ah, 145, 48), bmd.PrintEnemyInfoText(gm->e_ah);
+		hpBar = (target->GetCurrentHp() * 20) / target->GetMaxHp();
+		mpBar = (target->GetCurrentMp() * 20) / target->GetMaxMp();
+		if (gm->GetRandomNum() == 0)
+		{
+			bmd.PrintEnemyCurrentHpMp(gm->e_nj, 145, 48, hpBar, mpBar);
+			bmd.PrintEnemyInfoText(gm->e_nj);
+		}
+		else if (gm->GetRandomNum() == 1)
+		{
+			bmd.PrintEnemyCurrentHpMp(gm->e_ah, 145, 48, hpBar, mpBar);
+			bmd.PrintEnemyInfoText(gm->e_ah);
+		}
 		break;
 	case 2:
 		break;
@@ -115,9 +134,15 @@ void Battle::PrintBattleMap()
 				if (count == 1)
 				{
 					chr->NorMalAttack(target);
-					const char* text = chr->GetName() + "가 " + target->GetName()
-						+ "에게 " + (chr->GetAtk() - target->GetDef()) + "만큼 피해를 입혔습니다";
-					bmd.PrintConsoleText("플레이어 턴 입니다", 195, 85);
+					char buffer[50];
+					sprintf(buffer, "%d", (chr->GetAtk() - target->GetDef()));
+					const char* cstr = buffer;
+					bmd.PrintConsoleText(chr->GetName(), "가 ", target->GetName(), "에게 ", cstr, "만큼 피해를 입혔습니다", 195, 85);
+					hpBar = (target->GetCurrentHp() * 20) / target->GetMaxHp();
+					mpBar = (target->GetCurrentMp() * 20) / target->GetMaxMp();
+					bmd.PrintEnemyCurrentHpMp(target, 145, 48, hpBar, mpBar);
+					Sleep(2000);
+					EnemyTurn();
 				}
 			}
 		}
@@ -127,7 +152,21 @@ void Battle::PrintBattleMap()
 
 void Battle::EnemyTurn()
 {
-}
+	bmd.PrintConsoleText("상대턴 턴 입니다", "", "", "", "", "", 195, 85);
+	srand(time(NULL));
+	int ran = (rand() % 500) + 1000;
+	Sleep(ran);
+	target->NorMalAttack(chr);
+	char buffer[50];
+	sprintf(buffer, "%d", (target->GetAtk() - chr->GetDef()));
+	const char* cstr = buffer;
+	bmd.PrintConsoleText(target->GetName(), "가 ", chr->GetName(), "에게 ", cstr, "만큼 피해를 입혔습니다", 195, 85);
+	hpBar = (chr->GetCurrentHp() * 20) / chr->GetMaxHp();
+	mpBar = (chr->GetCurrentMp() * 20) / chr->GetMaxMp();
+	bmd.PrintHeroHp(chr, 102, 88, hpBar, mpBar);
+	Sleep(2000);
+	bmd.PrintConsoleText("플레이어 턴 입니다", "", "", "", "", "", 195, 85);
+}	
 
 void Battle::PrintOption(int num, int x, int y)
 {

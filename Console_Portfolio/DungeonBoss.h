@@ -2,6 +2,10 @@
 #include <iostream>
 #include <Windows.h>
 #include "PrintSetting.h"
+#include "InformationTool.h"
+#include "ItemInventoryWindow.h"
+#include "CharacterInfo.h"
+#include "MapManager.h"
 #include "MapDot.h"
 #include <conio.h>
 
@@ -11,6 +15,11 @@ private:
 	int mapX;
 	int mapY;
 	static int enemyArrXY[4];
+	static int currentX;
+	static int currentY;
+	InformationTool it;
+	static bool isXTrue;
+	static int currentNum;
 	MapDot md;
 public:
 	virtual void SetColor(int fontColor, int backgroundColor);
@@ -22,6 +31,14 @@ public:
 	void PrintEnemy();
 	int CheckCurrentXY(int x, int y);
 	bool CheckEnemyXY(int x, int y);
+	void CheckXState(int num);
+	int GetCurrentX() { return currentX; }
+	int GetCurrentY() { return currentY; }
+	bool GetIsXTrue() { return isXTrue; }
+	void HpMinus();
+	void BossDungeonMultiThread();
+	bool CheckLavaZone(int x, int y);
+	std::atomic<bool> running{ true };
 
 	DungeonBoss() : mapX{ 0 }, mapY{ 0 } {};
 };

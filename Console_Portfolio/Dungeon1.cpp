@@ -3,12 +3,19 @@
 int Dungeon1::enemyArrXY[6] = { 140, 36, 32, 60, 120, 15 };
 int Dungeon1::treasureBoxXY[6] = { 10, 3, 182, 51, 88, 7 };
 
+
+int Dungeon1::currentX = 0;
+int Dungeon1::currentY = 0;
+bool Dungeon1::isXTrue = false;
+int Dungeon1::currentNum = 0;
+
 #define ARROW 224
 #define LEFT_ARROW 75
 #define RIGHT_ARROW 77
 #define UP_ARROW 72
 #define DOWN_ARROW 80
 #define Enter 13
+#define X_Key 120
 
 #pragma region 상속 메서드
 void Dungeon1::SetColor(int fontColor, int backgroundColor)
@@ -47,93 +54,184 @@ void Dungeon1::PrintMapAndCharMove(int x, int y)
 	md.SettingDungeonMap();
 
 	MapManager mm;
+	CharacterInfo ci;
+	ItemInventoryWindow iw;
 	md.PrintDungeonMap();
 	SetColor(15, 0);
 	md.PrintOperation_Keys(206, 10);
-	PrintOperation(208, 12);
 	PrintEnemy();
 	PrintTreasure();
 	PrintS(2, 1, 1, 1, x, y);
 	PrintS(2, 1, 1, 0, x, y + 1);
 	SetColor(15, 0);
+
+	if (isXTrue)
+	{
+		it.PrintInfo(208, 12, currentNum);
+	}
+	else
+	{
+		PrintOperation(208, 12);
+	}
 	md.PrintConsole(204, 57);
 	mapX = x;
 	mapY = y;
 	int input;
-	while (true)
+	while (running)
 	{
-		if (!CheckEnemyXY(mapX, mapY))
+		while (true)
 		{
-			if (_kbhit())
+			if (!CheckEnemyXY(mapX, mapY))
 			{
-				input = _getch();
-				if (input == ARROW)
+				if (_kbhit())
 				{
 					input = _getch();
-					switch (input)
+					if (input == ARROW)
 					{
-					case LEFT_ARROW:
-						if (CheckMapXY(mapX, mapY, -1, 0, -1, 1))
+						input = _getch();
+						switch (input)
 						{
-							xCpy = mapX;
-							yCpy = mapY;
-							mapX -= 2;
+						case LEFT_ARROW:
+							if (!isXTrue)
+							{
+								if (CheckMapXY(mapX, mapY, -1, 0, -1, 1))
+								{
+									xCpy = mapX;
+									yCpy = mapY;
+									mapX -= 2;
+								}
+							}
+							break;
+						case RIGHT_ARROW:
+							if (!isXTrue)
+							{
+								if (CheckMapXY(mapX, mapY, 2, 0, 2, 1))
+								{
+									xCpy = mapX;
+									yCpy = mapY;
+									mapX += 2;
+								}
+							}
+							break;
+						case UP_ARROW:
+							if (!isXTrue)
+							{
+								if (CheckMapXY(mapX, mapY, 0, -1, 1, -1))
+								{
+									xCpy = mapX;
+									yCpy = mapY;
+									--mapY;
+								}
+							}
+							else
+							{
+								it.ClearOperation(208, 12);
+								it.PrintInfo(208, 12, currentNum = (currentNum < 2) ? currentNum : currentNum -= 1);
+							}
+							break;
+						case DOWN_ARROW:
+							if (!isXTrue)
+							{
+								if (CheckMapXY(mapX, mapY, 0, 2, 1, 2))
+								{
+									xCpy = mapX;
+									yCpy = mapY;
+									++mapY;
+								}
+							}
+							else
+							{
+								it.ClearOperation(208, 12);
+								it.PrintInfo(208, 12, currentNum = (currentNum > 3) ? currentNum : currentNum += 1);
+							}
+							break;
 						}
-						break;
-					case RIGHT_ARROW:
-						if (CheckMapXY(mapX, mapY, 2, 0, 2, 1))
-						{
-							xCpy = mapX;
-							yCpy = mapY;
-							mapX += 2;
-						}
-						break;
-					case UP_ARROW:
-						if (CheckMapXY(mapX, mapY, 0, -1, 1, -1))
-						{
-							xCpy = mapX;
-							yCpy = mapY;
-							--mapY;
-						}
-						break;
-					case DOWN_ARROW:
-						if (CheckMapXY(mapX, mapY, 0, 2, 1, 2))
-						{
-							xCpy = mapX;
-							yCpy = mapY;
-							++mapY;
-						}
+						CheckTreasureXY(mapX, mapY);
+						PrintS(1, CheckCurrentXY(xCpy, yCpy), CheckCurrentXY(xCpy, yCpy), 0, xCpy, yCpy);
+						PrintS(1, CheckCurrentXY(xCpy + 2, yCpy), CheckCurrentXY(xCpy + 2, yCpy), 1, xCpy + 2, yCpy);
+						PrintS(1, CheckCurrentXY(xCpy, yCpy + 1), CheckCurrentXY(xCpy, yCpy + 1), 0, xCpy, yCpy + 1);
+						PrintS(1, CheckCurrentXY(xCpy + 2, yCpy + 1), CheckCurrentXY(xCpy + 2, yCpy + 1), 1, xCpy + 2, yCpy + 1);
+						PrintS(2, 1, 1, 1, mapX, mapY);
+						PrintS(2, 1, 1, 1, mapX, mapY + 1);
+						SetColor(15, 0);
 					}
-					CheckTreasureXY(mapX, mapY);
-					PrintS(1, CheckCurrentXY(xCpy, yCpy), CheckCurrentXY(xCpy, yCpy), 0, xCpy, yCpy);
-					PrintS(1, CheckCurrentXY(xCpy + 2, yCpy), CheckCurrentXY(xCpy + 2, yCpy), 1, xCpy + 2, yCpy);
-					PrintS(1, CheckCurrentXY(xCpy, yCpy + 1), CheckCurrentXY(xCpy, yCpy + 1), 0, xCpy, yCpy + 1);
-					PrintS(1, CheckCurrentXY(xCpy + 2, yCpy + 1), CheckCurrentXY(xCpy + 2, yCpy + 1), 1, xCpy + 2, yCpy + 1);
-					PrintS(2, 1, 1, 1, mapX, mapY);
-					PrintS(2, 1, 1, 1, mapX, mapY + 1);
-					SetColor(15, 0);
-				}
-				if (CheckEntranceXY(mapX, mapY))
-				{
-					if (input == Enter)
+					else if (input == X_Key)
 					{
-						system("cls");
-						mm.ms = Map_State::boss_dungeon;
-						mm.Current_Map();
-						break;
+						currentNum = 0;
+						CheckXState(currentNum);
+					}
+					else if (input == Enter)
+					{
+						currentX = mapX;
+						currentY = mapY;
+						switch (currentNum)
+						{
+						case 1:
+							mm.SetStack(2);
+							system("cls");
+							ci.ChoiceCharacter();
+							break;
+						case 2:
+							break;
+						case 3:
+							mm.SetStack(2);
+							system("cls");
+							iw.InventoryTool();
+							break;
+						case 4:
+							break;
+						}
+
+					}
+					if (CheckEntranceXY(mapX, mapY))
+					{
+						if (input == Enter)
+						{
+							system("cls");
+							mm.ms = Map_State::boss_dungeon;
+							mm.Current_Map();
+							break;
+						}
 					}
 				}
 			}
+			else
+			{
+				system("cls");
+				mm.ms = Map_State::battle;
+				mm.Current_Map();
+				break;
+			}
 		}
-		else
+		std::this_thread::sleep_for(std::chrono::seconds(1));
+	}
+}
+
+#pragma region 체력 감소
+void Dungeon1::HpMinus()
+{
+	GameManager* gm = GameManager::GetInstance();
+	while (running)
+	{
+		if (CheckLavaZone(mapX, mapY))
 		{
-			system("cls");
-			mm.ms = Map_State::battle;
-			mm.Current_Map();
-			break;
+			(gm->GetCharacter() == 1) ? gm->nj->SetCurrentHp(-2), std::this_thread::sleep_for(std::chrono::milliseconds(1000)) : gm->ah->SetCurrentHp(-2), std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+
 		}
 	}
 }
+#pragma endregion
+
+#pragma region 멀티스레드
+void Dungeon1::DungeonMultiThread()
+{
+	std::thread mainThread(&Dungeon1::PrintMapAndCharMove, this, 16, 78);
+	std::thread checkLavaZoneThread(&Dungeon1::HpMinus, this);
+	mainThread.join();
+	checkLavaZoneThread.join();
+}
+#pragma endregion
+
 #pragma endregion
 
 #pragma region 조작법, 안내창
@@ -184,6 +282,22 @@ void Dungeon1::PrintOperation(int x, int y)
 	std::cout << "용암을 밟으면 HP가";
 	gotoxy(x, y + 23);
 	std::cout << "감소합니다. 유의하세요!";
+}
+
+void Dungeon1::CheckXState(int num)
+{
+	if (!isXTrue)
+	{
+		it.ClearOperation(208, 12);
+		it.PrintInfo(208, 12, num);
+		isXTrue = true;
+	}
+	else
+	{
+		it.ClearOperation(208, 12);
+		PrintOperation(208, 12);
+		isXTrue = false;
+	}
 }
 #pragma endregion
 
@@ -258,7 +372,7 @@ void Dungeon1::PrintTreasure()
 
 #pragma endregion
 
-#pragma region 현재 위치, 던전 입구 감지
+#pragma region 현재 위치, 던전 입구 감지, 용암 감지
 int Dungeon1::CheckCurrentXY(int x, int y)
 {
 	int num = 0;
@@ -282,6 +396,16 @@ bool Dungeon1::CheckEntranceXY(int x, int y)
 		return true;
 	}
 	return false;
+}
+
+bool Dungeon1::CheckLavaZone(int x, int y)
+{
+	if (md.GetDungeonMap()[y][x / 2] != 4 && md.GetDungeonMap()[y][(x / 2) + 1] != 4 &&
+		md.GetDungeonMap()[y+1][x / 2] != 4 && md.GetDungeonMap()[y+1][(x / 2) + 1] != 4)
+	{
+		return false;
+	}
+	return true;
 }
 #pragma endregion
 

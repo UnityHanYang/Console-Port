@@ -57,6 +57,8 @@ void InformationTool::ClearOperation(int x, int y)
 	std::cout << "                             ";
 	gotoxy(x, y + 15);
 	std::cout << "                             ";
+	gotoxy(x, y + 16);
+	std::cout << "                             ";
 	gotoxy(x, y + 17);
 	std::cout << "                             ";
 	gotoxy(x, y + 18);
@@ -65,7 +67,15 @@ void InformationTool::ClearOperation(int x, int y)
 	std::cout << "                             ";
 	gotoxy(x, y + 20);
 	std::cout << "                             ";
+	gotoxy(x, y + 21);
+	std::cout << "                             ";
+	gotoxy(x, y + 22);
+	std::cout << "                             ";
+	gotoxy(x, y + 23);
+	std::cout << "                             ";
 	gotoxy(x, y + 24);
+	std::cout << "                             ";
+	gotoxy(x, y + 25);
 	std::cout << "                             ";
 	gotoxy(x, y + 26);
 	std::cout << "                             ";
@@ -73,13 +83,19 @@ void InformationTool::ClearOperation(int x, int y)
 	std::cout << "                             ";
 	gotoxy(x, y + 28);
 	std::cout << "                             ";
+	gotoxy(x, y + 29);
+	std::cout << "                             ";
 	gotoxy(x, y + 30);
 	std::cout << "                             ";
 	gotoxy(x, y + 31);
 	std::cout << "                             ";
+	gotoxy(x, y + 32);
+	std::cout << "                             ";
 	gotoxy(x, y + 33);
 	std::cout << "                             ";
 	gotoxy(x, y + 34);
+	std::cout << "                             ";
+	gotoxy(x, y + 35);
 	std::cout << "                             ";
 }
 #pragma endregion

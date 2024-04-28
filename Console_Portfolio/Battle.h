@@ -7,6 +7,7 @@
 #include "ArcherDot.h"
 #include "Character.h"
 #include "MapDot.h"
+#include <time.h>
 
 class Battle : public PrintSetting
 {
@@ -17,6 +18,8 @@ private:
 	Character* chr;
 	Character* target;
 	MapDot md;
+	int hpBar = 0;
+	int mpBar = 0;
 public:
 	virtual void SetColor(int fontColor, int backgroundColor);
 	virtual void PrintS(int count, int font, int background, bool isEndl, int x, int y);

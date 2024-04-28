@@ -6,7 +6,11 @@
 #include <conio.h>
 #include "DungeonBoss.h"
 #include "MapManager.h"
+#include "InformationTool.h"
+#include "ItemInventoryWindow.h"
+#include "CharacterInfo.h"
 #include <vector>
+#include <thread>
 
 class Dungeon1 : public PrintSetting
 {
@@ -15,8 +19,12 @@ private:
 	int mapY;
 	static int enemyArrXY[6];
 	static int treasureBoxXY[6];
+	static int currentX;
+	static int currentY;
+	InformationTool it;
+	static bool isXTrue;
+	static int currentNum;
 	MapDot md;
-	DungeonBoss db;
 public:
 	virtual void SetColor(int fontColor, int backgroundColor);
 	virtual void PrintS(int count, int font, int background, bool isEndl, int x, int y);
@@ -30,6 +38,14 @@ public:
 	void PrintTreasure();
 	int CheckCurrentXY(int x, int y);
 	bool CheckEntranceXY(int x, int y);
+	void CheckXState(int num);
+	int GetCurrentX() { return currentX; }
+	int GetCurrentY() { return currentY; }
+	bool GetIsXTrue() { return isXTrue; }
+	void HpMinus();
+	void DungeonMultiThread();
+	bool CheckLavaZone(int x, int y);
+	std::atomic<bool> running{ true };
 
 	void PrintTalkMessage(int x, int y, char message[50]);
 

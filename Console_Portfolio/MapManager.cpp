@@ -16,11 +16,11 @@ void MapManager::Current_Map()
 	}
 	else if (ms == Map_State::dungeon)
 	{
-		dg.PrintMapAndCharMove(16, 78);
+		dg.DungeonMultiThread();
 	}
 	else if (ms == Map_State::boss_dungeon)
 	{
-		db.PrintMapAndCharMove(162, 79);
+		db.BossDungeonMultiThread();
 	}
 	else if (ms == Map_State::battle)
 	{
@@ -32,6 +32,8 @@ void MapManager::Current_StackMap()
 {
 	Village vg;
 	CharacterInfo ci;
+	Dungeon1 dg;
+	DungeonBoss db;
 	if (!s_map.empty())
 	{
 		int a = s_map.top();
@@ -42,8 +44,10 @@ void MapManager::Current_StackMap()
 			vg.PrintMapAndCharMove(vg.GetCurrentX(), vg.GetCurrentY());
 			break;
 		case 2:
+			dg.PrintMapAndCharMove(dg.GetCurrentX(), dg.GetCurrentY());
 			break;
 		case 3:
+			db.PrintMapAndCharMove(db.GetCurrentX(), db.GetCurrentY());
 			break;
 		case 4:
 			break;
