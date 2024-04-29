@@ -40,7 +40,7 @@ void MapManager::Current_StackMap()
 		int a = s_map.top();
 		s_map.pop();
 		switch (a)
-		{
+		{     
 		case 1:
 			vg.PrintMapAndCharMove(vg.GetCurrentX(), vg.GetCurrentY());
 			break;

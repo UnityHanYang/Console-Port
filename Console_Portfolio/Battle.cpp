@@ -76,6 +76,10 @@ void Battle::CharacterTarget()
 		}
 		break;
 	case 3:
+		if (gm->GetRandomNum() == 1)
+		{
+			target = gm->e_bnj;
+		}
 		break;
 	}
 

@@ -49,7 +49,7 @@ void GameManager::RandomEnemyUnit(int enemyLevel)
 	case 3:
 		e_bnj = new BossNinJa("(적)나루토", "호카게", 20, 0, 0, 300, 400, 100, 100, 10, 30, 15); 
 		nd.PrintBossNinJa();
-		randomNum = num;
+		randomNum = 1;
 		break;
 	}
 }
