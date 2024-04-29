@@ -6,6 +6,11 @@ int GameManager::characterNum = 0;
 int GameManager::enemyLevelNum = 0;
 int GameManager::randomNum = 0;
 
+void GameManager::Start()
+{
+	ms->PrintMainMap();
+}
+
 void GameManager::RandomEnemyUnit(int enemyLevel)
 {
 	ArcherDot ad;
@@ -56,6 +61,7 @@ void GameManager::RandomEnemyUnit(int enemyLevel)
 
 GameManager::GameManager()
 {
+	ms = new MainScene;
 	nj = new NinJa("겐지", "닌자", 1, 0, 10, 80, 80, 30, 30, 2, 7, 2);
 	ah = new Archer("한조", "궁수", 1, 0, 10, 70, 70, 25, 25, 3, 10, 5);
 	e_nj = new EnemyNinJa("(적)하급 겐지", "닌자", 1, 0, 0, 10, 70, 10, 10, 2, 6, 0);
@@ -69,6 +75,7 @@ GameManager::GameManager()
 
 GameManager::~GameManager()
 {
+	delete ms;
 	delete nj;
 	delete ah;
 	delete e_nj;

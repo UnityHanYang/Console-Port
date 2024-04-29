@@ -13,6 +13,7 @@
 #include "Character.h"
 #include "Battle.h"
 #include "Skill.h"
+#include "MainScene.h"
 
 
 class GameManager
@@ -31,6 +32,7 @@ public:
 	IntermediateArcher* e_iah;
 	BossNinJa* e_bnj;
 	BattleMapDot bmd;
+	MainScene* ms;
 	Skill* skill;
 	std::vector<Character*> GetCharacterCount() { return chracterCount; }
 	void AddCharacter(Character* ch) { chracterCount.push_back(ch); }
@@ -39,6 +41,7 @@ public:
 	int GetEnemyLevelNum() { return enemyLevelNum; }
 	int GetRandomNum() { return randomNum; }
 	void SkillInit();
+	void Start();
 
 	static GameManager* instance;
 

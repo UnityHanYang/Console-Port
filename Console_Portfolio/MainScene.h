@@ -1,9 +1,11 @@
 #pragma once
 #include <iostream>
-#include "PrintSetting.h"
+#include "StartMainDot.h"
 
-class MainScene : public PrintSetting
+class MainScene
 {
+private:
+	StartMainDot smd;
 public:
 	void PrintMainMap();
 };

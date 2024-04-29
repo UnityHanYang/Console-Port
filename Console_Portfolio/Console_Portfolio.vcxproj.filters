@@ -198,6 +198,9 @@
     <ClInclude Include="MainScene.h">
       <Filter>맵\메인화면</Filter>
     </ClInclude>
+    <ClInclude Include="StartMainDot.h">
+      <Filter>dot</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -310,6 +313,9 @@
     </ClCompile>
     <ClCompile Include="MainScene.cpp">
       <Filter>맵\메인화면</Filter>
+    </ClCompile>
+    <ClCompile Include="StartMainDot.cpp">
+      <Filter>dot</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

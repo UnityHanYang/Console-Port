@@ -180,6 +180,7 @@
     <ClInclude Include="Skill.h" />
     <ClInclude Include="SkillManager.h" />
     <ClInclude Include="SkillWindow.h" />
+    <ClInclude Include="StartMainDot.h" />
     <ClInclude Include="Store.h" />
     <ClInclude Include="StoreMap.h" />
     <ClInclude Include="Village.h" />
@@ -219,6 +220,7 @@
     <ClCompile Include="Skill.cpp" />
     <ClCompile Include="SkillManager.cpp" />
     <ClCompile Include="SkillWindow.cpp" />
+    <ClCompile Include="StartMainDot.cpp" />
     <ClCompile Include="Store.cpp" />
     <ClCompile Include="StoreMap.cpp" />
     <ClCompile Include="Village.cpp" />

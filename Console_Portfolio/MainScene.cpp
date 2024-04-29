@@ -2,4 +2,5 @@
 
 void MainScene::PrintMainMap()
 {
+	smd.PrintMain();
 }

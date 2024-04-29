@@ -1,25 +1,25 @@
-#include "PrintSetting.h"
 #include "CharacterChoice.h"
 #include "MapManager.h"
 #include "Store.h"
 #include "GameEnding.h"
 #include <iostream>
-#include <fstream>
-#include <string>
+#include "GameManager.h"
 
 void CursorView();
 void DeleteItem();
 
 void main()
 {
-	CharacterChoice cc;
+	/*CharacterChoice cc;
 	CursorView();
 	if (cc.ChoiceScene())
 	{
 		MapManager* mm = new MapManager;
 		mm->Current_Map();
 		delete mm;
-	}
+	}*/
+	GameManager gm;
+	gm.Start();
 	DeleteItem();
 }
 
