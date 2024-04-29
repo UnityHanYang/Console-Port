@@ -162,6 +162,7 @@
     <ClInclude Include="EnemyArcher.h" />
     <ClInclude Include="EnemyNinJa.h" />
     <ClInclude Include="FileInOut.h" />
+    <ClInclude Include="GameEnding.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="Hotel.h" />
     <ClInclude Include="InformationTool.h" />
@@ -169,6 +170,7 @@
     <ClInclude Include="ItemInventory.h" />
     <ClInclude Include="ItemInventoryWindow.h" />
     <ClInclude Include="ItemSell.h" />
+    <ClInclude Include="MainScene.h" />
     <ClInclude Include="MapManager.h" />
     <ClInclude Include="NinJa.h" />
     <ClInclude Include="NinjaDot.h" />
@@ -198,6 +200,7 @@
     <ClCompile Include="EnemyArcher.cpp" />
     <ClCompile Include="EnemyNinJa.cpp" />
     <ClCompile Include="FileInOut.cpp" />
+    <ClCompile Include="GameEnding.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Hotel.cpp" />
     <ClCompile Include="InformationTool.cpp" />
@@ -205,6 +208,7 @@
     <ClCompile Include="ItemInventory.cpp" />
     <ClCompile Include="ItemInventoryWindow.cpp" />
     <ClCompile Include="ItemSell.cpp" />
+    <ClCompile Include="MainScene.cpp" />
     <ClCompile Include="MapManager.cpp" />
     <ClCompile Include="NinJa.cpp" />
     <ClCompile Include="NinjaDot.cpp" />

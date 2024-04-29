@@ -76,6 +76,15 @@
     <Filter Include="정보창\스킬">
       <UniqueIdentifier>{89c7c743-057b-4336-879a-b73fb575d3da}</UniqueIdentifier>
     </Filter>
+    <Filter Include="맵\게임 엔딩">
+      <UniqueIdentifier>{96f1e51a-e0a2-46e3-99d7-1a5ee99bbd81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="파일입출력">
+      <UniqueIdentifier>{50e3168e-1d8a-4ca4-86df-b5bdd76abb38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="맵\메인화면">
+      <UniqueIdentifier>{43ef9099-8225-42d3-ab8a-2c4ccd727d80}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ArcherDot.h">
@@ -165,9 +174,6 @@
     <ClInclude Include="CharacterBackGround.h">
       <Filter>dot</Filter>
     </ClInclude>
-    <ClInclude Include="FileInOut.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Skill.h">
       <Filter>정보창\스킬</Filter>
     </ClInclude>
@@ -182,6 +188,15 @@
     </ClInclude>
     <ClInclude Include="BattleSkill.h">
       <Filter>맵\배틀</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEnding.h">
+      <Filter>맵\게임 엔딩</Filter>
+    </ClInclude>
+    <ClInclude Include="FileInOut.h">
+      <Filter>파일입출력</Filter>
+    </ClInclude>
+    <ClInclude Include="MainScene.h">
+      <Filter>맵\메인화면</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -272,9 +287,6 @@
     <ClCompile Include="CharacterBackGround.cpp">
       <Filter>dot</Filter>
     </ClCompile>
-    <ClCompile Include="FileInOut.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Skill.cpp">
       <Filter>정보창\스킬</Filter>
     </ClCompile>
@@ -289,6 +301,15 @@
     </ClCompile>
     <ClCompile Include="BattleSkill.cpp">
       <Filter>맵\배틀</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEnding.cpp">
+      <Filter>맵\게임 엔딩</Filter>
+    </ClCompile>
+    <ClCompile Include="FileInOut.cpp">
+      <Filter>파일입출력</Filter>
+    </ClCompile>
+    <ClCompile Include="MainScene.cpp">
+      <Filter>맵\메인화면</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

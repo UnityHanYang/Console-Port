@@ -2,14 +2,16 @@
 #include<iostream>
 #include<fstream>
 #include<vector>
+#include <string>
+#include <Windows.h>
 
 class FileInOut
 {
 private:
-	std::vector<const char*> words = { "게임", "시작" };
-	int len = static_cast<int>(words.size());
-
+	int count = 0;
 public:
-	void FileReadWrite();
+	void SetColor(int fontColor, int backgroundColor);
+	void gotoxy(int x, int y);
+	void FileWriteRead(std::vector<std::string> writeMessage, std::vector<std::string> readMessage);
 };
 

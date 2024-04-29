@@ -78,6 +78,7 @@ void Battle::CharacterTarget()
 	case 3:
 		if (gm->GetRandomNum() == 1)
 		{
+			isBoss = true;
 			target = gm->e_bnj;
 		}
 		break;
@@ -144,7 +145,9 @@ void Battle::PrintBattleMap()
 		ad.PrintArcherPortrait(120, 60);
 
 	}
-	DownUpInput();
+	//fio.FileWriteRead(writeWords, readWords);
+	//bmd.PrintConsoleText("ªÛ¥Î ≈œ", "", "", "", "", "", 195, 85);
+	//DownUpInput();
 }
 
 void Battle::EnemyTurn()
@@ -478,4 +481,17 @@ void Battle::ClearOption(int x, int y)
 	std::cout << "                 ";
 	gotoxy(x - 6, y + 10);
 	std::cout << "                 ";
+}
+
+Battle::Battle()
+{
+	count = 0;
+	hpBar = 0;
+	mpBar = 0;
+	isBoss = false;
+	readWords = {};
+}
+
+Battle::~Battle()
+{
 }

@@ -2,7 +2,10 @@
 #include "CharacterChoice.h"
 #include "MapManager.h"
 #include "Store.h"
+#include "GameEnding.h"
 #include <iostream>
+#include <fstream>
+#include <string>
 
 void CursorView();
 void DeleteItem();
