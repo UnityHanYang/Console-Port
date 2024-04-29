@@ -150,7 +150,9 @@
     <ClInclude Include="Archer.h" />
     <ClInclude Include="ArcherDot.h" />
     <ClInclude Include="Battle.h" />
+    <ClInclude Include="BattleInventory.h" />
     <ClInclude Include="BattleMapDot.h" />
+    <ClInclude Include="BattleSkill.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="CharacterBackGround.h" />
     <ClInclude Include="CharacterChoice.h" />
@@ -173,6 +175,9 @@
     <ClInclude Include="MapDot.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PrintSetting.h" />
+    <ClInclude Include="Skill.h" />
+    <ClInclude Include="SkillManager.h" />
+    <ClInclude Include="SkillWindow.h" />
     <ClInclude Include="Store.h" />
     <ClInclude Include="StoreMap.h" />
     <ClInclude Include="Village.h" />
@@ -181,7 +186,9 @@
     <ClCompile Include="Archer.cpp" />
     <ClCompile Include="ArcherDot.cpp" />
     <ClCompile Include="Battle.cpp" />
+    <ClCompile Include="BattleInventory.cpp" />
     <ClCompile Include="BattleMapDot.cpp" />
+    <ClCompile Include="BattleSkill.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="CharacterBackGround.cpp" />
     <ClCompile Include="CharacterChoice.cpp" />
@@ -205,6 +212,9 @@
     <ClCompile Include="MapDot.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PrintSetting.cpp" />
+    <ClCompile Include="Skill.cpp" />
+    <ClCompile Include="SkillManager.cpp" />
+    <ClCompile Include="SkillWindow.cpp" />
     <ClCompile Include="Store.cpp" />
     <ClCompile Include="StoreMap.cpp" />
     <ClCompile Include="Village.cpp" />

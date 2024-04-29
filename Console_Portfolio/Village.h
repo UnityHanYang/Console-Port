@@ -11,6 +11,7 @@
 #include "GameManager.h"
 #include "ItemInventoryWindow.h"
 #include "Hotel.h"
+#include "SkillWindow.h"
 
 
 class Village : public PrintSetting

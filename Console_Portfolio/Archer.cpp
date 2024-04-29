@@ -9,7 +9,3 @@ void Archer::NorMalAttack(Character* target)
 void Archer::SkillAttack(Character* target)
 {
 }
-
-void Archer::ItemUse(Item* item)
-{
-}

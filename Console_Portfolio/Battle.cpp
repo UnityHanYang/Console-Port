@@ -1,11 +1,13 @@
 #include "Battle.h"
 
+
 #define ARROW 224
 #define LEFT_ARROW 75
 #define RIGHT_ARROW 77
 #define UP_ARROW 72
 #define DOWN_ARROW 80
 #define Enter 13
+#define ESC 27
 
 #pragma region 상속 메서드
 
@@ -39,6 +41,48 @@ void Battle::gotoxy(int x, int y)
 #pragma endregion
 
 
+void Battle::CharacterTarget()
+{
+	GameManager* gm = GameManager::GetInstance();
+	
+	if (gm->GetCharacter() == 1)
+	{
+		chr = gm->nj;
+	}
+	else
+	{
+		chr = gm->ah;
+	}
+	switch (gm->GetEnemyLevelNum())
+	{
+	case 1:
+		if (gm->GetRandomNum() == 0)
+		{
+			target = gm->e_nj;
+		}
+		else
+		{
+			target = gm->e_ah;
+		}
+		break;
+	case 2:
+		if (gm->GetRandomNum() == 0)
+		{
+			target = gm->e_inj;
+		}
+		else
+		{
+			target = gm->e_iah;
+		}
+		break;
+	case 3:
+		break;
+	}
+
+	bmd.PrintConsoleText("플레이어 턴", "", "", "", "", "", 195, 85);
+	
+}
+
 void Battle::PrintBattleMap()
 {
 	GameManager* gm = GameManager::GetInstance();
@@ -50,145 +94,58 @@ void Battle::PrintBattleMap()
 	{
 		bmd.PrintMultiBattleMap();
 	}
-	if (gm->GetCharacter() == 1)
-	{
-		chr = gm->nj;
-	}
-	else
-	{
-		chr = gm->ah;
-	}
-	if (gm->GetRandomNum() == 0)
-	{
-		target = gm->e_nj;
-	}
-	else
-	{
-		target = gm->e_ah;
-	}
+	CharacterTarget();
 	int count = 0;
 	PrintOption(count, 206, 62);
-	
 	bmd.PrintEnemyInfoTool();
 	bmd.PrintHpTool(141, 46);
 	md.PrintConsole(192, 83);
-	bmd.PrintConsoleText("플레이어 턴", "", "", "", "", "", 195, 85);
-	switch (gm->GetEnemyLevelNum())
+	hpBar = (chr->GetCurrentHp() * 20) / chr->GetMaxHp();
+	mpBar = (chr->GetCurrentMp() * 20) / chr->GetMaxMp();
+	if (hpBar <= 0)
 	{
-	case 1:
-		hpBar = (chr->GetCurrentHp() * 20) / chr->GetMaxHp();
-		mpBar = (chr->GetCurrentMp() * 20) / chr->GetMaxMp();
-		if (gm->GetCharacter() == 1)
+		if (chr->GetCurrentHp() > 0)
 		{
-			nd.PrintNinJaPortrait(116, 60);
+			bmd.PrintHeroHp(chr, 102, 88, 1, mpBar);
 		}
-		else if (gm->GetCharacter() == 2)
-		{
-			ad.PrintArcherPortrait(120, 60);
-
-		}
-
-		if (hpBar <= 0)
-		{
-			if (chr->GetCurrentHp() > 0)
-			{
-				bmd.PrintHeroHp(chr, 102, 88, 1, mpBar);
-			}
-		}
-		else
-		{
-			bmd.PrintHeroHp(chr, 102, 88, hpBar, mpBar);
-		}
-
-		hpBar = (target->GetCurrentHp() * 20) / target->GetMaxHp();
-		mpBar = (target->GetCurrentMp() * 20) / target->GetMaxMp();
-		if (gm->GetRandomNum() == 0)
-		{
-			bmd.PrintEnemyInfoText(gm->e_nj);
-		}
-		else if (gm->GetRandomNum() == 1)
-		{
-			bmd.PrintEnemyInfoText(gm->e_ah);
-		}
-
-		if (hpBar <= 0)
-		{
-			if (chr->GetCurrentHp() > 0)
-			{
-				bmd.PrintEnemyCurrentHpMp(target, 145, 48, 1, mpBar);
-			}
-		}
-		else
-		{
-			bmd.PrintHeroHp(target, 145, 48, hpBar, mpBar);
-		}
-		break;
-	case 2:
-		break;
-	case 3:
-		break;
 	}
-	int input;
-	while (true)
+	else
 	{
-		if (_kbhit())
+		bmd.PrintHeroHp(chr, 102, 88, hpBar, mpBar);
+	}
+
+	hpBar = (target->GetCurrentHp() * 20) / target->GetMaxHp();
+	mpBar = (target->GetCurrentMp() * 20) / target->GetMaxMp();
+
+	bmd.PrintEnemyInfoText(target);
+
+	if (hpBar <= 0)
+	{
+		if (chr->GetCurrentHp() > 0)
 		{
-			input = _getch();
-			if (input == ARROW)
-			{
-				input = _getch();
-				switch (input)
-				{
-				case UP_ARROW:
-					count = (count < 2) ? count : count -= 1;
-					PrintOption(count, 206, 62);
-					break;
-				case DOWN_ARROW:
-					count = (count > 2) ? count : count += 1;
-					PrintOption(count, 206, 62);
-					break;
-				}
-			}
-			else if (input == Enter)
-			{
-				if (count == 1)
-				{
-					ClearOption(206, 62);
-					chr->NorMalAttack(target);
-					char buffer[50];
-					sprintf(buffer, "%d", (chr->GetAtk() - target->GetDef()));
-					const char* cstr = buffer;
-					bmd.PrintConsoleText(chr->GetName(), "가 ", target->GetName(), "에게 ", cstr, "만큼 피해를 입혔습니다", 195, 85);
-					hpBar = (target->GetCurrentHp() * 20) / target->GetMaxHp();
-					mpBar = (target->GetCurrentMp() * 20) / target->GetMaxMp();
-					if (hpBar <= 0)
-					{
-						if (target->GetCurrentHp() > 0)
-						{
-							bmd.PrintEnemyCurrentHpMp(target, 145, 48, 1, mpBar);
-						}
-						else
-						{
-							bmd.PrintEnemyCurrentHpMp(target, 145, 48, 0, mpBar);
-							EnemyDie();
-						}
-					}
-					else
-					{
-						bmd.PrintEnemyCurrentHpMp(target, 145, 48, hpBar, mpBar);
-					}
-					Sleep(2000);
-					EnemyTurn();
-					count = 0;
-				}
-			}
+			bmd.PrintEnemyCurrentHpMp(target, 145, 48, 1, mpBar);
 		}
+	}
+	else
+	{
+		bmd.PrintEnemyCurrentHpMp(target, 145, 48, hpBar, mpBar);
+	}
+
+	if (gm->GetCharacter() == 1)
+	{
+		nd.PrintNinJaPortrait(116, 60);
+	}
+	else if (gm->GetCharacter() == 2)
+	{
+		ad.PrintArcherPortrait(120, 60);
 
 	}
+	DownUpInput();
 }
 
 void Battle::EnemyTurn()
 {
+	CharacterTarget();
 	GameManager gm;
 	bmd.PrintConsoleText("상대 턴", "", "", "", "", "", 195, 85);
 	srand(time(NULL));
@@ -289,12 +246,89 @@ void Battle::SpecUp(Character* ch)
 	ch->SetCurrentMp(3);
 }
 
+void Battle::DownUpInput()
+{
+	CharacterTarget();
+	BattleInventory bi;
+	int input;
+	while (true)
+	{
+		if (_kbhit())
+		{
+			input = _getch();
+			if (input == ARROW)
+			{
+				input = _getch();
+				switch (input)
+				{
+				case UP_ARROW:
+					count = (count < 2) ? count : count -= 1;
+					bi.ClearOption(196, 60);
+					PrintOption(count, 206, 62);
+					break;
+				case DOWN_ARROW:
+					count = (count > 2) ? count : count += 1;
+					bi.ClearOption(196, 60);
+					PrintOption(count, 206, 62);
+					break;
+				}
+			}
+			else if (input == Enter)
+			{
+				if (count == 1)
+				{
+					ClearOption(206, 62);
+					chr->NorMalAttack(target);
+					char buffer[50];
+					sprintf(buffer, "%d", (chr->GetAtk() - target->GetDef()));
+					const char* cstr = buffer;
+					bmd.PrintConsoleText(chr->GetName(), "가 ", target->GetName(), "에게 ", cstr, "만큼 피해를 입혔습니다", 195, 85);
+					hpBar = (target->GetCurrentHp() * 20) / target->GetMaxHp();
+					mpBar = (target->GetCurrentMp() * 20) / target->GetMaxMp();
+					if (hpBar <= 0)
+					{
+						if (target->GetCurrentHp() > 0)
+						{
+							bmd.PrintEnemyCurrentHpMp(target, 145, 48, 1, mpBar);
+						}
+						else
+						{
+							bmd.PrintEnemyCurrentHpMp(target, 145, 48, 0, mpBar);
+							EnemyDie();
+						}
+					}
+					else
+					{
+						bmd.PrintEnemyCurrentHpMp(target, 145, 48, hpBar, mpBar);
+					}
+					Sleep(2000);
+					EnemyTurn();
+					count = 0;
+				}
+				else if (count == 2)
+				{
+					BattleSkill bs;
+					bs.SkillChoice();
+				}
+				else if (count == 3)
+				{
+					BattleInventory bi;
+					bi.ItemChoice();
+				}
+			}
+		}
+
+	}
+}
+
+
 void Battle::EnemyDie()
 {
 	GameManager gm;
 	Dungeon1 dg;
 	MapManager mm;
 	int exp = 0;
+	int money = 0;
 	Sleep(1500);
 	bmd.PrintConsoleText("전투 승리", "", "", "", "", "", 195, 85);
 	Sleep(1000);
@@ -304,22 +338,26 @@ void Battle::EnemyDie()
 		bmd.PrintConsoleText("300원 획득", "", "", "", "", "", 195, 85);
 		Sleep(0500);
 		bmd.PrintConsoleText("경험치 30 획득", "", "", "", "", "", 195, 85);
+		money = 300;
 		exp = 30;
 		break;
 	case 2:
 		bmd.PrintConsoleText("700원 획득", "", "", "", "", "", 195, 85);
 		Sleep(1000);
 		bmd.PrintConsoleText("경험치 80 획득", "", "", "", "", "", 195, 85);
+		money = 700;
 		exp = 80;
 		break;
 	case 3:
 		bmd.PrintConsoleText("3000원 획득", "", "", "", "", "", 195, 85);
 		Sleep(1000);
 		bmd.PrintConsoleText("경험치 300 획득", "", "", "", "", "", 195, 85);
+		money = 3000;
 		exp = 300;
 		break;
 	}
 	CheckExpLevel(gm.GetCharacterCount(), exp);
+	player.SetMoney(money);
 	Sleep(1000);
 	dg.SetEnemyArrXY(dg.GetCurrentEnemyIndex());
 	system("cls");
@@ -359,19 +397,19 @@ void Battle::PrintOption(int num, int x, int y)
 		std::cout << "             ";
 		gotoxy(x - 2, y);
 		std::cout << "▶ 공격 ◀";
-		gotoxy(x - 4, y+4);
+		gotoxy(x - 4, y + 4);
 		std::cout << "             ";
-		gotoxy(x, y+4);
+		gotoxy(x, y + 4);
 		std::cout << "스킬";
-		gotoxy(x- 5, y+8);
+		gotoxy(x - 5, y + 8);
 		std::cout << "             ";
-		gotoxy(x- 1, y+8);
+		gotoxy(x - 1, y + 8);
 		std::cout << "아이템";
 		break;
 	case 2:
-		gotoxy(x - 4, y );
+		gotoxy(x - 4, y);
 		std::cout << "               ";
-		gotoxy(x, y );
+		gotoxy(x, y);
 		std::cout << "공격";
 		gotoxy(x - 6, y + 4);
 		std::cout << "               ";
@@ -387,13 +425,13 @@ void Battle::PrintOption(int num, int x, int y)
 		std::cout << "               ";
 		gotoxy(x, y);
 		std::cout << "공격";
-		gotoxy(x - 4, y+4);
+		gotoxy(x - 4, y + 4);
 		std::cout << "               ";
-		gotoxy(x, y+4);
+		gotoxy(x, y + 4);
 		std::cout << "스킬";
-		gotoxy(x-7, y+8);
+		gotoxy(x - 7, y + 8);
 		std::cout << "               ";
-		gotoxy(x-3, y+8);
+		gotoxy(x - 3, y + 8);
 		std::cout << "▶ 아이템 ◀";
 		break;
 	default:
@@ -401,13 +439,13 @@ void Battle::PrintOption(int num, int x, int y)
 		std::cout << "               ";
 		gotoxy(x, y);
 		std::cout << "공격";
-		gotoxy(x - 4, y+4);
+		gotoxy(x - 4, y + 4);
 		std::cout << "               ";
-		gotoxy(x, y+4);
+		gotoxy(x, y + 4);
 		std::cout << "스킬";
-		gotoxy(x-5, y+8);
+		gotoxy(x - 5, y + 8);
 		std::cout << "               ";
-		gotoxy(x-1, y+8);
+		gotoxy(x - 1, y + 8);
 		std::cout << "아이템";
 		break;
 	}
@@ -417,11 +455,11 @@ void Battle::ClearOption(int x, int y)
 {
 	gotoxy(x - 6, y);
 	std::cout << "                 ";
-	gotoxy(x - 6, y+2);
+	gotoxy(x - 6, y + 2);
 	std::cout << "                 ";
-	gotoxy(x - 6, y+4);
+	gotoxy(x - 6, y + 4);
 	std::cout << "                 ";
-	gotoxy(x - 6, y+6);
+	gotoxy(x - 6, y + 6);
 	std::cout << "                 ";
 	gotoxy(x - 6, y + 8);
 	std::cout << "                 ";

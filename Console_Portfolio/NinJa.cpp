@@ -9,7 +9,3 @@ void NinJa::NorMalAttack(Character* target)
 void NinJa::SkillAttack(Character* target)
 {
 }
-
-void NinJa::ItemUse(Item* item)
-{
-}

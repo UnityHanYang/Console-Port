@@ -12,6 +12,7 @@
 #include "GameManager.h"
 #include <vector>
 #include <thread>
+#include "SkillWindow.h"
 
 class Dungeon1 : public PrintSetting
 {

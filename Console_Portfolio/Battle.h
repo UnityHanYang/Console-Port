@@ -9,7 +9,11 @@
 #include "MapDot.h"
 #include "MapManager.h"
 #include <time.h>
+#include "ItemInventory.h"
+#include "BattleInventory.h"
 #include <vector>
+#include "Player.h"
+#include "BattleSkill.h"
 
 class Battle : public PrintSetting
 {
@@ -20,6 +24,8 @@ private:
 	Character* chr;
 	Character* target;
 	MapDot md;
+	Player player;
+	int count = 0;
 	int hpBar = 0;
 	int mpBar = 0;
 public:
@@ -35,5 +41,7 @@ public:
 	bool CheckPlayerDie(std::vector<Character*> characterVec);
 	void CheckExpLevel(std::vector<Character*> characterVec, int exp);
 	void SpecUp(Character* ch);
+	void DownUpInput();
+	void CharacterTarget();
 };
 

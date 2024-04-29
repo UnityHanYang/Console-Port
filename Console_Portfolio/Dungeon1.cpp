@@ -63,6 +63,7 @@ void Dungeon1::PrintMapAndCharMove(int x, int y)
 	MapManager mm;
 	CharacterInfo ci;
 	ItemInventoryWindow iw;
+	SkillWindow sw;
 	GameManager* gm = GameManager::GetInstance();
 	md.PrintDungeonMap();
 	SetColor(15, 0);
@@ -179,6 +180,9 @@ void Dungeon1::PrintMapAndCharMove(int x, int y)
 							ci.ChoiceCharacter();
 							break;
 						case 2:
+							mm.SetStack(1);
+							system("cls");
+							sw.SkillTool();
 							break;
 						case 3:
 							mm.SetStack(2);

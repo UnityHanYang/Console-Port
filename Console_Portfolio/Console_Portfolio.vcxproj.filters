@@ -73,6 +73,9 @@
     <Filter Include="캐릭터\궁수">
       <UniqueIdentifier>{c9294c18-f341-474c-96b7-c344a6f3458e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="정보창\스킬">
+      <UniqueIdentifier>{89c7c743-057b-4336-879a-b73fb575d3da}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ArcherDot.h">
@@ -165,6 +168,21 @@
     <ClInclude Include="FileInOut.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Skill.h">
+      <Filter>정보창\스킬</Filter>
+    </ClInclude>
+    <ClInclude Include="BattleInventory.h">
+      <Filter>맵\배틀</Filter>
+    </ClInclude>
+    <ClInclude Include="SkillManager.h">
+      <Filter>정보창\스킬</Filter>
+    </ClInclude>
+    <ClInclude Include="SkillWindow.h">
+      <Filter>정보창\스킬</Filter>
+    </ClInclude>
+    <ClInclude Include="BattleSkill.h">
+      <Filter>맵\배틀</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -256,6 +274,21 @@
     </ClCompile>
     <ClCompile Include="FileInOut.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Skill.cpp">
+      <Filter>정보창\스킬</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleInventory.cpp">
+      <Filter>맵\배틀</Filter>
+    </ClCompile>
+    <ClCompile Include="SkillManager.cpp">
+      <Filter>정보창\스킬</Filter>
+    </ClCompile>
+    <ClCompile Include="SkillWindow.cpp">
+      <Filter>정보창\스킬</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleSkill.cpp">
+      <Filter>맵\배틀</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

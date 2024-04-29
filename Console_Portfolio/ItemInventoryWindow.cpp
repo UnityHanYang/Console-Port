@@ -583,7 +583,6 @@ void ItemInventoryWindow::ChoiceUse()
 	int input;
 	if (!iit->GetInventory().empty())
 	{
-
 		while (true)
 		{
 			if (_kbhit())

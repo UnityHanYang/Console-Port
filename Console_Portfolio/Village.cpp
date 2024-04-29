@@ -45,11 +45,12 @@ void Village::gotoxy(int x, int y)
 #pragma region 맵 출력, 플레이어 이동
 void Village::PrintMapAndCharMove(int x, int y)
 {
-	MapManager mm;
+	MapManager mm;																																																																																																	
 	GameManager gm;
 	StoreMap sm;
 	CharacterInfo ci;
 	ItemInventoryWindow iw;
+	SkillWindow sw;
 	Dungeon1 dg;
 	md.SettingVillageMap();
 	md.PrintVillageMap();
@@ -156,6 +157,9 @@ void Village::PrintMapAndCharMove(int x, int y)
 					ci.ChoiceCharacter();
 					break;
 				case 2:
+					mm.SetStack(1);
+					system("cls");
+					sw.SkillTool();
 					break;
 				case 3:
 					mm.SetStack(1);

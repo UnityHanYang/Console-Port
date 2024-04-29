@@ -33,12 +33,4 @@ void ItemInventory::RemoveInventory(int index, Item* item)
 }
 #pragma endregion
 
-#pragma region À§Ä¡
-void ItemInventory::gotoxy(int x, int y)
-{
-	COORD pos = { x,y };
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
-}
-#pragma endregion
-
 

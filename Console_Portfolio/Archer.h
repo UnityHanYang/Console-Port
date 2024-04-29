@@ -9,6 +9,5 @@ public:
 
 	void NorMalAttack(Character* target) override;
 	void SkillAttack(Character* target) override;
-	void ItemUse(Item* item) override;
 };
 

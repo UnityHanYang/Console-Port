@@ -15,7 +15,6 @@ public:
 	void AddInventory(Item* item);
 	void AddItemCountInventory(Item* item, int count);
 	void RemoveInventory(int index, Item* item);
-	void gotoxy(int x, int y);
 	std::vector<Item*>& GetInventory() { return inventory; }
 };
 
