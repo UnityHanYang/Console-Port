@@ -19,13 +19,3 @@ void IntermediateArcher::NorMalAttack(Character* target)
 void IntermediateArcher::SkillAttack(Character* target)
 {
 }
-
-void BossArcher::NorMalAttack(Character* target)
-{
-	int damage = this->GetAtk() - target->GetDef();
-	target->SetCurrentHp(-damage);
-}
-
-void BossArcher::SkillAttack(Character* target)
-{
-}

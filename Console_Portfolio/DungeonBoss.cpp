@@ -194,7 +194,17 @@ void DungeonBoss::PrintMapAndCharMove(int x, int y)
 						case 4:
 							break;
 						}
-
+					}
+					if (CheckBossXY(mapX, mapY))
+					{
+						if (input == Enter)
+						{
+							system("cls");
+							gm->RandomEnemyUnit(3);
+							mm.ms = Map_State::battle;
+							mm.Current_Map();
+							break;
+						}
 					}
 					if (CheckDungeonDoorXY(mapX, mapY))
 					{
@@ -222,6 +232,7 @@ void DungeonBoss::PrintMapAndCharMove(int x, int y)
 				break;
 
 			}
+			CheckOpenBossdoor(enemyArrXY);
 		}
 		std::this_thread::sleep_for(std::chrono::seconds(1));
 	}
@@ -244,6 +255,15 @@ void DungeonBoss::SetEnemyArrXY(int index)
 		enemyArrXY.erase(enemyArrXY.begin() + index);
 	}
 }
+
+void DungeonBoss::CheckOpenBossdoor(std::vector<int> vec)
+{
+	if (vec.empty())
+	{
+		isOpen = true;
+	}
+}
+
 
 #pragma region 조작법, 안내창
 void DungeonBoss::PrintOperation(int x, int y)
@@ -384,13 +404,33 @@ void DungeonBoss::BossDungeonMultiThread()
 #pragma region 플레이어 이동 제약 사항
 bool DungeonBoss::CheckMapXY(int x1, int y1, int x1Count, int y1Count, int x2Count, int y2Count)
 {
-	SetColor(15, 0);
 	if (md.GetDungeonBossMap()[y1 + y1Count][((x1 / 2) + x1Count)] == 8 || md.GetDungeonBossMap()[y1 + y2Count][((x1 / 2) + x2Count)] == 8 ||
 		md.GetDungeonBossMap()[y1 + y1Count][((x1 / 2) + x1Count)] == 2 || md.GetDungeonBossMap()[y1 + y2Count][((x1 / 2) + x2Count)] == 2 ||
 		md.GetDungeonBossMap()[y1 + y1Count][((x1 / 2) + x1Count)] == 6 || md.GetDungeonBossMap()[y1 + y2Count][((x1 / 2) + x2Count)] == 6)
 		return false;
 
+	if (!isOpen)
+	{
+		if (md.GetDungeonBossMap()[y1 + y1Count][((x1 / 2) + x1Count)] == 15 || md.GetDungeonBossMap()[y1 + y2Count][((x1 / 2) + x2Count)] == 15)
+		{
+			return false;
+		}
+	}
+	else
+	{
+		PrintS(5, 12, 12, 0, 94, 57);
+	}
 	return true;
+}
+
+bool DungeonBoss::CheckBossXY(int x, int y)
+{
+	if (md.GetDungeonBossMap()[y - 1][x / 2] == 6 || md.GetDungeonBossMap()[y - 1][(x / 2) + 1] == 6)
+	{
+		return true;
+	}
+
+	return false;
 }
 #pragma endregion
 

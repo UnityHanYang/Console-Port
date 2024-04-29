@@ -30,7 +30,6 @@ public:
 	IntermediateNInJa* e_inj;
 	IntermediateArcher* e_iah;
 	BossNinJa* e_bnj;
-	BossArcher* e_bah;
 	BattleMapDot bmd;
 	Skill* skill;
 	std::vector<Character*> GetCharacterCount() { return chracterCount; }
@@ -39,7 +38,7 @@ public:
 	void SetCharacter(int num) { characterNum = num; }
 	int GetEnemyLevelNum() { return enemyLevelNum; }
 	int GetRandomNum() { return randomNum; }
-	void SkillInit(); //sm->AddNinJaSkill(sk);
+	void SkillInit();
 
 	static GameManager* instance;
 

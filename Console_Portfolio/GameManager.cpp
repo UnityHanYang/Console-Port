@@ -47,6 +47,9 @@ void GameManager::RandomEnemyUnit(int enemyLevel)
 		}
 		break;
 	case 3:
+		e_bnj = new BossNinJa("(적)나루토", "호카게", 20, 0, 0, 300, 400, 100, 100, 10, 30, 15); 
+		nd.PrintBossNinJa();
+		randomNum = num;
 		break;
 	}
 }
@@ -60,7 +63,6 @@ GameManager::GameManager()
 	e_inj = new IntermediateNInJa("(적)중급 겐지", "닌자", 7, 0, 0, 10, 100, 20, 20, 5, 10, 5);
 	e_iah = new IntermediateArcher("(적)중급 한조", "궁수", 7, 0, 0, 10, 90, 20, 20, 6, 13, 8);
 	e_bnj = new BossNinJa("(적)나루토", "호카게", 20, 0, 0, 300, 400, 100, 100, 10, 30, 15);
-	e_bah = new BossArcher("(적)보스 한조", "궁수", 20, 0, 0, 280, 380, 120, 120, 12, 35, 20);
 	skill = new Skill("튕겨내기", 30, "이름만 튕겨내기 일 뿐 실제로 튕겨내진 않는다.", 5);
 	
 }
@@ -74,6 +76,5 @@ GameManager::~GameManager()
 	delete e_inj;
 	delete e_iah;
 	delete e_bnj;
-	delete e_bah;
 	delete skill;
 }

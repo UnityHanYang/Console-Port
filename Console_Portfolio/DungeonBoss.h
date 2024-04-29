@@ -26,6 +26,7 @@ private:
 	static int currentNum;
 	static bool isReturn;
 	static bool isEnemyKill;
+	bool isOpen;
 	MapDot md;
 public:
 	virtual void SetColor(int fontColor, int backgroundColor);
@@ -52,8 +53,10 @@ public:
 	void SetIsReturn(bool isreturn) { isReturn = isreturn; }
 	void SetIsEnemyKill(bool isenemyKill) { isEnemyKill = isenemyKill; }
 	void SetEnemyArrXY(int index);
+	void CheckOpenBossdoor(std::vector<int> vec);
+	bool CheckBossXY(int x, int y);
 	std::atomic<bool> running{ true };
 
-	DungeonBoss() : mapX{ 0 }, mapY{ 0 }, c_EnemyArrXY{} {};
+	DungeonBoss() : mapX{ 0 }, mapY{ 0 }, c_EnemyArrXY{}, isOpen{ false } {};
 };
 
