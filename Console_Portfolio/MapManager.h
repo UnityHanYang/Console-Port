@@ -16,6 +16,13 @@ enum Map_State
 	battle
 };
 
+enum Dungeon_State
+{
+	current_dungeon,
+	current_boss_dungeon
+};
+
+
 class MapManager
 {
 private:
@@ -23,6 +30,7 @@ private:
 	
 public:
 	static Map_State ms;
+	static Dungeon_State ds;
 	void Current_Map();
 	void Current_StackMap();
 	std::stack<int> GetStack() { return s_map; }

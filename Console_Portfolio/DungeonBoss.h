@@ -7,6 +7,7 @@
 #include "CharacterInfo.h"
 #include "MapManager.h"
 #include "MapDot.h"
+#include "SkillWindow.h"
 #include <conio.h>
 
 class DungeonBoss : public PrintSetting
@@ -14,12 +15,17 @@ class DungeonBoss : public PrintSetting
 private:
 	int mapX;
 	int mapY;
-	static int enemyArrXY[4];
+	static std::vector<int> enemyArrXY;
+	int c_EnemyArrXY[6];
 	static int currentX;
 	static int currentY;
 	InformationTool it;
 	static bool isXTrue;
+	static bool isPush;
+	static int currentEnemyIndex;
 	static int currentNum;
+	static bool isReturn;
+	static bool isEnemyKill;
 	MapDot md;
 public:
 	virtual void SetColor(int fontColor, int backgroundColor);
@@ -39,8 +45,15 @@ public:
 	void HpMinus();
 	void BossDungeonMultiThread();
 	bool CheckLavaZone(int x, int y);
+	int GetCurrentEnemyIndex() { return currentEnemyIndex; }
+	void SetIsPush(bool ispush) { isPush = ispush; }
+	std::vector<int>* GetEnemyArrXY() { return &enemyArrXY; }
+	void VecInit();
+	void SetIsReturn(bool isreturn) { isReturn = isreturn; }
+	void SetIsEnemyKill(bool isenemyKill) { isEnemyKill = isenemyKill; }
+	void SetEnemyArrXY(int index);
 	std::atomic<bool> running{ true };
 
-	DungeonBoss() : mapX{ 0 }, mapY{ 0 } {};
+	DungeonBoss() : mapX{ 0 }, mapY{ 0 }, c_EnemyArrXY{} {};
 };
 

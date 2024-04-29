@@ -14,6 +14,8 @@
 #include <vector>
 #include "Player.h"
 #include "BattleSkill.h"
+#include "Dungeon1.h"
+#include "DungeonBoss.h"
 
 class Battle : public PrintSetting
 {

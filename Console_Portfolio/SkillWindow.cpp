@@ -324,8 +324,6 @@ SkillWindow::SkillWindow()
 	option = 0;
 	count = 0;
 	sm = new SkillManager;
-	Skill* sk = new Skill("튕겨내기", 30, "이름만 튕겨내기 일 뿐 실제로 튕겨내진 않는다.", 5);
-	sm->AddNinJaSkill(sk);
 }
 
 SkillWindow::~SkillWindow()

@@ -22,7 +22,8 @@ public:
 	virtual void PrintS(int count, int font, int background, bool isEndl, int x, int y);
 	virtual void gotoxy(int x, int y);
 
-	void SkillChoice();
+	void NinJaSkillChoice();
+	void ArcherSkillChoice();
 	void ClearOption(int x, int y);
 	void ShowSkill(int x, int y, int num);
 	void NinjaSkillInfo(int x, int y, int num);

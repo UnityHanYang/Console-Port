@@ -308,7 +308,7 @@ void Battle::DownUpInput()
 				else if (count == 2)
 				{
 					BattleSkill bs;
-					bs.SkillChoice();
+					bs.NinJaSkillChoice();
 				}
 				else if (count == 3)
 				{
@@ -326,6 +326,7 @@ void Battle::EnemyDie()
 {
 	GameManager gm;
 	Dungeon1 dg;
+	DungeonBoss db;
 	MapManager mm;
 	int exp = 0;
 	int money = 0;
@@ -359,11 +360,19 @@ void Battle::EnemyDie()
 	CheckExpLevel(gm.GetCharacterCount(), exp);
 	player.SetMoney(money);
 	Sleep(1000);
-	dg.SetEnemyArrXY(dg.GetCurrentEnemyIndex());
-	system("cls");
-	dg.SetIsEnemyKill(true);
-	mm.ms = Map_State::dungeon;
-	mm.Current_Map();
+	if (mm.ds == Dungeon_State::current_dungeon)
+	{
+		dg.SetEnemyArrXY(dg.GetCurrentEnemyIndex());
+		system("cls");
+		dg.SetIsEnemyKill(true);
+	}
+	else if (mm.ds == Dungeon_State::current_boss_dungeon)
+	{
+		db.SetEnemyArrXY(db.GetCurrentEnemyIndex());
+		system("cls");
+		db.SetIsEnemyKill(true);
+	}
+	mm.Current_StackMap();
 }
 
 bool Battle::CheckPlayerDie(std::vector<Character*> characterVec)

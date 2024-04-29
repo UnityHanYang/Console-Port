@@ -64,6 +64,7 @@ void Dungeon1::PrintMapAndCharMove(int x, int y)
 	CharacterInfo ci;
 	ItemInventoryWindow iw;
 	SkillWindow sw;
+	DungeonBoss db;
 	GameManager* gm = GameManager::GetInstance();
 	md.PrintDungeonMap();
 	SetColor(15, 0);
@@ -199,6 +200,8 @@ void Dungeon1::PrintMapAndCharMove(int x, int y)
 						if (input == Enter)
 						{
 							system("cls");
+							db.SetIsReturn(true);
+							db.SetIsPush(false);
 							mm.ms = Map_State::boss_dungeon;
 							mm.Current_Map();
 							break;
@@ -211,6 +214,7 @@ void Dungeon1::PrintMapAndCharMove(int x, int y)
 				currentX = mapX;
 				currentY = mapY;
 				system("cls");
+				mm.SetStack(2);
 				gm->RandomEnemyUnit(1);
 				mm.ms = Map_State::battle;
 				mm.Current_Map();
@@ -392,6 +396,8 @@ bool Dungeon1::CheckEnemyXY(int x, int y)
 				RECT intersect;
 
 				if (IntersectRect(&intersect, &playerSquare, &enemySquare)) {
+					MapManager mm;
+					mm.ds = Dungeon_State::current_dungeon;
 					currentEnemyIndex = num;
 					return true;
 				}

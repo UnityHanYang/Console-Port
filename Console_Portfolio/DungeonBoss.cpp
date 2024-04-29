@@ -1,6 +1,11 @@
 #include "DungeonBoss.h"
 
-int DungeonBoss::enemyArrXY[4] = { 30, 60, 80, 70 };
+std::vector<int> DungeonBoss::enemyArrXY = {};
+bool DungeonBoss::isReturn = false;
+bool DungeonBoss::isEnemyKill = false;
+bool DungeonBoss::isPush = false;
+int DungeonBoss::currentEnemyIndex = 0;
+
 
 int DungeonBoss::currentX = 0;
 int DungeonBoss::currentY = 0;
@@ -52,11 +57,17 @@ void DungeonBoss::PrintMapAndCharMove(int x, int y)
 	ItemInventoryWindow iw;
 	GameManager* gm = GameManager::GetInstance();
 	Dungeon1 dg;
+	SkillWindow sw;
 	int xCpy, yCpy;
 	xCpy = yCpy = 0;
 
 	md.SettingDungeonBossMap();
 
+	if (!isPush)
+	{
+		VecInit();
+		isPush = true;
+	}
 	md.PrintDungeonBossMap();
 	SetColor(15, 0);
 	md.PrintOperation_Keys(206, 10);
@@ -171,6 +182,9 @@ void DungeonBoss::PrintMapAndCharMove(int x, int y)
 							ci.ChoiceCharacter();
 							break;
 						case 2:
+							mm.SetStack(1);
+							system("cls");
+							sw.SkillTool();
 							break;
 						case 3:
 							mm.SetStack(3);
@@ -201,6 +215,7 @@ void DungeonBoss::PrintMapAndCharMove(int x, int y)
 				currentX = mapX;
 				currentY = mapY;
 				system("cls");
+				mm.SetStack(3);
 				gm->RandomEnemyUnit(2);
 				mm.ms = Map_State::battle;
 				mm.Current_Map();
@@ -208,9 +223,27 @@ void DungeonBoss::PrintMapAndCharMove(int x, int y)
 
 			}
 		}
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 	}
 }
 #pragma endregion
+
+void DungeonBoss::VecInit()
+{
+	enemyArrXY.clear();
+	enemyArrXY.push_back(30);
+	enemyArrXY.push_back(60);
+	enemyArrXY.push_back(80);
+	enemyArrXY.push_back(70);
+}
+void DungeonBoss::SetEnemyArrXY(int index)
+{
+	if (!enemyArrXY.empty())
+	{
+		enemyArrXY.erase(enemyArrXY.begin() + index);
+		enemyArrXY.erase(enemyArrXY.begin() + index);
+	}
+}
 
 #pragma region 조작법, 안내창
 void DungeonBoss::PrintOperation(int x, int y)
@@ -296,15 +329,22 @@ bool DungeonBoss::CheckDungeonDoorXY(int x, int y)
 #pragma region 체력 감소
 void DungeonBoss::HpMinus()
 {
+	GameManager* gm = GameManager::GetInstance();
 	while (running)
 	{
 		if (CheckLavaZone(mapX, mapY))
 		{
-			GameManager* gm = GameManager::GetInstance();
-			(gm->GetCharacter() == 1) ? gm->nj->SetCurrentHp(-2), std::this_thread::sleep_for(std::chrono::milliseconds(1000)) : gm->ah->SetCurrentHp(-2), std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-
+			if (gm->GetCharacter() == 1)
+			{
+				gm->nj->SetCurrentHp(-2);
+				std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+			}
+			else
+			{
+				gm->ah->SetCurrentHp(-2);
+				std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+			}
 		}
-		std::this_thread::sleep_for(std::chrono::seconds(1));
 	}
 }
 #pragma endregion
@@ -312,10 +352,32 @@ void DungeonBoss::HpMinus()
 #pragma region 멀티스레드
 void DungeonBoss::BossDungeonMultiThread()
 {
-	std::thread mainThread(&DungeonBoss::PrintMapAndCharMove, this, 162, 77);
-	std::thread checkLavaZoneThread(&DungeonBoss::HpMinus, this);
-	mainThread.join();
-	checkLavaZoneThread.join();
+
+	if (isReturn)
+	{
+		std::thread mainThread(&DungeonBoss::PrintMapAndCharMove, this, 162, 77);
+		std::thread checkLavaZoneThread(&DungeonBoss::HpMinus, this);
+		mainThread.join();
+		checkLavaZoneThread.join();
+	}
+	else
+	{
+		if (isEnemyKill)
+		{
+			std::thread mainThread(&DungeonBoss::PrintMapAndCharMove, this, 162, 77);
+			std::thread checkLavaZoneThread(&DungeonBoss::HpMinus, this);
+			mainThread.join();
+			checkLavaZoneThread.join();
+			isEnemyKill = false;
+		}
+		else
+		{
+			std::thread mainThread(&DungeonBoss::PrintMapAndCharMove, this, 162, 77);
+			std::thread checkLavaZoneThread(&DungeonBoss::HpMinus, this);
+			mainThread.join();
+			checkLavaZoneThread.join();
+		}
+	}
 }
 #pragma endregion
 
@@ -335,15 +397,27 @@ bool DungeonBoss::CheckMapXY(int x1, int y1, int x1Count, int y1Count, int x2Cou
 #pragma region 충돌 감지
 bool DungeonBoss::CheckEnemyXY(int x, int y)
 {
-	char message[50];
-	for (int i = 0; i < sizeof(enemyArrXY) / sizeof(enemyArrXY[0]); i += 2)
+	if (!enemyArrXY.empty())
 	{
-		RECT playerSquare = { x - 2, y - 1, x + 3, y + 2 };
-		RECT enemySquare = { enemyArrXY[i] - 2, enemyArrXY[i + 1] - 1, enemyArrXY[i] + 3, enemyArrXY[i + 1] + 2 };
-		RECT intersect;
+		char message[50] = {};
+		std::vector<int>::iterator iter;
+		int num = 0;
+		for (iter = enemyArrXY.begin(); iter != enemyArrXY.end(); iter += 2)
+		{
+			if (iter + 1 != enemyArrXY.end())
+			{
+				RECT playerSquare = { x - 1, y - 1, x + 3, y + 2 };
+				RECT enemySquare = { *iter, *(iter + 1), *iter + 2, *(iter + 1) + 1 };
+				RECT intersect;
 
-		if (IntersectRect(&intersect, &playerSquare, &enemySquare)) {
-			return true;
+				if (IntersectRect(&intersect, &playerSquare, &enemySquare)) {
+					MapManager mm;
+					mm.ds = Dungeon_State::current_boss_dungeon;
+					currentEnemyIndex = num;
+					return true;
+				}
+				num += 2;
+			}
 		}
 	}
 	return false;
@@ -354,10 +428,14 @@ bool DungeonBoss::CheckEnemyXY(int x, int y)
 #pragma region 적 생성
 void DungeonBoss::PrintEnemy()
 {
-	for (int i = 0; i < sizeof(enemyArrXY) / sizeof(enemyArrXY[0]); i += 2)
+	std::vector<int>::iterator iter;
+	for (iter = enemyArrXY.begin(); iter != enemyArrXY.end(); iter += 2)
 	{
-		PrintS(2, 5, 5, 1, enemyArrXY[i], enemyArrXY[i + 1]);
-		PrintS(2, 5, 5, 0, enemyArrXY[i], enemyArrXY[i + 1] + 1);
+		if (iter + 1 != enemyArrXY.end())
+		{
+			PrintS(2, 5, 5, 1, *(iter), *(iter + 1));
+			PrintS(2, 5, 5, 0, *(iter), *(iter + 1) + 1);
+		}
 	}
 }
 #pragma endregion

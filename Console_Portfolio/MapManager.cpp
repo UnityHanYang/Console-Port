@@ -2,6 +2,7 @@
 
 std::stack<int> MapManager::s_map = { };
 Map_State MapManager::ms = Map_State::village;
+Dungeon_State MapManager::ds = Dungeon_State::current_dungeon;
 
 #pragma region ¸Ê ÀÌµ¿(enum, stack)
 void MapManager::Current_Map()

@@ -12,6 +12,7 @@
 #include <vector>
 #include "Character.h"
 #include "Battle.h"
+#include "Skill.h"
 
 
 class GameManager
@@ -31,12 +32,14 @@ public:
 	BossNinJa* e_bnj;
 	BossArcher* e_bah;
 	BattleMapDot bmd;
+	Skill* skill;
 	std::vector<Character*> GetCharacterCount() { return chracterCount; }
 	void AddCharacter(Character* ch) { chracterCount.push_back(ch); }
 	int GetCharacter() { return characterNum; }
 	void SetCharacter(int num) { characterNum = num; }
 	int GetEnemyLevelNum() { return enemyLevelNum; }
 	int GetRandomNum() { return randomNum; }
+	void SkillInit(); //sm->AddNinJaSkill(sk);
 
 	static GameManager* instance;
 

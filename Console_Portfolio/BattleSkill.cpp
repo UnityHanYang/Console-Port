@@ -36,7 +36,7 @@ void BattleSkill::gotoxy(int x, int y)
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 }
 
-void BattleSkill::SkillChoice()
+void BattleSkill::NinJaSkillChoice()
 {
 	ClearOption(196, 60);
 	Battle bt;
@@ -84,6 +84,54 @@ void BattleSkill::SkillChoice()
 	}
 }
 
+void BattleSkill::ArcherSkillChoice()
+{
+	ClearOption(196, 60);
+	Battle bt;
+	ShowSkill(195, 60, 0);
+
+	int input;
+	if (!sm->GetArcherSkills().empty())
+	{
+		while (true)
+		{
+			if (_kbhit())
+			{
+				input = _getch();
+				if (input == ARROW)
+				{
+					input = _getch();
+					switch (input)
+					{
+					case UP_ARROW:
+						count = (count < 2) ? count : count -= 1;
+						ClearOption(196, 60);
+						ShowSkill(195, 60, count);
+						break;
+					case DOWN_ARROW:
+						count = (count > sm->GetArcherSkills().size() - 1) ? count : count += 1;
+						ClearOption(196, 60);
+						ShowSkill(195, 60, count);
+						break;
+					}
+				}
+				else if (input == Enter)
+				{
+					isEnter = true;
+					ShowSkill(195, 60, count);
+					break;
+				}
+				else if (input == ESC)
+				{
+					count = 0;
+					bt.DownUpInput();
+					break;
+				}
+			}
+		}
+	}
+}
+
 void BattleSkill::ShowSkill(int x, int y, int num)
 {
 	GameManager* gm = GameManager::GetInstance();
@@ -101,7 +149,7 @@ void BattleSkill::ShowSkill(int x, int y, int num)
 		}
 		else if (gm->GetCharacter() == 2)
 		{
-
+			ArcherkillInfo(x, y + 4, num);
 		}
 	}
 
@@ -149,6 +197,42 @@ void BattleSkill::NinjaSkillInfo(int x, int y, int num)
 
 void BattleSkill::ArcherkillInfo(int x, int y, int num)
 {
+	int this_count = 0;
+	CharacterInfo ci;
+
+	GameManager* gm = GameManager::GetInstance();
+	int index = 1;
+	if (!sm->GetArcherSkills().empty())
+	{
+		SetColor(15, 0);
+		std::vector<Skill*>::iterator iter;
+		for (iter = sm->GetArcherSkills().begin(); iter != sm->GetArcherSkills().end(); ++iter)
+		{
+			gotoxy(x, y + this_count);
+			if (index == num)
+			{
+				std::cout << "                                                       " << std::endl;
+				gotoxy(x + 4, y + this_count);
+				std::cout << "¢º " << (*iter)->GetName() << "                 "
+					<< (*iter)->GetDamage() << "                " << (*iter)->GetCost() << " ¢¸" << std::endl;
+
+				if (isEnter)
+				{
+					//HpMpHeal(*gm->nj, *iter, 195, 60);
+				}
+			}
+			else
+			{
+				std::cout << "                                                       " << std::endl;
+				gotoxy(x + 4, y + this_count);
+				std::cout << (*iter)->GetName() << "                  "
+					<< (*iter)->GetDamage() << "                 " << (*iter)->GetCost() << std::endl;
+
+			}
+			index++;
+			this_count += 2;
+		}
+	}
 }
 
 void BattleSkill::ClearOption(int x, int y)
