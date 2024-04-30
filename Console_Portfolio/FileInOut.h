@@ -4,6 +4,10 @@
 #include<vector>
 #include <string>
 #include <Windows.h>
+#include <conio.h>
+#include <codecvt>
+#include <locale>
+#include "GameManager.h"
 
 class FileInOut
 {
@@ -12,6 +16,6 @@ private:
 public:
 	void SetColor(int fontColor, int backgroundColor);
 	void gotoxy(int x, int y);
-	void FileWriteRead(std::vector<std::string> writeMessage, std::vector<std::string> readMessage);
+	void FileWriteRead(std::vector<std::string> writeMessage);
 };
 

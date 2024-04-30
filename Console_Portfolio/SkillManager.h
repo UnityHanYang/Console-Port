@@ -12,9 +12,14 @@ private:
 	static std::vector<Skill*> archerSkills;
 	
 public:
+	//Skill* njnjaSkill;
+	//Skill* archerSkill;
 	void AddNinJaSkill(Skill* skill);
 	void AddArcherSkill(Skill* skill);
 	std::vector<Skill*>& GetNinjaSkills() { return ninjaSkills; }
 	std::vector<Skill*>& GetArcherSkills() { return archerSkills; }
+
+	SkillManager();
+	//~SkillManager();
 };
 

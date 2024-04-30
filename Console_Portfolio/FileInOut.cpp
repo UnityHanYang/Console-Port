@@ -1,5 +1,9 @@
 ﻿#include "FileInOut.h"
 
+#define ARROW 224
+#define UP_ARROW 72
+#define DOWN_ARROW 80
+#define Enter 13
 void FileInOut::SetColor(int fontColor, int backgroundColor)
 {
 	int Color = fontColor + backgroundColor * 16;
@@ -12,42 +16,60 @@ void FileInOut::gotoxy(int x, int y)
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 }
 
-void FileInOut::FileWriteRead(std::vector<std::string> writeMessage, std::vector<std::string> readMessage)
+void FileInOut::FileWriteRead(std::vector<std::string> writeMessage)
 {
 	std::ifstream readfile("message.txt");
-	int len = static_cast<int>(readMessage.size());
-	count = 0;
-	if (readfile.is_open())
+	std::ofstream writefile;
+	int len = 0;
+	int input;
+	while (true)
 	{
-		readMessage.clear();
-		while (!readfile.eof())
+		if (_kbhit())
 		{
-			std::string str;
-			std::getline(readfile, str);
-			SetColor(15, 0);
-			for (size_t i = 0; i < str.size(); ++i)
+			input = _getch();
+			if (input == ARROW)
 			{
-				gotoxy(195 + count, 85); // 위치 조정이 필요할 수 있음
-				std::cout << str[i];
-				Sleep(500); // 한 글자씩 출력할 때마다 지연
-				count++;
+				input = _getch();
+				switch (input)
+				{
+				case DOWN_ARROW:
+					count = 0;
+					len = static_cast<int>(writeMessage.size());
+					if (readfile.is_open())
+					{
+						writeMessage.clear();
+						char ch;
+						while (readfile.get(ch)) {
+							writeMessage.push_back(std::string(1, ch));
+						}
+						readfile.close();
+					}
+					else
+					{
+						writefile.open("message.txt");
+						for (int i = 0; i < len; i++)
+						{
+							std::string tmp = writeMessage[i];
+							if (i != len - 1)
+							{
+								tmp += "\n";
+							}
+							writefile.write(tmp.c_str(), tmp.size());
+						}
+						writefile.close();
+					}
+					break;
+				case UP_ARROW:
+					SetColor(15, 0);
+					for (const auto& word : writeMessage) {
+						gotoxy(10 + count, 3);
+						std::cout << word;
+						Sleep(100);
+						count++;
+					}
+					break;
+				}
 			}
-			readMessage.push_back(str);
 		}
-	}
-	else
-	{
-		std::ofstream writefile;
-		writefile.open("message.txt");
-		for (int i = 0; i < len; i++)
-		{
-			std::string tmp = writeMessage[i];
-			if (i != len - 1)
-			{
-				tmp += "\n";
-			}
-			writefile.write(tmp.c_str(), tmp.size());
-		}
-		writefile.close();
 	}
 }

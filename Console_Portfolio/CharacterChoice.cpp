@@ -2,13 +2,14 @@
 #include <random>
 #include <Windows.h>
 
-int charNum = 0;
 
-
+#pragma region 키보드 입력 전처리기
 #define ARROW 224
 #define LEFT_ARROW 75
 #define RIGHT_ARROW 77
 #define Enter_Key 13
+#pragma endregion
+
 
 #pragma region 상속 메서드
 void CharacterChoice::SetColor(int fontColor, int backgroundColor)
@@ -70,29 +71,29 @@ bool CharacterChoice::ChoiceScene()
 					std::cout << "\n\n\t\t\t ▶ 겐지 ◀\t\t\t\t\t\t\t\t한조\n\n";
 					cbg.PrintBackGround(11, 11, 4, 12);
 					cbg.PrintBackGround(2, 2, 72, 12);
-					charNum = 1;
+					charNumber = 1;
 					break;
 				case RIGHT_ARROW:
 					std::cout << "\n\t\t\t\t\t\t      캐릭터를 선택하세요.\n\n\n\n";
 					std::cout << "\n\n\t\t\t   겐지\t\t\t\t\t\t\t\t    ▶ 한조 ◀\n\n";
 					cbg.PrintBackGround(2, 2, 4, 12);
 					cbg.PrintBackGround(11, 11, 72, 12);
-					charNum = 2;
+					charNumber = 2;
 					break;
 				default:
 					std::cout << "\n\t\t\t\t\t\t      캐릭터를 선택하세요.\n\n\n\n";
 					std::cout << "\n\n\t\t\t   겐지\t\t\t\t\t\t\t\t\t한조\n\n";
 					cbg.PrintBackGround(2, 2, 4, 12);
 					cbg.PrintBackGround(2, 2, 72, 12);
-					charNum = 0;
+					charNumber = 0;
 				}
 			}
 			else if (input == 13)
 			{
 				system("cls");
-				if (charNum == 1 || charNum == 2)
+				if (charNumber == 1 || charNumber == 2)
 				{
-					ReadMore(charNum);
+					ReadMore(charNumber);
 					return true;
 				}
 				else
@@ -101,7 +102,7 @@ bool CharacterChoice::ChoiceScene()
 					std::cout << "\n\n\t\t\t   겐지\t\t\t\t\t\t\t\t      한조\n\n";
 					cbg.PrintBackGround(2, 2, 4, 12);
 					cbg.PrintBackGround(2, 2, 72, 12);
-					charNum = 0;
+					charNumber = 0;
 				}
 			}
 			nd.PrintNinJaPortrait(20, 13);
@@ -222,7 +223,7 @@ void CharacterChoice::ReadMore(int num)
 				else if (yesOrNo == 2)
 				{
 					system("cls");
-					charNum = 0;
+					charNumber = 0;
 					ChoiceScene();
 					break;
 				}
@@ -253,8 +254,6 @@ void CharacterChoice::PrintCharacterAbility(int num)
 		gotoxy(139, 58);
 		std::cout << " 체력: " << gm->nj->GetMaxHp();
 		std::cout << "                   방어력: " << gm->nj->GetDef();
-		gotoxy(139, 61);
-		std::cout << " 치명타 확률: " << gm->nj->GetCritical() << "%";
 	}
 	else
 	{
@@ -271,8 +270,6 @@ void CharacterChoice::PrintCharacterAbility(int num)
 		gotoxy(139, 54);
 		std::cout << " 체력: " << gm->ah->GetMaxHp();
 		std::cout << "                   방어력: " << gm->ah->GetDef();
-		gotoxy(139, 57);
-		std::cout << " 치명타 확률: " << gm->ah->GetCritical() << "%";
 	}
 	md.PrintOperation_Keys(18, 3);
 	SetColor(15, 0);
@@ -286,5 +283,9 @@ void CharacterChoice::PrintAbilityTool(int x, int y)
 	std::cout << "──────────────────────────────────────────────────";
 	gotoxy(x, y + 14);
 	std::cout << "──────────────────────────────────────────────────";
+}
+CharacterChoice::CharacterChoice()
+{
+	charNumber = 0;
 }
 #pragma endregion

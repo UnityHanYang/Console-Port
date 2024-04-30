@@ -192,6 +192,9 @@ void DungeonBoss::PrintMapAndCharMove(int x, int y)
 							iw.InventoryTool();
 							break;
 						case 4:
+							system("cls");
+							mm.ms = Map_State::village;
+							mm.Current_Map();
 							break;
 						}
 					}
@@ -272,12 +275,12 @@ void DungeonBoss::PrintOperation(int x, int y)
 	SetColor(12, 12);
 	std::cout << "ㅁ";
 	SetColor(15, 0);
-	std::cout << ": 뜨겁지만 안전한 땅";
+	std::cout << ": 뜨거운 땅";
 	gotoxy(x, y + 2);
 	SetColor(4, 4);
 	std::cout << "ㅁ";
 	SetColor(15, 0);
-	std::cout << ": 용암";
+	std::cout << ": 뜨거운 땅";
 	gotoxy(x, y + 4);
 	SetColor(14, 14);
 	std::cout << "ㅁ";
@@ -315,7 +318,7 @@ void DungeonBoss::PrintOperation(int x, int y)
 	gotoxy(x, y + 22);
 	std::cout << "를 수 있습니다.";
 	gotoxy(x, y + 24);
-	std::cout << "용암을 밟으면 HP가";
+	std::cout << "5초 당 HP가";
 	gotoxy(x, y + 25);
 	std::cout << "감소합니다. 유의하세요!";
 }
@@ -352,18 +355,15 @@ void DungeonBoss::HpMinus()
 	GameManager* gm = GameManager::GetInstance();
 	while (running)
 	{
-		if (CheckLavaZone(mapX, mapY))
+		if (gm->GetCharacter() == 1)
 		{
-			if (gm->GetCharacter() == 1)
-			{
-				gm->nj->SetCurrentHp(-2);
-				std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-			}
-			else
-			{
-				gm->ah->SetCurrentHp(-2);
-				std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-			}
+			gm->nj->SetCurrentHp(-1);
+			std::this_thread::sleep_for(std::chrono::milliseconds(5000));
+		}
+		else
+		{
+			gm->ah->SetCurrentHp(-1);
+			std::this_thread::sleep_for(std::chrono::milliseconds(5000));
 		}
 	}
 }
@@ -497,13 +497,4 @@ int DungeonBoss::CheckCurrentXY(int x, int y)
 	return 0;
 }
 
-bool DungeonBoss::CheckLavaZone(int x, int y)
-{
-	if (md.GetDungeonBossMap()[y][x / 2] == 4 || md.GetDungeonBossMap()[y][(x / 2) + 1] == 4 ||
-		md.GetDungeonBossMap()[y + 1][x / 2] == 4 || md.GetDungeonBossMap()[y + 1][(x / 2) + 1] == 4)
-	{
-		return true;
-	}
-	return false;
-}
 #pragma endregion

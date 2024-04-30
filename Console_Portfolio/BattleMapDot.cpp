@@ -356,8 +356,6 @@ void BattleMapDot::PrintEnemyInfoText(Character* character)
 	std::cout << "공격력: " << character->GetAtk();
 	gotoxy(244, 25);
 	std::cout << "방어력: " << character->GetDef();
-	gotoxy(244, 27);
-	std::cout << "치명타 확률: " << character->GetCritical();
 }
 
 void BattleMapDot::PrintHeroHp(Character* character, int x, int y, int hpBarCount, int mpBarCount)

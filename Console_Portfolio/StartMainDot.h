@@ -2,6 +2,8 @@
 #include <iostream>
 #include "PrintSetting.h"
 #include <Windows.h>
+#include "GameManager.h"
+#include <conio.h>
 class StartMainDot : public PrintSetting
 {
 public:
@@ -10,5 +12,7 @@ public:
 	virtual void gotoxy(int x, int y);
 
 	void PrintMain();
+	void ChoiceOption(int x, int y);
+	void ChoiceTool(int x, int y);
 };
 

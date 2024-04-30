@@ -50,10 +50,6 @@ void MapManager::Current_StackMap()
 		case 3:
 			db.PrintMapAndCharMove(db.GetCurrentX(), db.GetCurrentY());
 			break;
-		case 4:
-			break;
-		case 5:
-			break;
 		case 6:
 			ci.ChoiceCharacter();
 			break;

@@ -14,6 +14,7 @@
 #include "Battle.h"
 #include "Skill.h"
 #include "MainScene.h"
+#include "CharacterChoice.h"
 
 
 class GameManager
@@ -32,7 +33,6 @@ public:
 	IntermediateArcher* e_iah;
 	BossNinJa* e_bnj;
 	BattleMapDot bmd;
-	MainScene* ms;
 	Skill* skill;
 	std::vector<Character*> GetCharacterCount() { return chracterCount; }
 	void AddCharacter(Character* ch) { chracterCount.push_back(ch); }
@@ -42,6 +42,8 @@ public:
 	int GetRandomNum() { return randomNum; }
 	void SkillInit();
 	void Start();
+	void Update();
+	void DeleteItem();
 
 	static GameManager* instance;
 

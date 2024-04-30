@@ -145,9 +145,8 @@ void Battle::PrintBattleMap()
 		ad.PrintArcherPortrait(120, 60);
 
 	}
-	//fio.FileWriteRead(writeWords, readWords);
-	//bmd.PrintConsoleText("»ó´ë ÅÏ", "", "", "", "", "", 195, 85);
-	//DownUpInput();
+	bmd.PrintConsoleText("»ó´ë ÅÏ", "", "", "", "", "", 195, 85);
+	DownUpInput();
 }
 
 void Battle::EnemyTurn()
@@ -210,6 +209,7 @@ void Battle::PlayerDie(std::vector<Character*> characterVec)
 
 void Battle::CheckExpLevel(std::vector<Character*> characterVec, int exp)
 {
+	GameManager* gm = GameManager::GetInstance();
 	std::vector<Character*>::iterator iter;
 	bool isEnter = false;
 	for (iter = characterVec.begin(); iter != characterVec.end(); iter++)
@@ -229,11 +229,20 @@ void Battle::CheckExpLevel(std::vector<Character*> characterVec, int exp)
 		}
 		if (isEnter)
 		{
-			Sleep(1000);
+			Sleep(1500);
 			char buffer[50];
 			sprintf(buffer, "%d", (*iter)->GetLevel());
 			const char* cstr = buffer;
 			bmd.PrintConsoleText((*iter)->GetName(), ": ", cstr, "·¹º§ ´Þ¼º", "", "", 195, 85);
+			/*SkillManager sm;
+			if (gm->GetCharacter() == 1)
+			{
+				sm.AddNinJaSkill(sm.njnjaSkill);
+			}
+			else
+			{
+				sm.AddArcherSkill(sm.archerSkill);
+			}*/
 			isEnter = false;
 		}
 	}
@@ -244,7 +253,6 @@ void Battle::SpecUp(Character* ch)
 	ch->SetLevel(1);
 	ch->SetCurrentExp(-ch->GetMaxExp());
 	ch->SetMaxExp(10);
-	ch->SetCritical(1);
 	ch->SetMaxHp(10);
 	ch->SetCurrentHp(10);
 	ch->SetAtk(2);
@@ -301,6 +309,7 @@ void Battle::DownUpInput()
 						else
 						{
 							bmd.PrintEnemyCurrentHpMp(target, 145, 48, 0, mpBar);
+							Sleep(2000);
 							EnemyDie();
 						}
 					}
@@ -331,6 +340,7 @@ void Battle::DownUpInput()
 
 void Battle::EnemyDie()
 {
+	GameEnding ge;
 	GameManager gm;
 	Dungeon1 dg;
 	DungeonBoss db;
@@ -340,33 +350,31 @@ void Battle::EnemyDie()
 	Sleep(1500);
 	bmd.PrintConsoleText("ÀüÅõ ½Â¸®", "", "", "", "", "", 195, 85);
 	Sleep(1000);
+	if (isBoss)
+	{
+		system("cls");
+		ge.EndingScene();
+	}
 	switch (gm.GetEnemyLevelNum())
 	{
 	case 1:
 		bmd.PrintConsoleText("300¿ø È¹µæ", "", "", "", "", "", 195, 85);
-		Sleep(0500);
+		Sleep(1500);
 		bmd.PrintConsoleText("°æÇèÄ¡ 30 È¹µæ", "", "", "", "", "", 195, 85);
 		money = 300;
 		exp = 30;
 		break;
 	case 2:
 		bmd.PrintConsoleText("700¿ø È¹µæ", "", "", "", "", "", 195, 85);
-		Sleep(1000);
+		Sleep(1500);
 		bmd.PrintConsoleText("°æÇèÄ¡ 80 È¹µæ", "", "", "", "", "", 195, 85);
 		money = 700;
 		exp = 80;
 		break;
-	case 3:
-		bmd.PrintConsoleText("3000¿ø È¹µæ", "", "", "", "", "", 195, 85);
-		Sleep(1000);
-		bmd.PrintConsoleText("°æÇèÄ¡ 300 È¹µæ", "", "", "", "", "", 195, 85);
-		money = 3000;
-		exp = 300;
-		break;
 	}
 	CheckExpLevel(gm.GetCharacterCount(), exp);
 	player.SetMoney(money);
-	Sleep(1000);
+	Sleep(1500);
 	if (mm.ds == Dungeon_State::current_dungeon)
 	{
 		dg.SetEnemyArrXY(dg.GetCurrentEnemyIndex());
@@ -489,9 +497,4 @@ Battle::Battle()
 	hpBar = 0;
 	mpBar = 0;
 	isBoss = false;
-	readWords = {};
-}
-
-Battle::~Battle()
-{
 }

@@ -2,10 +2,13 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include "FileInOut.h"
 
 class GameEnding
 {
-private:
 public:
+	void EndingScene();
+
+	GameEnding();
 };
 

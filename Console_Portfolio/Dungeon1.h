@@ -21,7 +21,6 @@ private:
 	int mapY;
 	static int currentX;
 	static int currentY;
-	static int treasureBoxXY[6];
 	static std::vector<int> enemyArrXY;
 	int c_EnemyArrXY[6];
 	InformationTool it;
@@ -39,10 +38,8 @@ public:
 	void PrintMapAndCharMove(int x, int y);
 	void PrintOperation(int x, int y);
 	bool CheckEnemyXY(int x, int y);
-	void CheckTreasureXY(int x, int y);
 	bool CheckMapXY(int x1, int y1, int x1Count, int y1Count, int x2Count, int y2Count);
 	void PrintEnemy();
-	void PrintTreasure();
 	int CheckCurrentXY(int x, int y);
 	bool CheckEntranceXY(int x, int y);
 	void CheckXState(int num);
@@ -59,7 +56,6 @@ public:
 	void SetEnemyArrXY(int index);
 	void HpMinus();
 	void DungeonMultiThread();
-	bool CheckLavaZone(int x, int y);
 	std::atomic<bool> running{ true };
 
 	void PrintTalkMessage(int x, int y, char message[50]);

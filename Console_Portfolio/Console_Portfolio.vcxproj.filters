@@ -79,11 +79,11 @@
     <Filter Include="맵\게임 엔딩">
       <UniqueIdentifier>{96f1e51a-e0a2-46e3-99d7-1a5ee99bbd81}</UniqueIdentifier>
     </Filter>
-    <Filter Include="파일입출력">
-      <UniqueIdentifier>{50e3168e-1d8a-4ca4-86df-b5bdd76abb38}</UniqueIdentifier>
-    </Filter>
     <Filter Include="맵\메인화면">
       <UniqueIdentifier>{43ef9099-8225-42d3-ab8a-2c4ccd727d80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="맵\카지노">
+      <UniqueIdentifier>{87607767-91b4-4c91-be23-337c4f94e16a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -192,14 +192,14 @@
     <ClInclude Include="GameEnding.h">
       <Filter>맵\게임 엔딩</Filter>
     </ClInclude>
-    <ClInclude Include="FileInOut.h">
-      <Filter>파일입출력</Filter>
-    </ClInclude>
     <ClInclude Include="MainScene.h">
       <Filter>맵\메인화면</Filter>
     </ClInclude>
     <ClInclude Include="StartMainDot.h">
       <Filter>dot</Filter>
+    </ClInclude>
+    <ClInclude Include="Casino.h">
+      <Filter>맵\카지노</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -308,14 +308,14 @@
     <ClCompile Include="GameEnding.cpp">
       <Filter>맵\게임 엔딩</Filter>
     </ClCompile>
-    <ClCompile Include="FileInOut.cpp">
-      <Filter>파일입출력</Filter>
-    </ClCompile>
     <ClCompile Include="MainScene.cpp">
       <Filter>맵\메인화면</Filter>
     </ClCompile>
     <ClCompile Include="StartMainDot.cpp">
       <Filter>dot</Filter>
+    </ClCompile>
+    <ClCompile Include="Casino.cpp">
+      <Filter>맵\카지노</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

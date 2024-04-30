@@ -43,7 +43,8 @@ void BattleSkill::NinJaSkillChoice()
 	ShowSkill(195, 60, 0);
 
 	int input;
-	if (!sm->GetNinjaSkills().empty())
+	SkillManager sm;
+	if (!sm.GetNinjaSkills().empty())
 	{
 		while (true)
 		{
@@ -61,7 +62,7 @@ void BattleSkill::NinJaSkillChoice()
 						ShowSkill(195, 60, count);
 						break;
 					case DOWN_ARROW:
-						count = (count > sm->GetNinjaSkills().size() - 1) ? count : count += 1;
+						count = (count > sm.GetNinjaSkills().size() - 1) ? count : count += 1;
 						ClearOption(196, 60);
 						ShowSkill(195, 60, count);
 						break;
@@ -90,8 +91,9 @@ void BattleSkill::ArcherSkillChoice()
 	Battle bt;
 	ShowSkill(195, 60, 0);
 
+	SkillManager sm;
 	int input;
-	if (!sm->GetArcherSkills().empty())
+	if (!sm.GetArcherSkills().empty())
 	{
 		while (true)
 		{
@@ -109,7 +111,7 @@ void BattleSkill::ArcherSkillChoice()
 						ShowSkill(195, 60, count);
 						break;
 					case DOWN_ARROW:
-						count = (count > sm->GetArcherSkills().size() - 1) ? count : count += 1;
+						count = (count > sm.GetArcherSkills().size() - 1) ? count : count += 1;
 						ClearOption(196, 60);
 						ShowSkill(195, 60, count);
 						break;
@@ -160,13 +162,14 @@ void BattleSkill::NinjaSkillInfo(int x, int y, int num)
 	int this_count = 0;
 	CharacterInfo ci;
 
+	SkillManager sm;
 	GameManager* gm = GameManager::GetInstance();
 	int index = 1;
-	if (!sm->GetNinjaSkills().empty())
+	if (!sm.GetNinjaSkills().empty())
 	{
 		SetColor(15, 0);
 		std::vector<Skill*>::iterator iter;
-		for (iter = sm->GetNinjaSkills().begin(); iter != sm->GetNinjaSkills().end(); ++iter)
+		for (iter = sm.GetNinjaSkills().begin(); iter != sm.GetNinjaSkills().end(); ++iter)
 		{
 			gotoxy(x, y + this_count);
 			if (index == num)
@@ -200,13 +203,14 @@ void BattleSkill::ArcherkillInfo(int x, int y, int num)
 	int this_count = 0;
 	CharacterInfo ci;
 
+	SkillManager sm;
 	GameManager* gm = GameManager::GetInstance();
 	int index = 1;
-	if (!sm->GetArcherSkills().empty())
+	if (!sm.GetArcherSkills().empty())
 	{
 		SetColor(15, 0);
 		std::vector<Skill*>::iterator iter;
-		for (iter = sm->GetArcherSkills().begin(); iter != sm->GetArcherSkills().end(); ++iter)
+		for (iter = sm.GetArcherSkills().begin(); iter != sm.GetArcherSkills().end(); ++iter)
 		{
 			gotoxy(x, y + this_count);
 			if (index == num)
@@ -265,12 +269,12 @@ void BattleSkill::ClearOption(int x, int y)
 
 BattleSkill::BattleSkill()
 {
-	sm = new SkillManager;
+	//sm = new SkillManager;
 	count = 0;
 	isEnter = false;
 }
 
 BattleSkill::~BattleSkill()
 {
-	delete sm;
+	//delete sm;
 }

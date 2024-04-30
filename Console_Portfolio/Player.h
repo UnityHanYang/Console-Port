@@ -6,8 +6,8 @@ private:
 	static int money;
 	
 public:
-	int GetMoney() { return money; }
-	void SetMoney(int num) { money += num; }
+	int GetMoney() { return money; } // ÇöÀç µ· Ãâ·Â
+	void SetMoney(int num) { money += num; } // µ· ¼öÁ¤
 
 	Player();
 };

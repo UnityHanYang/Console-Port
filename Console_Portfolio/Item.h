@@ -4,8 +4,6 @@
 
 enum ItemType
 {
-	weapon,
-	armor,
 	hpPotion,
 	mpPotion
 };

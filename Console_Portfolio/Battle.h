@@ -17,6 +17,8 @@
 #include "Dungeon1.h"
 #include "FileInOut.h"
 #include "DungeonBoss.h"
+#include "GameEnding.h"
+//#include "SkillManager.h"
 
 class Battle : public PrintSetting
 {
@@ -30,9 +32,6 @@ private:
 	Player player;
 	int count, hpBar, mpBar;
 	bool isBoss;
-	FileInOut fio;
-	std::vector<std::string> writeWords = { "여", "기", "까", "지", " 오", "다", "니", " 건", "방", "진", " 놈,", " 호", "카", "게", "는", " 나", "의", "자", "리", "다."};
-	std::vector<std::string> readWords;
 public:
 	virtual void SetColor(int fontColor, int backgroundColor);
 	virtual void PrintS(int count, int font, int background, bool isEndl, int x, int y);
@@ -50,6 +49,5 @@ public:
 	void CharacterTarget();
 
 	Battle();
-	~Battle();
 };
 

@@ -45,7 +45,6 @@ public:
 	bool GetIsXTrue() { return isXTrue; }
 	void HpMinus();
 	void BossDungeonMultiThread();
-	bool CheckLavaZone(int x, int y);
 	int GetCurrentEnemyIndex() { return currentEnemyIndex; }
 	void SetIsPush(bool ispush) { isPush = ispush; }
 	std::vector<int>* GetEnemyArrXY() { return &enemyArrXY; }

@@ -1,6 +1,5 @@
 #include "CharacterInfo.h"
 
-bool CharacterInfo::isJoin = false;
 
 #define ARROW 224
 #define LEFT_ARROW 75
@@ -65,22 +64,12 @@ void CharacterInfo::CharacterOne()
 	}
 }
 
-void CharacterInfo::CharacterTwo()
-{
-}
 
 void CharacterInfo::ChoiceCharacter()
 {
 	MapManager mm;
 	CharacterChoice cc;
-	if (GetJoinWhether())
-	{
-		CharacterTwo();
-	}
-	else
-	{
-		CharacterOne();
-	}
+	CharacterOne();
 	SetColor(15, 0);
 	md.PrintOperation_Keys(130, 3);
 	PrintOperate(132, 5);
@@ -91,57 +80,13 @@ void CharacterInfo::ChoiceCharacter()
 		if (_kbhit())
 		{
 			input = _getch();
-			if (input == ARROW)
-			{
-				if (!GetJoinWhether())
-					continue;
-				system("cls");
-				input = _getch();
-				switch (input)
-				{
-				case LEFT_ARROW:
-					std::cout << "\n\t\t\t\t\t\t      캐릭터를 선택하세요.\n\n\n\n";
-					std::cout << "\n\n\t\t\t ▶ 겐지 ◀\t\t\t\t\t\t\t\t한조\n\n";
-					cbg.PrintBackGround(11, 11, 4, 12);
-					cbg.PrintBackGround(2, 2, 72, 12);
-					nd.PrintNinJaPortrait(20, 13);
-					ad.PrintArcherPortrait(92, 13);
-					charChoiceNum = 1;
-					break;
-				case RIGHT_ARROW:
-					std::cout << "\n\t\t\t\t\t\t      캐릭터를 선택하세요.\n\n\n\n";
-					std::cout << "\n\n\t\t\t   겐지\t\t\t\t\t\t\t\t    ▶ 한조 ◀\n\n";
-					cbg.PrintBackGround(2, 2, 4, 12);
-					cbg.PrintBackGround(11, 11, 72, 12);
-					nd.PrintNinJaPortrait(20, 13);
-					ad.PrintArcherPortrait(92, 13);
-					SetColor(15, 0);
-					charChoiceNum = 2;
-					break;
-				default:
-					std::cout << "\n\t\t\t\t\t\t      캐릭터를 선택하세요.\n\n\n\n";
-					std::cout << "\n\n\t\t\t   겐지\t\t\t\t\t\t\t\t\t한조\n\n";
-					cbg.PrintBackGround(2, 2, 4, 12);
-					cbg.PrintBackGround(2, 2, 72, 12);
-					nd.PrintNinJaPortrait(20, 13);
-					ad.PrintArcherPortrait(92, 13);
-					SetColor(15, 0);
-				}
-				SetColor(15, 0);
-				md.PrintOperation_Keys(130, 3);
-				PrintOperate(132, 5);
-			}
-			else if (input == Enter_Key)
+			if (input == Enter_Key)
 			{
 				system("cls");
 				if (charChoiceNum == 1 || charChoiceNum == 2)
 				{
 					mm.SetStack(6);
 					ReadMore(charChoiceNum);
-				}
-				else
-				{
-					CharacterTwo();
 				}
 			}
 			else if (input == ESC)
@@ -184,7 +129,6 @@ void CharacterInfo::PrintCharacterAbility(int num)
 		std::cout << "                  체력: " << gm->nj->GetCurrentHp();
 		gotoxy(139, 61);
 		std::cout << " 방어력: " << gm->nj->GetDef();
-		std::cout << "                치명타 확률: " << gm->nj->GetCritical() << "%";
 		ch = gm->nj;
 	}
 	else
@@ -204,7 +148,6 @@ void CharacterInfo::PrintCharacterAbility(int num)
 		std::cout << "                  체력: " << gm->ah->GetCurrentHp();
 		gotoxy(139, 57);
 		std::cout << " 방어력: " << gm->ah->GetDef();
-		std::cout << "                치명타 확률: " << gm->ah->GetCritical() << "%";
 		ch = gm->ah;
 	}
 	SetColor(0, 15);

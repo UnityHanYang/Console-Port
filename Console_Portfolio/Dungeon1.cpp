@@ -1,6 +1,5 @@
 #include "Dungeon1.h"
 
-int Dungeon1::treasureBoxXY[6] = { 10, 3, 182, 51, 88, 7 };
 std::vector<int> Dungeon1::enemyArrXY = {};
 bool Dungeon1::isReturn = false;
 bool Dungeon1::isEnemyKill = false;
@@ -70,7 +69,6 @@ void Dungeon1::PrintMapAndCharMove(int x, int y)
 	SetColor(15, 0);
 	md.PrintOperation_Keys(206, 10);
 	PrintEnemy();
-	PrintTreasure();
 	PrintS(2, 1, 1, 1, x, y);
 	PrintS(2, 1, 1, 0, x, y + 1);
 	SetColor(15, 0);
@@ -155,7 +153,6 @@ void Dungeon1::PrintMapAndCharMove(int x, int y)
 							}
 							break;
 						}
-						CheckTreasureXY(mapX, mapY);
 						PrintS(1, CheckCurrentXY(xCpy, yCpy), CheckCurrentXY(xCpy, yCpy), 0, xCpy, yCpy);
 						PrintS(1, CheckCurrentXY(xCpy + 2, yCpy), CheckCurrentXY(xCpy + 2, yCpy), 1, xCpy + 2, yCpy);
 						PrintS(1, CheckCurrentXY(xCpy, yCpy + 1), CheckCurrentXY(xCpy, yCpy + 1), 0, xCpy, yCpy + 1);
@@ -191,6 +188,9 @@ void Dungeon1::PrintMapAndCharMove(int x, int y)
 							iw.InventoryTool();
 							break;
 						case 4:
+							system("cls");
+							mm.ms = Map_State::village;
+							mm.Current_Map();
 							break;
 						}
 
@@ -249,18 +249,15 @@ void Dungeon1::HpMinus()
 	GameManager* gm = GameManager::GetInstance();
 	while (running)
 	{
-		if (CheckLavaZone(mapX, mapY))
+		if (gm->GetCharacter() == 1)
 		{
-			if (gm->GetCharacter() == 1)
-			{
-				gm->nj->SetCurrentHp(-2);
-				std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-			}
-			else
-			{
-				gm->ah->SetCurrentHp(-2);
-				std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-			}
+			gm->nj->SetCurrentHp(-1);
+			std::this_thread::sleep_for(std::chrono::milliseconds(5000));
+		}
+		else
+		{
+			gm->ah->SetCurrentHp(-1);
+			std::this_thread::sleep_for(std::chrono::milliseconds(5000));
 		}
 	}
 }
@@ -307,46 +304,41 @@ void Dungeon1::PrintOperation(int x, int y)
 	SetColor(12, 12);
 	std::cout << "ㅁ";
 	SetColor(15, 0);
-	std::cout << ": 뜨겁지만 안전한 땅";
+	std::cout << ": 뜨거운 땅";
 	gotoxy(x, y + 2);
 	SetColor(4, 4);
 	std::cout << "ㅁ";
 	SetColor(15, 0);
-	std::cout << ": 용암";
+	std::cout << ": 뜨거운 땅";
 	gotoxy(x, y + 4);
-	SetColor(14, 14);
-	std::cout << "ㅁ";
-	SetColor(15, 0);
-	std::cout << ": 랜덤 보물상자";
-	gotoxy(x, y + 6);
 	SetColor(5, 5);
 	std::cout << "ㅁ";
 	SetColor(15, 0);
 	std::cout << ": 적";
-	gotoxy(x, y + 8);
+	gotoxy(x, y + 6);
 	SetColor(8, 8);
 	std::cout << "ㅁ";
 	SetColor(15, 0);
 	std::cout << ": 기둥";
-	gotoxy(x, y + 10);
+	gotoxy(x, y + 8);
 	std::cout << "플레이어 조작";
-	gotoxy(x, y + 12);
+	gotoxy(x, y + 10);
 	std::cout << "   →: 오른쪽 이동";
-	gotoxy(x, y + 13);
+	gotoxy(x, y + 12);
 	std::cout << "   ←: 왼쪽 이동";
-	gotoxy(x, y + 14);
+	gotoxy(x, y + 13);
 	std::cout << "   ↑: 위쪽 이동";
-	gotoxy(x, y + 15);
+	gotoxy(x, y + 14);
 	std::cout << "   ↓: 아래쪽 이동";
-	gotoxy(x, y + 17);
+	gotoxy(x, y + 16);
 	std::cout << "Enter: 선택";
+	gotoxy(x, y + 18);
+	std::cout << "입구 앞에서";
 	gotoxy(x, y + 19);
-	std::cout << "입구나 보물상자 앞에서";
-	gotoxy(x, y + 20);
 	std::cout << "엔터를 누를 수 있습니다.";
+	gotoxy(x, y + 21);
+	std::cout << "5초 당 HP가";
 	gotoxy(x, y + 22);
-	std::cout << "용암을 밟으면 HP가";
-	gotoxy(x, y + 23);
 	std::cout << "감소합니다. 유의하세요!";
 }
 
@@ -408,26 +400,6 @@ bool Dungeon1::CheckEnemyXY(int x, int y)
 	return false;
 }
 
-void Dungeon1::CheckTreasureXY(int x, int y)
-{
-	// 충돌처리 구현 안 됨
-	char message[50] = {};
-	for (int i = 0; i < sizeof(enemyArrXY) / sizeof(enemyArrXY[0]); i += 2)
-	{
-		RECT playerSquare = { x - 1, y - 1, x + 2, y + 2 };
-		RECT treasureSquare = { treasureBoxXY[i] - 3, treasureBoxXY[i + 1] - 1, treasureBoxXY[i] + 4, treasureBoxXY[i + 1] + 1 };
-		RECT intersect;
-		intersect.left = 0;
-		intersect.top = 0,
-			intersect.right = 0;
-		intersect.bottom = 0;
-
-		if (IntersectRect(&intersect, &playerSquare, &treasureSquare))
-		{
-
-		}
-	}
-}
 #pragma endregion
 
 #pragma region 적, 보물상자 생성
@@ -444,13 +416,6 @@ void Dungeon1::PrintEnemy()
 	}
 }
 
-void Dungeon1::PrintTreasure()
-{
-	for (int i = 0; i < sizeof(enemyArrXY) / sizeof(enemyArrXY[0]); i += 2)
-	{
-		//PrintS(2, 14, 14, 1, treasureBoxXY[i], treasureBoxXY[i + 1]);
-	}
-}
 
 #pragma endregion
 
@@ -480,22 +445,6 @@ bool Dungeon1::CheckEntranceXY(int x, int y)
 	return false;
 }
 
-bool Dungeon1::CheckLavaZone(int x, int y)
-{
-	//SetColor(13, 0);
-	//std::cout << (x/2) << ",  " << y << std::endl;
-	/*std::cout << md.GetDungeonMap()[y][x / 2] << std::endl;
-	std::cout << md.GetDungeonMap()[y][(x / 2) + 1] << std::endl;
-	std::cout << md.GetDungeonMap()[y + 1][x / 2] q	sssssssssssss<< std::endl;
-	std::cout << md.GetDungeonMap()[y + 1][(x / 2) + 1] << std::endl;*/
-	Sleep(3000);
-	if (md.GetDungeonMap()[y][(x / 2) + 1] == 4 || md.GetDungeonMap()[y][(x / 2) + 2] == 4 ||
-		md.GetDungeonMap()[y + 1][(x / 2) + 1] == 4 || md.GetDungeonMap()[y + 1][(x / 2) + 2] == 4)
-	{
-		return true;
-	}
-	return false;
-}
 #pragma endregion
 
 #pragma region 플레이어 제약 사항

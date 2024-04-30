@@ -5,7 +5,6 @@
 class MainScene
 {
 private:
-	StartMainDot smd;
 public:
 	void PrintMainMap();
 };

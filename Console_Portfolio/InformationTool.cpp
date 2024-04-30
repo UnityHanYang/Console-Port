@@ -111,7 +111,7 @@ void InformationTool::PrintInfo(int x, int y, int num)
 	gotoxy(x, y + 6);
 	(num == 3) ? (printf("%s", "         ▶ 아이템 ◀")) : (printf("%s", "           아이템"));
 	gotoxy(x, y + 9);
-	(num == 4) ? (printf("%s", "          ▶ 장비 ◀")) : (printf("%s", "            장비"));
+	(num == 4) ? (printf("%s", "        ▶ 마을로 가기 ◀")) : (printf("%s", "        마을로 가기"));
 	gotoxy(x, y + 13);
 	std::cout << "  X키를 눌러 게임안내 창으로";
 	gotoxy(x, y + 14);

@@ -87,13 +87,13 @@ void BattleInventory::ItemChoice()
 void BattleInventory::ShowItem(int x, int y, int num)
 {
 	SetColor(15, 0);
-	gotoxy(x+2, y);
+	gotoxy(x + 2, y);
 	std::cout << "-포션-";
 	gotoxy(x, y + 2);
 	std::cout << "       이름                                    수량  ";
 
 
-	SettingInfo(x, y+ 4, num);
+	SettingInfo(x, y + 4, num);
 
 }
 
@@ -119,28 +119,21 @@ void BattleInventory::SettingInfo(int x, int y, int num)
 
 				if (isEnter)
 				{
-					if (ci.GetJoinWhether())
+					if (gm->GetCharacter() == 1)
 					{
-
+						HpMpHeal(*gm->nj, *iter, 195, 60);
 					}
-					else
+					else if (gm->GetCharacter() == 2)
 					{
-						if (gm->GetCharacter() == 1)
-						{
-							HpMpHeal(*gm->nj, *iter, 195, 60);
-						}
-						else if (gm->GetCharacter() == 2)
-						{
-							HpMpHeal(*gm->ah, *iter, 195, 60);
-						}
+						HpMpHeal(*gm->ah, *iter, 195, 60);
 					}
 				}
 			}
 			else
 			{
 				std::cout << "                                                     " << std::endl;
-				gotoxy(x+4, y + this_count);
-				std::cout << (*iter)->GetName() << "                              " 
+				gotoxy(x + 4, y + this_count);
+				std::cout << (*iter)->GetName() << "                              "
 					<< (*iter)->GetCount() << std::endl;
 			}
 			index++;
@@ -160,45 +153,31 @@ void BattleInventory::ChoiceHealChar(int x, int y, Item* item)
 	std::cout << "                     ";
 	gotoxy(x + 65, y + 27);
 
-	if (ci.GetJoinWhether())
+	if (gm->GetCharacter() == 1)
 	{
-		if (gm->GetCharacter() == 1)
+		std::cout << "▶ " << gm->nj->GetName() << ":  ";
+		if (item->GetItemType() == ItemType::hpPotion)
 		{
-			std::cout << "▶ " << gm->nj->GetName() << ":  ";
-			if (item->GetItemType() == ItemType::hpPotion)
-			{
-				std::cout << gm->nj->GetCurrentHp() << " / " << gm->nj->GetMaxHp();
-			}
-			else if (item->GetItemType() == ItemType::mpPotion)
-			{
-				std::cout << gm->nj->GetCurrentMp() << " / " << gm->nj->GetMaxMp();
-			}
-			characterNum = 1;
+			std::cout << gm->nj->GetCurrentHp() << " / " << gm->nj->GetMaxHp();
 		}
-		else if (gm->GetCharacter() == 2)
+		else if (item->GetItemType() == ItemType::mpPotion)
 		{
-			std::cout << "▶ " << gm->ah->GetName() << ":  ";
-			if (item->GetItemType() == ItemType::hpPotion)
-			{
-				std::cout << gm->ah->GetCurrentHp() << " / " << gm->ah->GetMaxHp();
-			}
-			else if (item->GetItemType() == ItemType::mpPotion)
-			{
-				std::cout << gm->ah->GetCurrentMp() << " / " << gm->ah->GetMaxMp();
-			}
-			characterNum = 2;
+			std::cout << gm->nj->GetCurrentMp() << " / " << gm->nj->GetMaxMp();
 		}
+		characterNum = 1;
 	}
-	else
+	else if (gm->GetCharacter() == 2)
 	{
-		if (gm->GetCharacter() == 1)
+		std::cout << "▶ " << gm->ah->GetName() << ":  ";
+		if (item->GetItemType() == ItemType::hpPotion)
 		{
-			characterNum = 1;
+			std::cout << gm->ah->GetCurrentHp() << " / " << gm->ah->GetMaxHp();
 		}
-		else if (gm->GetCharacter() == 2)
+		else if (item->GetItemType() == ItemType::mpPotion)
 		{
-			characterNum = 2;
+			std::cout << gm->ah->GetCurrentMp() << " / " << gm->ah->GetMaxMp();
 		}
+		characterNum = 2;
 	}
 	int input;
 	while (true)
@@ -242,7 +221,7 @@ void BattleInventory::HpMpHeal(Character& character, Item* item, int x, int y)
 	{
 		if (character.GetCurrentHp() < character.GetMaxHp())
 		{
-			(character.GetCurrentHp() + item->GetHeal() <= character.GetMaxHp()) ? character.SetCurrentHp(item->GetHeal()) : character.SetCurrentHp(character.GetMaxHp() -character.GetCurrentHp());
+			(character.GetCurrentHp() + item->GetHeal() <= character.GetMaxHp()) ? character.SetCurrentHp(item->GetHeal()) : character.SetCurrentHp(character.GetMaxHp() - character.GetCurrentHp());
 			item->MinusCount();
 			ClearOption(196, 60);
 			if (item->GetCount() > 0)
@@ -299,7 +278,7 @@ void BattleInventory::ClearOption(int x, int y)
 	SetColor(0, 0);
 	gotoxy(x, y);
 	std::cout << "                                                            ";
-	gotoxy(x, y+1);
+	gotoxy(x, y + 1);
 	std::cout << "                                                            ";
 	gotoxy(x, y + 2);
 	std::cout << "                                                            ";

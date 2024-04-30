@@ -166,8 +166,6 @@ void Village::PrintMapAndCharMove(int x, int y)
 					system("cls");
 					iw.InventoryTool();
 					break;
-				case 4:
-					break;
 				}
 
 			}
@@ -190,6 +188,17 @@ void Village::PrintMapAndCharMove(int x, int y)
 				{
 					system("cls");
 					sm.PrintStoreMap();
+				}
+				break;
+			case 4:
+				if (input == Enter)
+				{
+					currentX = mapX;
+					currentY = mapY;
+					system("cls");
+					mm.SetStack(1);
+					Casino casino;
+					casino.PlayGame();
 				}
 				break;
 			case 9:
@@ -318,6 +327,7 @@ int Village::PrintBuildingInfo()
 		strcpy_s(message, " 남의 집에 함부로 들어가지 맙시다.       ");
 		break;
 	case 4:
+		strcpy_s(message, " 도박장에 들어가시겠습니까?.       ");
 		break;
 	case 5:
 		strcpy_s(message, " 여관                                   ");

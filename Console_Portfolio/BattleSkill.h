@@ -15,7 +15,6 @@ private:
 	BattleMapDot bmd;
 	int count;
 	bool isEnter;
-	SkillManager* sm;
 
 public:
 	virtual void SetColor(int fontColor, int backgroundColor);
